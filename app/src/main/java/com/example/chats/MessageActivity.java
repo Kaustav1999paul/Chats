@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -809,7 +810,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if (notifyy){
-                    sendNotification(receiver, user.getUsername(), msg);
+                    sendNotification(receiver, user.getUsername(), "\uD83D\uDCAC: "+msg);
                 }
 
                 notifyy = false;
@@ -835,7 +836,7 @@ public class MessageActivity extends AppCompatActivity {
                     Data data = new Data(fuser.getUid(),
                             R.mipmap.ic_launcher_round,
                             ""+message,
-                            " "+username,
+                            ""+username,
                             userId);
 
                     Sender sender = new Sender(data, token.getToken());
@@ -902,6 +903,11 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
+    private void currentUser(String userid){
+        SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+        editor.putString("currentuser", userid);
+        editor.apply();
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -920,6 +926,7 @@ public class MessageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         status("online");
+        currentUser(userId);
     }
 
     @Override
@@ -936,6 +943,7 @@ public class MessageActivity extends AppCompatActivity {
         // Pattern
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
 
+        currentUser("none");
         status("Last active: "+sdf.format(date));
     }
 }
