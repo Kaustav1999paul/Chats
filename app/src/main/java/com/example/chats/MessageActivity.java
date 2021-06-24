@@ -45,7 +45,14 @@ import android.widget.Toast;
 import com.baoyz.actionsheet.ActionSheet;
 import com.bumptech.glide.Glide;
 import com.example.chats.Adapter.MessageAdapter;
+import com.example.chats.Fragments.APIService;
 import com.example.chats.Model.Chat;
+import com.example.chats.Model.User;
+import com.example.chats.Notifications.Client;
+import com.example.chats.Notifications.Data;
+import com.example.chats.Notifications.MyResponse;
+import com.example.chats.Notifications.Sender;
+import com.example.chats.Notifications.Token;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -61,6 +68,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -87,6 +95,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
 import id.voela.actrans.AcTrans;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -114,6 +125,8 @@ public class MessageActivity extends AppCompatActivity {
     BottomSheetDialog mBottomDialogNotificationAction;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     DatabaseReference userRef;
+    APIService apiService;
+    boolean notifyy = false;
 
 
     @Override
@@ -135,6 +148,8 @@ public class MessageActivity extends AppCompatActivity {
                 new AcTrans.Builder(MessageActivity.this).performSlideToRight();
             }
         });
+
+        apiService= Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         storagePostPictureRef = FirebaseStorage.getInstance().getReference("Media");
         intent = getIntent();
@@ -219,6 +234,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 notify = true;
+                notifyy = true;
                 String msg = text_send.getText().toString().trim();
                 if (msg.equals("")){
 
@@ -784,6 +800,71 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("isLiked", "false");
         hashMap.put("isTextOnly", true);
         reference.child("Chats").child(RandomKey).setValue(hashMap);
+
+
+        final String msg = message;
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if (notifyy){
+                    sendNotification(receiver, user.getUsername(), msg);
+                }
+
+                notifyy = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void sendNotification(String receiver, String username, String message) {
+
+        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = tokens.orderByKey().equalTo(receiver);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Token token = snapshot.getValue(Token.class);
+                    Data data = new Data(fuser.getUid(),
+                            R.mipmap.ic_launcher_round,
+                            ""+message,
+                            " "+username,
+                            userId);
+
+                    Sender sender = new Sender(data, token.getToken());
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
+                        @Override
+                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                            if (response.code() == 200){
+                                if(response.body().success != 1){
+                                    Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void readMessage(String myid, String userid){
