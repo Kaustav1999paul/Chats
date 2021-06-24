@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".Login">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        app:fabCustomSize="44dp"
+        android:src="@drawable/ic_round"
+        app:backgroundTint="#DFDFDF"
+        android:layout_marginTop="70dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Welcome Back"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="26dp"
+            android:textColor="@color/font1color"
+            android:fontFamily="@font/allerta"
+            android:textStyle="bold"/>
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your credentials to continue"
+        android:layout_marginHorizontal="25dp"
+        android:textSize="10dp"
+            android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#959595"
+        android:fontFamily="@font/allerta"/>
+
+
+        <EditText
+            android:id="@+id/emailL"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/textbox_background"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="60dp"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/font1color"
+            android:textColorHint="@color/hintcolor"
+            android:drawableLeft="@drawable/ic_email"
+            android:drawablePadding="10dp"
+            android:hint="Enter email"
+            android:paddingHorizontal="20dp"/>
+        <EditText
+            android:id="@+id/passwordL"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:textColorHint="@color/hintcolor"
+            android:background="@drawable/textbox_background"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_lock"
+            android:textColor="@color/font1color"
+            android:drawablePadding="10dp"
+            android:hint="Enter password"
+            android:paddingHorizontal="20dp"/>
+
+        <Button
+            android:id="@+id/signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
+            android:textAllCaps="false"
+            android:text="Sign in"
+            android:elevation="20dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/button_background"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"/>
+        <TextView
+            android:id="@+id/fp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forgot password?"
+            android:layout_marginHorizontal="25dp"
+            android:textSize="10dp"
+            android:gravity="center"
+            android:layout_marginBottom="30dp"
+            android:textColor="#673AB7"
+            android:fontFamily="@font/allerta"/>
+
+    </LinearLayout>
+</LinearLayout>

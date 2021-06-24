@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#1C1C1C</color>
+    <color name="font1color">#FFFFFF</color>
+    <color name="textboxcolor">#323232</color>
+    <color name="hintcolor">#BDBDBD</color>
+    <color name="bottomNav">#151515</color>
+    <color name="otherPersonMessage">#494949</color>
+    <color name="searchbar">#373737</color>
+    <color name="set">#292929</color>
+    <color name="backgroundCh">#A6000000</color>
+    <color name="divider">#686868</color>
+</resources>

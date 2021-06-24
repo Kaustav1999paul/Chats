@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".LogRegActivity">
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:fontFamily="@font/allerta"
+        android:text="Login"
+        android:layout_alignParentRight="true"
+        android:gravity="end"
+        android:textStyle="bold"
+        android:textColor="@color/purple_500"
+        android:layout_marginTop="50dp"
+        android:textSize="15dp" />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/ic_chatting"
+        android:layout_below="@id/login"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/aaa"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/aaa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Let's get\nStarted"
+            android:textColor="@color/font1color"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="40dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:fontFamily="@font/allerta"
+            android:text="Stay connected with the world."
+            android:textColor="#858585"
+            android:layout_marginBottom="20dp"
+            android:textSize="12dp" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
+            android:textAllCaps="false"
+            android:text="Register"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_background"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="50dp"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GroupMessageActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/groupChatRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ChatHead"
+        android:background="@color/background"
+        android:layout_below="@id/appBarLayout"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/background"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="25dp"
+                android:background="@drawable/ic_round_arrow_back_ios_24"
+                android:layout_marginRight="10dp"
+                android:layout_height="25dp"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/groupDP"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:transitionName="imageMain"
+                android:layout_marginRight="9dp"
+                android:src="#DDDDDD" />
+            <TextView
+                android:id="@+id/groupNameChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/font1color"
+                android:textSize="16dp"
+                android:transitionName="usernameMain"
+                android:background="@color/background"
+                android:layout_marginRight="20dp"
+                android:text="Group name"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ChatHead"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:id="@+id/addButton"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:src="@drawable/ic_add"
+            android:elevation="0dp"
+            app:elevation="0dp"
+            app:fabCustomSize="35dp"
+            app:backgroundTint="#1597FF"
+            android:layout_marginVertical="5dp"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:id="@+id/messagee"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@drawable/textbox_background"
+            android:textSize="14dp"
+            android:paddingHorizontal="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginLeft="10dp"
+            android:hint="Type your message here"
+            android:textColorHint="@color/hintcolor"
+            android:textColor="@color/font1color"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:id="@+id/sendButton"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            app:elevation="5dp"
+            android:elevation="0dp"
+            android:src="@drawable/ic_round_arrow_upward_24"
+            app:fabCustomSize="35dp"
+            app:backgroundTint="#EFEFEF"
+            android:layout_marginVertical="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="0dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@color/backgroundCh">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</RelativeLayout>
