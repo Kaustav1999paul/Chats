@@ -1,8 +1,10 @@
 package com.example.chats.Fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,8 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +29,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.chats.BottomSheetFragment;
 import com.example.chats.EditAccountActivity;
@@ -33,6 +44,10 @@ import com.example.chats.Login;
 import com.example.chats.MoreSettingsActivity;
 import com.example.chats.NotificationsActivity;
 import com.example.chats.R;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,8 +64,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import id.voela.actrans.AcTrans;
 
@@ -63,12 +83,21 @@ public class SettingsFragment extends Fragment {
 
     FloatingActionButton editAccount;
     FirebaseUser user;
-    ImageView avatar;
+    ImageView avatar, weatherIcon;
     Toolbar tabanim_toolbar;
     LinearLayout logout,notifications,settings;
-    TextView HolderName, emailHolder, bioAcc;
+    TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
     DatabaseReference userRef;
     public static Context context;
+    private String url;
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    double latitude, longitude;
+    private Context contextT;
+    @Override
+    public void onStart() {
+        super.onStart();
+       contextT  = getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,7 +107,26 @@ public class SettingsFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         bioAcc = view.findViewById(R.id.bioAcc);
         logout = view.findViewById(R.id.logout);
+        weatherIcon = view.findViewById(R.id.weatherIcon);
+        temperature = view.findViewById(R.id.temperature);
+        mes = view.findViewById(R.id.mes);
+        wish = view.findViewById(R.id.wish);
         tabanim_toolbar = view.findViewById(R.id.tabanim_toolbar);
+        contextT  = getActivity();
+
+        if (ContextCompat.checkSelfPermission(
+                getContext(), Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION_PERMISSION
+            );
+        } else {
+            getLocation();
+        }
+
+        getTemperature();
 
         Date date = new Date();
         // Pattern
@@ -86,9 +134,9 @@ public class SettingsFragment extends Fragment {
 
         String time = sdf.format(date);
         if (time.equals("am"))
-            tabanim_toolbar.setTitle("Good Morning,");
+            wish.setText("Good Morning,");
         else
-            tabanim_toolbar.setTitle("Good Evening,");
+            wish.setText("Good Evening,");
 
 
 
@@ -163,6 +211,122 @@ public class SettingsFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            } else {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void getLocation() {
+        final LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(30000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationServices.getFusedLocationProviderClient(getContext())
+                .requestLocationUpdates(locationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices
+                                .getFusedLocationProviderClient(contextT)
+                                .removeLocationUpdates(this);
+
+                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+                            int latestLocationIndex = locationResult.getLocations().size() - 1;
+                            latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                            longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                        }
+                    }
+                }, Looper.getMainLooper());
+    }
+
+    private void getTemperature() {
+        url ="https://api.openweathermap.org/data/2.5/onecall?lat="+latitude+"&lon="+longitude+"&units=metric&exclude=hourly,daily&appid=24fadf0771f572e79650afaf3373566e";
+
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+
+                try{
+                    JSONObject object = new JSONObject(response);
+                    try{
+                        JSONObject op = object.getJSONObject("current");
+                        double temp = Double.parseDouble(op.getString("temp"));
+                        int aa = (int) Math.round(temp);
+                        String bb = String.valueOf(aa);
+                        temperature.setText(bb);
+
+                        JSONArray jArray3 = op.getJSONArray("weather");
+                        for(int i = 0; i < jArray3.length(); i++){
+                            JSONObject object3 = jArray3.getJSONObject(i);
+
+                            String state = object3.getString("main");
+
+                            if (state.equals("Clear")){
+                                mes.setText(state);
+                                weatherIcon.setBackgroundResource(R.drawable.ic_round_wb_sunny_24);
+                            }else if (state.equals("Clouds")){
+                                mes.setText(state);
+                                weatherIcon.setBackgroundResource(R.drawable.ic_baseline_cloud_24);
+                            }else if (state.equals("Atmosphere")){
+                                mes.setText(state);
+                                weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
+                            }else if (state.equals("Snow")){
+                                mes.setText(state);
+                                weatherIcon.setBackgroundResource(R.drawable.ic_round_ac_unit_24);
+                            }else if (state.equals("Rain")){
+                                mes.setText(state);
+                                weatherIcon.setBackgroundResource(R.drawable.ic_rain_svgrepo_com);
+                            }else if (state.equals("Drizzle")){
+                                mes.setText(state);
+                                weatherIcon.setBackgroundResource(R.drawable.ic_drizzle_svgrepo_com);
+                            }else if (state.equals("Thunderstorm")){
+                                mes.setText(state);
+                                weatherIcon.setBackgroundResource(R.drawable.ic_storm_thunder_svgrepo_com);
+                            }
+                        }
+
+
+
+
+                    }catch(JSONException e){
+                        String x = e.getMessage();
+                        Toast.makeText(getContext(), "Error0: "+x, Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (JSONException ex){
+                    String a = ex.getMessage();
+                    Toast.makeText(getContext(), "Error1: "+a, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errormessage = error.getMessage().toString();
+
+                Toast.makeText(getContext(), "Error2: "+errormessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueue req = Volley.newRequestQueue(getContext());
+        req.add(request);
     }
 
 }
