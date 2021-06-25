@@ -106,6 +106,7 @@ public class MessageActivity extends AppCompatActivity {
     CircleImageView profile_image;
     TextView userName,statusAccount;
     FirebaseUser fuser;
+    LinearLayout more;
     RelativeLayout loading;
     DatabaseReference reference;
     Intent intent;
@@ -141,6 +142,7 @@ public class MessageActivity extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
         statusAccount = findViewById(R.id.statusAccount);
         back = findViewById(R.id.back);
+        more = findViewById(R.id.more);
         addButton = findViewById(R.id.addButton);
         loading = findViewById(R.id.loading);
         back.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +210,7 @@ public class MessageActivity extends AppCompatActivity {
         });
 
 
-        userName.setOnClickListener(new View.OnClickListener() {
+        more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showAccDetailsActionSheet();

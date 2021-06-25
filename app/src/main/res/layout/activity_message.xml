@@ -43,6 +43,7 @@
                 android:layout_marginRight="9dp"
                 android:src="#DDDDDD" />
             <LinearLayout
+                android:id="@+id/more"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
