@@ -70,6 +70,7 @@ public class NotificationsActivity extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference("Users");
         friendRef = FirebaseDatabase.getInstance().getReference("Friends");
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

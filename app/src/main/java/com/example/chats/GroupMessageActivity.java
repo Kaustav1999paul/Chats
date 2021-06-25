@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -90,6 +91,8 @@ public class GroupMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_message);
 
+//        Prevent ScreenShot
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         groupNameChat = findViewById(R.id.groupNameChat);
         addButton = findViewById(R.id.addButton);
         groupDP = findViewById(R.id.groupDP);

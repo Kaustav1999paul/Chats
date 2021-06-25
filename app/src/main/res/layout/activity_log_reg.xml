@@ -17,7 +17,7 @@
         android:layout_alignParentRight="true"
         android:gravity="end"
         android:textStyle="bold"
-        android:textColor="@color/purple_500"
+        android:textColor="#0F95FF"
         android:layout_marginTop="50dp"
         android:textSize="15dp" />
 
@@ -49,16 +49,16 @@
             android:textColor="@color/font1color"
             android:textStyle="bold"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="3dp"
             android:textSize="40dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            android:fontFamily="@font/allerta"
             android:text="Stay connected with the world."
             android:textColor="#858585"
+            android:fontFamily="@font/allerta"
             android:layout_marginBottom="20dp"
             android:textSize="12dp" />
 

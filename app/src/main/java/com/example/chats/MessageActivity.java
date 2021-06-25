@@ -32,6 +32,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -150,6 +151,8 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+//        Prevent ScreenShot
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         apiService= Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         storagePostPictureRef = FirebaseStorage.getInstance().getReference("Media");

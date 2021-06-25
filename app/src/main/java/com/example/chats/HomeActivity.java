@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.example.chats.Fragments.ChatFragment;
 import com.example.chats.Fragments.FriendsFragment;
@@ -45,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if (savedInstanceState == null){
 
             SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
