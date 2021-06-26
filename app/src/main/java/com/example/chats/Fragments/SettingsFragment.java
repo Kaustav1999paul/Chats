@@ -2,11 +2,18 @@ package com.example.chats.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +26,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +38,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androdocs.httprequest.HttpRequest;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -38,14 +47,20 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.chats.BottomSheetFragment;
+import com.example.chats.Common.Common;
 import com.example.chats.EditAccountActivity;
+import com.example.chats.Helper.Helper;
 import com.example.chats.HomeActivity;
 import com.example.chats.LogRegActivity;
 import com.example.chats.Login;
+import com.example.chats.MainActivity;
+import com.example.chats.MessageActivity;
+import com.example.chats.Model.OpenWeatherMap;
 import com.example.chats.MoreSettingsActivity;
 import com.example.chats.NotificationsActivity;
 import com.example.chats.R;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
@@ -63,14 +78,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import id.voela.actrans.AcTrans;
@@ -92,12 +113,9 @@ public class SettingsFragment extends Fragment {
     TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
     DatabaseReference userRef;
     public static Context context;
-    private String url;
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
-    double latitude, longitude;
     private Context contextT;
-    public static final String MY_PREFS_NAME_LOC = "Location";
-    private SharedPreferences.Editor locationEditor;
+    String locality, API="24fadf0771f572e79650afaf3373566e";
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
     @Override
     public void onStart() {
@@ -119,29 +137,6 @@ public class SettingsFragment extends Fragment {
         wish = view.findViewById(R.id.wish);
         tabanim_toolbar = view.findViewById(R.id.tabanim_toolbar);
         contextT  = getActivity();
-        locationEditor = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE).edit();
-
-        SharedPreferences prefs = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-        int tempe = prefs.getInt("temperature", 25);
-        temperature.setText(String.valueOf(tempe));
-
-        SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-        int tempIcon = prefsIcon.getInt("icon", 0);
-        weatherIcon.setBackgroundResource(tempIcon);
-
-        if (ContextCompat.checkSelfPermission(
-                getContext(), Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_CODE_LOCATION_PERMISSION
-            );
-        } else {
-            getLocation();
-        }
-
-        getTemperature();
 
         Date date = new Date();
         // Pattern
@@ -153,7 +148,18 @@ public class SettingsFragment extends Fragment {
         else
             wish.setText("Good Evening,");
 
+        //Get Coordinates
+        if (ContextCompat.checkSelfPermission(
+                contextT.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION_PERMISSION
+            );
+        } else {
+            getCurrentLocation();
 
+        }
 
         context = getActivity().getApplicationContext();
         notifications = view.findViewById(R.id.notifications);
@@ -228,173 +234,109 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLocation();
-            } else {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void getLocation() {
-        final LocationRequest locationRequest = new LocationRequest();
+    private void getCurrentLocation() {
+        LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(30000);
+        locationRequest.setFastestInterval(3000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(contextT, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(contextT,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        LocationServices.getFusedLocationProviderClient(getContext())
+
+        LocationServices.getFusedLocationProviderClient(contextT)
                 .requestLocationUpdates(locationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
                         super.onLocationResult(locationResult);
-                        LocationServices
-                                .getFusedLocationProviderClient(contextT)
+                        LocationServices.getFusedLocationProviderClient(contextT)
                                 .removeLocationUpdates(this);
 
-                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+                        if (locationResult != null && locationResult.getLocations().size() > 0){
                             int latestLocationIndex = locationResult.getLocations().size() - 1;
-                            latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
-                            longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                            double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                            double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+
+                            getCity(latitude, longitude);
                         }
                     }
                 }, Looper.getMainLooper());
     }
 
-    private void getTemperature() {
-        url ="https://api.openweathermap.org/data/2.5/onecall?lat="+latitude+"&lon="+longitude+"&units=metric&exclude=hourly,daily&appid=24fadf0771f572e79650afaf3373566e";
+    private final void getCity(double d2, double d3) {
+        List list;
+        try {
+            list = new Geocoder(contextT.getApplicationContext(),
+                    Locale.getDefault()).getFromLocation(d2, d3, 1);
+            if (list != null && (!list.isEmpty())) {
+                locality = ((Address) list.get(0)).getLocality();
+                new weatherTask().execute();
+            }
+        } catch (NullPointerException e2) {
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    class weatherTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            /* Showing the ProgressBar, Making the main design GONE */
+        }
+
+        protected String doInBackground(String... args) {
+            String response =
+                    HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?q=" + locality
+                            + "&units=metric&appid=" + API);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
 
 
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response) {
+            try {
+                JSONObject jsonObj = new JSONObject(result);
+                JSONObject main = jsonObj.getJSONObject("main");
+                JSONObject weather = jsonObj.getJSONArray("weather").getJSONObject(0);
 
-                try{
-                    JSONObject object = new JSONObject(response);
-                    try{
-                        JSONObject op = object.getJSONObject("current");
-                        double temp = Double.parseDouble(op.getString("temp"));
-                        int aa = (int) Math.round(temp);
+                String temp = main.getString("temp");
+                String weatherDescription = weather.getString("main");
 
-                        locationEditor.putInt("temperature", aa);
-                        locationEditor.apply();
-                        SharedPreferences prefs = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-                        int tempe = prefs.getInt("temperature", 25);
-                        temperature.setText(String.valueOf(tempe));
+                double currentTemp =  Double.parseDouble(temp);
 
+                /* Populating extracted data into our views */
+                mes.setText(weatherDescription);
+                int aa = (int) Math.round(currentTemp);
+                temperature.setText(String.valueOf(aa));
 
-                        JSONArray jArray3 = op.getJSONArray("weather");
-                        for(int i = 0; i < jArray3.length(); i++){
-                            JSONObject object3 = jArray3.getJSONObject(i);
-
-                            String state = object3.getString("main");
-
-                            if (state.equals("Clear")){
-                                mes.setText(state);
-                                weatherIcon.setBackgroundResource(R.drawable.ic_round_wb_sunny_24);
-
-                                locationEditor.putInt("icon", R.drawable.ic_round_wb_sunny_24);
-                                locationEditor.apply();
-                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-                                int tempIcon = prefsIcon.getInt("icon", 0);
-                                weatherIcon.setBackgroundResource(tempIcon);
-
-                            }else if (state.equals("Clouds")){
-                                mes.setText(state);
-                                weatherIcon.setBackgroundResource(R.drawable.ic_baseline_cloud_24);
-
-                                locationEditor.putInt("icon", R.drawable.ic_baseline_cloud_24);
-                                locationEditor.apply();
-                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-                                int tempIcon = prefsIcon.getInt("icon", 0);
-                                weatherIcon.setBackgroundResource(tempIcon);
-
-                            }else if (state.equals("Atmosphere")){
-                                mes.setText(state);
-                                weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
-
-                                locationEditor.putInt("icon", R.drawable.ic_round_waves_24);
-                                locationEditor.apply();
-                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-                                int tempIcon = prefsIcon.getInt("icon", 0);
-                                weatherIcon.setBackgroundResource(tempIcon);
-
-                            }else if (state.equals("Snow")){
-                                mes.setText(state);
-                                weatherIcon.setBackgroundResource(R.drawable.ic_round_ac_unit_24);
-
-                                locationEditor.putInt("icon", R.drawable.ic_round_ac_unit_24);
-                                locationEditor.apply();
-                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-                                int tempIcon = prefsIcon.getInt("icon", 0);
-                                weatherIcon.setBackgroundResource(tempIcon);
-
-                            }else if (state.equals("Rain")){
-                                mes.setText(state);
-                                weatherIcon.setBackgroundResource(R.drawable.ic_rain_svgrepo_com);
-
-                                locationEditor.putInt("icon", R.drawable.ic_rain_svgrepo_com);
-                                locationEditor.apply();
-                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-                                int tempIcon = prefsIcon.getInt("icon", 0);
-                                weatherIcon.setBackgroundResource(tempIcon);
-
-                            }else if (state.equals("Drizzle")){
-                                mes.setText(state);
-                                weatherIcon.setBackgroundResource(R.drawable.ic_drizzle_svgrepo_com);
-
-                                locationEditor.putInt("icon", R.drawable.ic_drizzle_svgrepo_com);
-                                locationEditor.apply();
-                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-                                int tempIcon = prefsIcon.getInt("icon", 0);
-                                weatherIcon.setBackgroundResource(tempIcon);
-
-                            }else if (state.equals("Thunderstorm")){
-                                mes.setText(state);
-                                weatherIcon.setBackgroundResource(R.drawable.ic_storm_thunder_svgrepo_com);
-
-                                locationEditor.putInt("icon", R.drawable.ic_storm_thunder_svgrepo_com);
-                                locationEditor.apply();
-                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
-                                int tempIcon = prefsIcon.getInt("icon", 0);
-                                weatherIcon.setBackgroundResource(tempIcon);
-                            }
-                        }
-
-
-
-
-                    }catch(JSONException e){
-                        String x = e.getMessage();
-                        Toast.makeText(getContext(), "Error0: "+x, Toast.LENGTH_SHORT).show();
-                    }
-
-                }catch (JSONException ex){
-                    String a = ex.getMessage();
-                    Toast.makeText(getContext(), "Error1: "+a, Toast.LENGTH_SHORT).show();
+                if (weatherDescription.equals("Clear")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_round_wb_sunny_24);
+                }else if (weatherDescription.equals("Clouds")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_baseline_cloud_24);
+                }else if (weatherDescription.equals("Atmosphere")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
+                }else if (weatherDescription.equals("Snow")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_round_ac_unit_24);
+                }else if (weatherDescription.equals("Rain")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_rain_svgrepo_com);
+                }else if (weatherDescription.equals("Drizzle")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_drizzle_svgrepo_com);
+                }else if (weatherDescription.equals("Thunderstorm")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_storm_thunder_svgrepo_com);
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String errormessage = error.getMessage().toString();
 
-                Toast.makeText(getContext(), "Error2: "+errormessage, Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        RequestQueue req = Volley.newRequestQueue(getContext());
-        req.add(request);
+            } catch (JSONException e) {
+
+            }
+
+        }
     }
 
 }

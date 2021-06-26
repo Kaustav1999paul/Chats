@@ -155,6 +155,7 @@ public class MessageActivity extends AppCompatActivity {
 
 //        Prevent ScreenShot
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
         apiService= Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         storagePostPictureRef = FirebaseStorage.getInstance().getReference("Media");
@@ -541,9 +542,6 @@ public class MessageActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
                             myUrl1 = task.getResult().toString();
-//                        progress.setVisibility(View.GONE);
-//                        saveChanges.setEnabled(true);
-//                        bioEdit.setEnabled(true);
                             Date date = new Date();
                             // Pattern
                             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
