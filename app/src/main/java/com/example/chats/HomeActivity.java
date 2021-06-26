@@ -2,14 +2,11 @@ package com.example.chats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -21,11 +18,8 @@ import com.example.chats.Fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,15 +54,15 @@ public class HomeActivity extends AppCompatActivity {
                 bottomNavigationView.setSelectedItemId(R.id.groups);
                 handleFrames(new GroupFragment() );
             }
-            if (idName == 3){
+            if (idName == 4){
                 bottomNavigationView.setSelectedItemId(R.id.status);
                 handleFrames(new SearchFragment() );
             }
-            if (idName == 4){
+            if (idName == 5){
                 bottomNavigationView.setSelectedItemId(R.id.friends);
                 handleFrames(new FriendsFragment() );
             }
-            if (idName == 5){
+            if (idName == 6){
                 bottomNavigationView.setSelectedItemId(R.id.setting);
                 handleFrames(new SettingsFragment() );
             }
@@ -102,17 +96,17 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.status:
                         handleFrames(new SearchFragment());
-                        editor.putInt("idName", 3);
+                        editor.putInt("idName", 4);
                         editor.apply();
                         break;
                     case R.id.friends:
                         handleFrames(new FriendsFragment());
-                        editor.putInt("idName", 4);
+                        editor.putInt("idName", 5);
                         editor.apply();
                         break;
                     case R.id.setting:
                         handleFrames(new SettingsFragment());
-                        editor.putInt("idName", 5);
+                        editor.putInt("idName", 6);
                         editor.apply();
                         break;
                 }
