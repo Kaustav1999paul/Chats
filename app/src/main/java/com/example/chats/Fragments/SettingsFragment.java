@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,6 +75,8 @@ import java.util.Objects;
 
 import id.voela.actrans.AcTrans;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SettingsFragment extends Fragment {
 
 
@@ -93,6 +96,9 @@ public class SettingsFragment extends Fragment {
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     double latitude, longitude;
     private Context contextT;
+    public static final String MY_PREFS_NAME_LOC = "Location";
+    private SharedPreferences.Editor locationEditor;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -113,6 +119,15 @@ public class SettingsFragment extends Fragment {
         wish = view.findViewById(R.id.wish);
         tabanim_toolbar = view.findViewById(R.id.tabanim_toolbar);
         contextT  = getActivity();
+        locationEditor = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE).edit();
+
+        SharedPreferences prefs = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+        int tempe = prefs.getInt("temperature", 25);
+        temperature.setText(String.valueOf(tempe));
+
+        SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+        int tempIcon = prefsIcon.getInt("icon", 0);
+        weatherIcon.setBackgroundResource(tempIcon);
 
         if (ContextCompat.checkSelfPermission(
                 getContext(), Manifest.permission.ACCESS_FINE_LOCATION
@@ -270,8 +285,13 @@ public class SettingsFragment extends Fragment {
                         JSONObject op = object.getJSONObject("current");
                         double temp = Double.parseDouble(op.getString("temp"));
                         int aa = (int) Math.round(temp);
-                        String bb = String.valueOf(aa);
-                        temperature.setText(bb);
+
+                        locationEditor.putInt("temperature", aa);
+                        locationEditor.apply();
+                        SharedPreferences prefs = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+                        int tempe = prefs.getInt("temperature", 25);
+                        temperature.setText(String.valueOf(tempe));
+
 
                         JSONArray jArray3 = op.getJSONArray("weather");
                         for(int i = 0; i < jArray3.length(); i++){
@@ -282,24 +302,72 @@ public class SettingsFragment extends Fragment {
                             if (state.equals("Clear")){
                                 mes.setText(state);
                                 weatherIcon.setBackgroundResource(R.drawable.ic_round_wb_sunny_24);
+
+                                locationEditor.putInt("icon", R.drawable.ic_round_wb_sunny_24);
+                                locationEditor.apply();
+                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+                                int tempIcon = prefsIcon.getInt("icon", 0);
+                                weatherIcon.setBackgroundResource(tempIcon);
+
                             }else if (state.equals("Clouds")){
                                 mes.setText(state);
                                 weatherIcon.setBackgroundResource(R.drawable.ic_baseline_cloud_24);
+
+                                locationEditor.putInt("icon", R.drawable.ic_baseline_cloud_24);
+                                locationEditor.apply();
+                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+                                int tempIcon = prefsIcon.getInt("icon", 0);
+                                weatherIcon.setBackgroundResource(tempIcon);
+
                             }else if (state.equals("Atmosphere")){
                                 mes.setText(state);
                                 weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
+
+                                locationEditor.putInt("icon", R.drawable.ic_round_waves_24);
+                                locationEditor.apply();
+                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+                                int tempIcon = prefsIcon.getInt("icon", 0);
+                                weatherIcon.setBackgroundResource(tempIcon);
+
                             }else if (state.equals("Snow")){
                                 mes.setText(state);
                                 weatherIcon.setBackgroundResource(R.drawable.ic_round_ac_unit_24);
+
+                                locationEditor.putInt("icon", R.drawable.ic_round_ac_unit_24);
+                                locationEditor.apply();
+                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+                                int tempIcon = prefsIcon.getInt("icon", 0);
+                                weatherIcon.setBackgroundResource(tempIcon);
+
                             }else if (state.equals("Rain")){
                                 mes.setText(state);
                                 weatherIcon.setBackgroundResource(R.drawable.ic_rain_svgrepo_com);
+
+                                locationEditor.putInt("icon", R.drawable.ic_rain_svgrepo_com);
+                                locationEditor.apply();
+                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+                                int tempIcon = prefsIcon.getInt("icon", 0);
+                                weatherIcon.setBackgroundResource(tempIcon);
+
                             }else if (state.equals("Drizzle")){
                                 mes.setText(state);
                                 weatherIcon.setBackgroundResource(R.drawable.ic_drizzle_svgrepo_com);
+
+                                locationEditor.putInt("icon", R.drawable.ic_drizzle_svgrepo_com);
+                                locationEditor.apply();
+                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+                                int tempIcon = prefsIcon.getInt("icon", 0);
+                                weatherIcon.setBackgroundResource(tempIcon);
+
                             }else if (state.equals("Thunderstorm")){
                                 mes.setText(state);
                                 weatherIcon.setBackgroundResource(R.drawable.ic_storm_thunder_svgrepo_com);
+
+                                locationEditor.putInt("icon", R.drawable.ic_storm_thunder_svgrepo_com);
+                                locationEditor.apply();
+                                SharedPreferences prefsIcon = contextT.getSharedPreferences(MY_PREFS_NAME_LOC, MODE_PRIVATE);
+                                int tempIcon = prefsIcon.getInt("icon", 0);
+                                weatherIcon.setBackgroundResource(tempIcon);
                             }
                         }
 

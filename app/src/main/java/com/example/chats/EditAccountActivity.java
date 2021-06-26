@@ -44,14 +44,13 @@ import java.util.HashMap;
 import id.voela.actrans.AcTrans;
 
 public class EditAccountActivity extends AppCompatActivity {
-    FloatingActionButton back;
-    ImageView avatar;
-    EditText bioEdit;
+    ImageView avatar,back;
+    EditText bioEdit,nameAccountT;
     Button saveChanges;
     DatabaseReference userRef;
     FirebaseUser user;
     StorageReference storagePostPictureRef;
-    String aa, bb;
+    String aa, bb, cc;
     private Uri imageUri1  = null;
     private String myUrl1 = "";
     ProgressBar progress;
@@ -60,11 +59,11 @@ public class EditAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
-        theme();
         progress = findViewById(R.id.progress);
         saveChanges = findViewById(R.id.updateAc);
         avatar = findViewById(R.id.avatar);
         bioEdit = findViewById(R.id.bioAccount);
+        nameAccountT = findViewById(R.id.nameAccountT);
         back = findViewById(R.id.back);
         progress.setVisibility(View.GONE);
         back.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +82,8 @@ public class EditAccountActivity extends AppCompatActivity {
                 aa = snapshot.child("imageURL").getValue().toString();
                 Glide.with(getApplicationContext()).load(aa).into(avatar);
                 myUrl1 = aa;
+                cc = snapshot.child("username").getValue().toString();
+                nameAccountT.setText(cc);
                 bb = snapshot.child("bio").getValue().toString();
                 bioEdit.setText(bb);
             }
@@ -100,10 +101,12 @@ public class EditAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String newStatus = bioEdit.getText().toString().trim();
+                String newName = nameAccountT.getText().toString().trim();
 
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("imageURL", myUrl1);
                     map.put("bio", newStatus);
+                    map.put("username", newName);
 
                     userRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

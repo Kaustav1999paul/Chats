@@ -55,7 +55,7 @@
         <activity
             android:name=".EditAccountActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreen" />
+            android:theme="@style/ChatScreen" />
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"
