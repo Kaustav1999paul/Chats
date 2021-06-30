@@ -10,8 +10,8 @@
         android:icon="@drawable/ic_groups"/>
 
     <item android:id="@+id/status"
-        android:title="Search"
-        android:icon="@drawable/ic_search"/>
+        android:title="Clips"
+        android:icon="@drawable/ic_clips"/>
 
     <item android:id="@+id/friends"
         android:title="Friends"

@@ -27,41 +27,65 @@
                 android:layout_height="25dp"/>
             <TextView
                 android:id="@+id/userNameChat"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/font1color"
                 android:textSize="16dp"
+                android:gravity="end"
                 android:textStyle="bold"
                 android:transitionName="usernameMain"
                 android:background="@color/background"
-                android:layout_marginRight="40dp"
-                android:text="Settings"/>
+                android:layout_marginRight="10dp"
+                android:text="Upload video"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <TextView
+            <EditText
+                android:id="@+id/videoTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Coming Soon"
-                android:gravity="center"
-                android:paddingVertical="10dp"
-                android:layout_marginHorizontal="20dp"
-                android:textSize="16dp"
-                android:drawablePadding="20dp"
+                android:layout_height="wrap_content"
+                android:hint="Video Title"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="20dp"
+                android:inputType="textAutoCorrect"
+                android:textStyle="bold"
+                android:textSize="20dp"
                 android:textColor="@color/font1color"
-                android:layout_marginTop="15dp"/>
+                android:textColorHint="@color/hintcolor"
+                android:background="@color/background"/>
+
+            <EditText
+                android:id="@+id/videoMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Video Message"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="20dp"
+                android:inputType="textAutoCorrect"
+                android:textSize="14dp"
+                android:maxLength="60"
+                android:textColor="@color/font1color"
+                android:textColorHint="@color/hintcolor"
+                android:background="@color/background"/>
+
+            <Button
+                android:id="@+id/addVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginHorizontal="30dp"
+                android:text="Add Video"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_background"
+                android:layout_marginBottom="20dp"/>
         </LinearLayout>
-    </ScrollView>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -70,7 +70,7 @@ public class SettingsFragment extends Fragment {
     FirebaseUser user;
     ImageView avatar, weatherIcon;
     Toolbar tabanim_toolbar;
-    LinearLayout logout,notifications,settings;
+    LinearLayout logout,notifications,videoAdd;
     TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
     DatabaseReference userRef;
     public static Context context;
@@ -125,7 +125,7 @@ public class SettingsFragment extends Fragment {
 
         context = getActivity().getApplicationContext();
         notifications = view.findViewById(R.id.notifications);
-        settings = view.findViewById(R.id.settings);
+        videoAdd = view.findViewById(R.id.settings);
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
         editAccount = view.findViewById(R.id.editAccount);
         notifications.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +135,7 @@ public class SettingsFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        settings.setOnClickListener(new View.OnClickListener() {
+        videoAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MoreSettingsActivity.class);
