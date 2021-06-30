@@ -12,7 +12,6 @@ import android.view.WindowManager;
 
 import com.example.chats.Fragments.ChatFragment;
 import com.example.chats.Fragments.ClipsFragment;
-import com.example.chats.Fragments.FriendsFragment;
 import com.example.chats.Fragments.GroupFragment;
 import com.example.chats.Fragments.SearchFragment;
 import com.example.chats.Fragments.SettingsFragment;
@@ -61,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
             }
             if (idName == 5){
                 bottomNavigationView.setSelectedItemId(R.id.friends);
-                handleFrames(new FriendsFragment() );
+                handleFrames(new SearchFragment() );
             }
             if (idName == 6){
                 bottomNavigationView.setSelectedItemId(R.id.setting);
@@ -101,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
                         editor.apply();
                         break;
                     case R.id.friends:
-                        handleFrames(new FriendsFragment());
+                        handleFrames(new SearchFragment());
                         editor.putInt("idName", 5);
                         editor.apply();
                         break;

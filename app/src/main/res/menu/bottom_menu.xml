@@ -14,8 +14,8 @@
         android:icon="@drawable/ic_clips"/>
 
     <item android:id="@+id/friends"
-        android:title="Friends"
-        android:icon="@drawable/ic_help"/>
+        android:title="Search"
+        android:icon="@drawable/ic_search"/>
 
     <item android:id="@+id/setting"
         android:title="Settings"

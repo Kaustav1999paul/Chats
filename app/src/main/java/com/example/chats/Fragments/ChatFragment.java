@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.example.chats.Adapter.UserAdapter;
+import com.example.chats.FriendsActivity;
 import com.example.chats.Model.Chat;
 import com.example.chats.Model.User;
 import com.example.chats.Notifications.Token;
 import com.example.chats.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +51,7 @@ public class ChatFragment extends Fragment {
     private List<String> userList;
     LinearLayoutManager layoutManager;
     PullRefreshLayout swip;
+    FloatingActionButton addChats;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +61,7 @@ public class ChatFragment extends Fragment {
         swip = view.findViewById(R.id.swip);
         recentChatList = view.findViewById(R.id.chatList);
         loading = view.findViewById(R.id.loading);
+        addChats = view.findViewById(R.id.addChats);
         recentChatList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);
@@ -92,6 +96,12 @@ public class ChatFragment extends Fragment {
             }
         });
 
+        addChats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), FriendsActivity.class));
+            }
+        });
 
         swip.setColor(Color.parseColor("#0C89ED"));
         swip.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {

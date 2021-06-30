@@ -49,5 +49,20 @@
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addChats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:fabCustomSize="38dp"
+        android:layout_marginHorizontal="26dp"
+        android:visibility="visible"
+        app:elevation="20dp"
+        android:outlineSpotShadowColor="#00E47A"
+        android:outlineAmbientShadowColor="#00E47A"
+        app:layout_anchor="@id/tabanim_toolbar"
+        app:layout_anchorGravity="bottom|end"
+        app:backgroundTint="#00E47A"
+        android:elevation="20dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

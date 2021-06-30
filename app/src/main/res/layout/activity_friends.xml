@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.FriendsFragment">
+    android:background="@color/background"
+    tools:context=".FriendsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/tabanim_appbar"
@@ -16,14 +17,28 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tabanim_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="@color/background"
-            app:title="Friends"
-            app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextColor="@color/font1color"
-            app:titleMarginTop="30dp"
-            android:elevation="0dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="25dp"
+                android:background="@drawable/ic_round_arrow_back_ios_24"
+                android:layout_marginRight="10dp"
+                android:layout_height="25dp"/>
+            <TextView
+                android:id="@+id/userNameChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/font1color"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:transitionName="usernameMain"
+                android:background="@color/background"
+                android:layout_marginRight="40dp"
+                android:text="Friends"/>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
     <com.baoyz.widget.PullRefreshLayout
         android:id="@+id/swip"
@@ -60,4 +75,5 @@
         android:text="No Friends yet"/>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout >

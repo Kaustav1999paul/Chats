@@ -1,15 +1,14 @@
-package com.example.chats.Fragments;
+package com.example.chats;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
-import com.example.chats.MessageActivity;
 import com.example.chats.Model.Friends;
-import com.example.chats.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,17 +28,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.voela.actrans.AcTrans;
 
-public class FriendsFragment extends Fragment {
-
-    public FriendsFragment() {
-        // Required empty public constructor
-    }
+public class FriendsActivity extends AppCompatActivity {
 
     private RecyclerView friendsList;
     RelativeLayout loading;
@@ -50,23 +41,30 @@ public class FriendsFragment extends Fragment {
     LinearLayoutManager layoutManager;
     TextView messageNo;
     FirebaseUser user;
+    ImageView back;
     DatabaseReference friendsRef, userRef;
     public static Context context;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_friends, container, false);
-        swip = view.findViewById(R.id.swip);
-        friendsList = view.findViewById(R.id.friendsList);
-        messageNo = view.findViewById(R.id.messageNo);
-        loading = view.findViewById(R.id.loading);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_friends);
+        swip = findViewById(R.id.swip);
+        friendsList = findViewById(R.id.friendsList);
+        messageNo = findViewById(R.id.messageNo);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        loading = findViewById(R.id.loading);
         friendsList.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-        context = getActivity().getApplicationContext();
+        context = getApplicationContext();
         friendsList.setLayoutManager(layoutManager);
         user = FirebaseAuth.getInstance().getCurrentUser();
         swip.setColor(Color.parseColor("#0C89ED"));
@@ -77,12 +75,13 @@ public class FriendsFragment extends Fragment {
                 swip.setRefreshing(false);
             }
         });
+
         friendsRef = FirebaseDatabase.getInstance().getReference("Friends").child(user.getUid());
         userRef = FirebaseDatabase.getInstance().getReference("Users");
 
         friendsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()){
                     loading.setVisibility(View.GONE);
                     messageNo.setVisibility(View.VISIBLE);
@@ -97,10 +96,6 @@ public class FriendsFragment extends Fragment {
             }
         });
         displayAllFriends();
-
-
-
-        return view;
     }
 
     private void displayAllFriends() {
@@ -139,10 +134,10 @@ public class FriendsFragment extends Fragment {
                             holder.itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(getContext(), MessageActivity.class);
+                                    Intent intent = new Intent(FriendsActivity.this, MessageActivity.class);
                                     intent.putExtra("userid", id);
                                     startActivity(intent);
-                                    new AcTrans.Builder(getContext()).performSlideToLeft();
+                                    new AcTrans.Builder(FriendsActivity.this).performSlideToLeft();
                                 }
                             });
                         }
@@ -159,7 +154,7 @@ public class FriendsFragment extends Fragment {
             @NonNull
             @Override
             public FriendsVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View v = LayoutInflater.from(getContext()).inflate(R.layout.user_item, parent, false);
+                View v = LayoutInflater.from(FriendsActivity.this).inflate(R.layout.user_item, parent, false);
                 return new FriendsVH(v);
             }
         };
@@ -193,4 +188,5 @@ public class FriendsFragment extends Fragment {
             statusOnOff = itemView.findViewById(R.id.img_on);
         }
     }
+
 }

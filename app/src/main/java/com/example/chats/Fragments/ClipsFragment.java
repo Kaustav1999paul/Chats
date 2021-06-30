@@ -36,7 +36,7 @@ public class ClipsFragment extends Fragment {
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("Clips"), Clips.class)
                 .build();
 
-        adapter = new ClipAdapter(options);
+        adapter = new ClipAdapter(options, getActivity().getApplicationContext());
         clips.setAdapter(adapter);
 
         return view;

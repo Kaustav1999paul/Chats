@@ -29,6 +29,7 @@ import com.androdocs.httprequest.HttpRequest;
 import com.bumptech.glide.Glide;
 import com.example.chats.BottomSheetFragment;
 import com.example.chats.EditAccountActivity;
+import com.example.chats.FriendsActivity;
 import com.example.chats.LogRegActivity;
 import com.example.chats.MoreSettingsActivity;
 import com.example.chats.NotificationsActivity;
@@ -70,7 +71,7 @@ public class SettingsFragment extends Fragment {
     FirebaseUser user;
     ImageView avatar, weatherIcon;
     Toolbar tabanim_toolbar;
-    LinearLayout logout,notifications,videoAdd;
+    LinearLayout logout,notifications,videoAdd,yourFriends;
     TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
     DatabaseReference userRef;
     public static Context context;
@@ -92,6 +93,7 @@ public class SettingsFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         bioAcc = view.findViewById(R.id.bioAcc);
         logout = view.findViewById(R.id.logout);
+        yourFriends = view.findViewById(R.id.yourFriends);
         weatherIcon = view.findViewById(R.id.weatherIcon);
         temperature = view.findViewById(R.id.temperature);
         mes = view.findViewById(R.id.mes);
@@ -139,6 +141,14 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MoreSettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        yourFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FriendsActivity.class);
                 startActivity(intent);
             }
         });
