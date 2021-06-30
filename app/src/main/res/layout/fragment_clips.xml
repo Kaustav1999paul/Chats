@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.ClipsFragment">
 
-
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/clips"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
