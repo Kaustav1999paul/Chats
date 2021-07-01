@@ -1,15 +1,21 @@
 package com.example.chats;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -29,7 +35,7 @@ public class TrimActivity extends AppCompatActivity {
 
     Uri url;
     String imgPath, title, message, oreginalPath, filePrefix;
-    ImageView pause;
+    ImageView pause,upload;
     VideoView videoView;
     TextView left ,right;
     int duration;
@@ -49,6 +55,7 @@ public class TrimActivity extends AppCompatActivity {
         message = i.getStringExtra("message");
         pause = findViewById(R.id.pause);
         seekbar = findViewById(R.id.seekbar);
+        upload = findViewById(R.id.upload);
         left = findViewById(R.id.left);
         right = findViewById(R.id.right);
         videoView = findViewById(R.id.videoView);
@@ -69,6 +76,46 @@ public class TrimActivity extends AppCompatActivity {
                     isPlaying = true;
                 }
             }
+        });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(TrimActivity.this);
+
+                LinearLayout linearLayout = new LinearLayout(TrimActivity.this);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(50,0,50,100);
+                final EditText input = new EditText(TrimActivity.this);
+                input.setLayoutParams(lp);
+                input.setGravity(Gravity.TOP|Gravity.START);
+                input.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+                linearLayout.addView(input, lp);
+
+                alert.setTitle("Video Information");
+                alert.setMessage("Provide some information about the video");
+                alert.setView(linearLayout);
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.setPositiveButton("Upload", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        filePrefix = input.getText().toString().trim();
+                        trimVideo(seekbar.getSelectedMinValue().intValue()*1000,
+                                seekbar.getSelectedMaxValue().intValue()*1000, filePrefix);
+                    }
+                });
+
+                alert.show();
+            }
+
+
         });
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -102,6 +149,9 @@ public class TrimActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
+    }
+
+    private void trimVideo(int i, int i1, String filePrefix) {
     }
 
     private String getTime(int seconds) {
