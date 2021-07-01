@@ -23,9 +23,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chats">
-        <activity android:name=".FriendsActivity"
+        <activity android:name=".TrimActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ChatScreen"/>
+        <activity
+            android:name=".FriendsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ChatScreen" />
         <activity
             android:name=".MoreSettingsActivity"
             android:screenOrientation="portrait"

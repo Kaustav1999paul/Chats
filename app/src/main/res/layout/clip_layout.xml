@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <VideoView
         android:id="@+id/videoClips"
         android:layout_width="match_parent"
@@ -69,6 +68,17 @@
         </LinearLayout>
     </LinearLayout>
 
-
+    <com.white.progressview.HorizontalProgressView
+        android:id="@+id/progress100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:progress="100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:progressReachColor="@color/background"
+        app:progressTextVisible="false"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

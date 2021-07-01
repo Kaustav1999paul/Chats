@@ -23,10 +23,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.white.progressview.HorizontalProgressView;
 
 public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myviewholder> {
 
     Context mContext;
+    int duration =0;
 
     public ClipAdapter(@NonNull FirebaseRecyclerOptions<Clips> options, Context context) {
         super(options);
@@ -51,6 +53,8 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
         TextView title, message;
         ProgressBar loading;
         ImageView author;
+        HorizontalProgressView horizontalProgressView;
+
 
         public myviewholder(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +64,7 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
             message = itemView.findViewById(R.id.messageClips);
             loading = itemView.findViewById(R.id.loadingClip);
             author = itemView.findViewById(R.id.author);
+            horizontalProgressView =  itemView.findViewById(R.id.progress100);
         }
 
         void setdata(Clips obj){
@@ -90,6 +95,8 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
                     mp.start();
                     loading.setVisibility(View.GONE);
 
+                    long duration = video.getDuration();
+
                     float videoRatio = mp.getVideoWidth() / (float) mp.getVideoHeight();
                     float screenRatio = video.getWidth() / (float)
                             video.getHeight();
@@ -99,6 +106,8 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
                     } else {
                         video.setScaleY(1f / scaleX);
                     }
+
+                    horizontalProgressView.runProgressAnim(20000);
                 }
             });
 
@@ -106,6 +115,7 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     mp.start();
+                    horizontalProgressView.runProgressAnim(20000);
                 }
             });
         }

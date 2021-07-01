@@ -101,71 +101,48 @@ public class MoreSettingsActivity extends AppCompatActivity {
             Uri uri = data.getData();
             String src = uri.getPath();
 
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
-            String saveCurrentDate = currentDate.format(calendar.getTime());
-            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
-            String saveCurrentTime = currentTime.format(calendar.getTime());
-            String ProductRandomKey = fUser.getUid() + saveCurrentDate + saveCurrentTime;
+            Intent i = new Intent(MoreSettingsActivity.this, TrimActivity.class);
+            i.putExtra("url", uri);
+            i.putExtra("title", title);
+            i.putExtra("message", message);
+            startActivity(i);
 
-            String filenameArray[] = src.split("\\.");
-            String extension = filenameArray[filenameArray.length-1];
-            StorageReference filePath = storagePostPictureRef.child(ProductRandomKey + "."+extension);
+//            Calendar calendar = Calendar.getInstance();
+//            SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
+//            String saveCurrentDate = currentDate.format(calendar.getTime());
+//            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+//            String saveCurrentTime = currentTime.format(calendar.getTime());
+//            String ProductRandomKey = fUser.getUid() + saveCurrentDate + saveCurrentTime;
 
-            filePath.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    // Continue with the task to get the download URL
-                    return filePath.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        myUrl1 = task.getResult().toString();
-//                        progress.setVisibility(View.GONE);
-//                        saveChanges.setEnabled(true);
-//                        bioEdit.setEnabled(true);
-                        Date date = new Date();
-                        // Pattern
-                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
-//                                  Current User||other user||message|| system Time
-                        sendVideo(fUser.getUid(), myUrl1, sdf.format(date), title, message);
-                    }
-                }
-            });
+//            String filenameArray[] = src.split("\\.");
+//            String extension = filenameArray[filenameArray.length-1];
+//            StorageReference filePath = storagePostPictureRef.child(ProductRandomKey + "."+extension);
+
+//            filePath.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+//                @Override
+//                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+//                    if (!task.isSuccessful()) {
+//                        throw task.getException();
+//                    }
+//                    // Continue with the task to get the download URL
+//                    return filePath.getDownloadUrl();
+//                }
+//            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Uri> task) {
+//                    if (task.isSuccessful()) {
+//                        myUrl1 = task.getResult().toString();
+////                        progress.setVisibility(View.GONE);
+////                        saveChanges.setEnabled(true);
+////                        bioEdit.setEnabled(true);
+//                        Date date = new Date();
+//                        // Pattern
+//                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+////                                  Current User||other user||message|| system Time
+//                        sendVideo(fUser.getUid(), myUrl1, sdf.format(date), title, message);
+//                    }
+//                }
+//            });
         }
-    }
-
-    private void sendVideo(String uid, String myUrl1, String time, String title, String message) {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
-        String saveCurrentDate = currentDate.format(calendar.getTime());
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
-        String saveCurrentTime = currentTime.format(calendar.getTime());
-        String RandomKey = saveCurrentDate + saveCurrentTime+ fUser.getUid();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("id", RandomKey);
-        hashMap.put("author", uid);
-        hashMap.put("time", time);
-        hashMap.put("title", title);
-        hashMap.put("message", message);
-        hashMap.put("videourl", myUrl1);
-        reference.child("Clips").child(RandomKey).setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    videoTitle.setEnabled(true);
-                    videoMessage.setEnabled(true);
-                    back.setEnabled(true);
-                    finish();
-                }
-            }
-        });
     }
 }
