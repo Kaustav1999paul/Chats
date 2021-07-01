@@ -2,8 +2,13 @@ package com.example.chats.Model;
 
 public class Clips {
     private String author, id, message, title, time, videourl;
+    private int duration;
 
     public Clips() {
+    }
+
+    public Clips(int duration) {
+        this.duration = duration;
     }
 
     public Clips(String author, String id, String message, String title, String time, String videourl) {
@@ -13,6 +18,14 @@ public class Clips {
         this.title = title;
         this.time = time;
         this.videourl = videourl;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public String getAuthor() {

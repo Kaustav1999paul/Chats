@@ -85,6 +85,26 @@
                 android:textColor="#FFFFFF"
                 android:background="@drawable/button_background"
                 android:layout_marginBottom="20dp"/>
+
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="20dp"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/percentage"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="00"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/font1color"/>
         </LinearLayout>
 
 

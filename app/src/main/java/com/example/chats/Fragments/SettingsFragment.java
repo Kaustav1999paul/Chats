@@ -3,7 +3,6 @@ package com.example.chats.Fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -57,8 +56,6 @@ import java.util.List;
 import java.util.Locale;
 
 import id.voela.actrans.AcTrans;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class SettingsFragment extends Fragment {
 

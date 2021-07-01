@@ -28,7 +28,8 @@ import com.white.progressview.HorizontalProgressView;
 public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myviewholder> {
 
     Context mContext;
-    int duration =0;
+    VideoView video;
+
 
     public ClipAdapter(@NonNull FirebaseRecyclerOptions<Clips> options, Context context) {
         super(options);
@@ -49,11 +50,12 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
 
     class myviewholder extends RecyclerView.ViewHolder{
 
-        VideoView video;
         TextView title, message;
         ProgressBar loading;
         ImageView author;
-        HorizontalProgressView horizontalProgressView;
+        HorizontalProgressView progr;
+        boolean isPlaying = true;
+
 
 
         public myviewholder(@NonNull View itemView) {
@@ -64,13 +66,15 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
             message = itemView.findViewById(R.id.messageClips);
             loading = itemView.findViewById(R.id.loadingClip);
             author = itemView.findViewById(R.id.author);
-            horizontalProgressView =  itemView.findViewById(R.id.progress100);
+            progr = itemView.findViewById(R.id.progress100);
         }
 
         void setdata(Clips obj){
             video.setVideoPath(obj.getVideourl());
             title.setText(obj.getTitle());
             message.setText(obj.getMessage());
+            int duration = obj.getDuration();
+            int value = duration * 1000;
 
             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -93,21 +97,9 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     mp.start();
+                    isPlaying = true;
                     loading.setVisibility(View.GONE);
-
-                    long duration = video.getDuration();
-
-                    float videoRatio = mp.getVideoWidth() / (float) mp.getVideoHeight();
-                    float screenRatio = video.getWidth() / (float)
-                            video.getHeight();
-                    float scaleX = videoRatio / screenRatio;
-                    if (scaleX >= 1f) {
-                        video.setScaleX(scaleX);
-                    } else {
-                        video.setScaleY(1f / scaleX);
-                    }
-
-                    horizontalProgressView.runProgressAnim(20000);
+                    progr.runProgressAnim(value);
                 }
             });
 
@@ -115,7 +107,8 @@ public class ClipAdapter extends FirebaseRecyclerAdapter<Clips, ClipAdapter.myvi
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     mp.start();
-                    horizontalProgressView.runProgressAnim(20000);
+                    isPlaying = true;
+                    progr.runProgressAnim(value);
                 }
             });
         }
