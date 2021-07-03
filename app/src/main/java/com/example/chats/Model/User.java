@@ -1,7 +1,7 @@
 package com.example.chats.Model;
 
 public class User {
-    private String bio, email, id, imageURL, username, status, phno;
+    private String bio, email, id, imageURL, username, status, phno,locality;
 
     public User(){
 
@@ -11,13 +11,22 @@ public class User {
         this.status = status;
     }
 
-    public User(String bio, String email, String id, String imageURL, String username, String phno) {
+    public User(String bio, String email, String id, String imageURL, String username, String phno, String locality) {
         this.bio = bio;
         this.email = email;
         this.id = id;
         this.imageURL = imageURL;
+        this.locality = locality;
         this.username = username;
         this.phno = phno;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
     }
 
     public String getPhno() {

@@ -35,6 +35,7 @@ import com.example.chats.LogRegActivity;
 import com.example.chats.MessageActivity;
 import com.example.chats.MoreSettingsActivity;
 import com.example.chats.NotificationsActivity;
+import com.example.chats.PeopleNearActivity;
 import com.example.chats.R;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -74,7 +75,7 @@ public class SettingsFragment extends Fragment {
     FirebaseUser user;
     ImageView avatar, weatherIcon;
     Toolbar tabanim_toolbar;
-    LinearLayout logout,notifications,videoAdd,yourFriends;
+    LinearLayout logout,notifications,videoAdd,yourFriends, peopleNear;
     TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
     DatabaseReference userRef;
     public static Context context;
@@ -109,6 +110,7 @@ public class SettingsFragment extends Fragment {
         yourFriends = view.findViewById(R.id.yourFriends);
         weatherIcon = view.findViewById(R.id.weatherIcon);
         temperature = view.findViewById(R.id.temperature);
+        peopleNear = view.findViewById(R.id.findFriendsNear);
         mes = view.findViewById(R.id.mes);
         wish = view.findViewById(R.id.wish);
         tabanim_toolbar = view.findViewById(R.id.tabanim_toolbar);
@@ -157,6 +159,14 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MoreSettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        peopleNear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), PeopleNearActivity.class);
                 startActivity(intent);
             }
         });

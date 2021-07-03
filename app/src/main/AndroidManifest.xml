@@ -22,7 +22,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Chats">
+        android:theme="@style/Theme.Chats"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".PeopleNearActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ChatScreen"/>
+        <activity
+            android:name=".ClipVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreen" />
         <activity
             android:name=".FriendsActivity"
             android:screenOrientation="portrait"

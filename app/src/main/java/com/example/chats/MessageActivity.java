@@ -789,7 +789,7 @@ public class MessageActivity extends AppCompatActivity {
         String saveCurrentDate = currentDate.format(calendar.getTime());
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
         String saveCurrentTime = currentTime.format(calendar.getTime());
-        String RandomKey =  saveCurrentDate + saveCurrentTime+sender+receiver;
+        String RandomKey = saveCurrentDate + saveCurrentTime+sender+receiver;
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <VideoView
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="60dp"
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
@@ -59,7 +60,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title"
-                android:textColor="@color/font1color"
+                android:shadowColor="#000000"
+                android:textColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:padding="@dimen/_5sdp"
+                android:shadowRadius="10"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
@@ -68,10 +74,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Message"
-                android:textColor="@color/font1color"
+                android:layout_marginHorizontal="5dp"
+                android:textColor="#FFFFFF"
                 android:textSize="12dp" />
         </LinearLayout>
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/likeButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_not_liked"
+        app:layout_constraintBottom_toTopOf="@id/likeCount"
+        app:layout_constraintStart_toStartOf="@id/likeCount"
+        app:layout_constraintEnd_toEndOf="@id/likeCount" />
+
+    <TextView
+        android:id="@+id/likeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="129"
+        android:shadowRadius="10"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        android:shadowColor="#000000"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="20dp"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:padding="5dp"/>
 
     <com.white.progressview.HorizontalProgressView
         android:id="@+id/progress100"
@@ -80,7 +111,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="6dp"
         android:progress="100"
         app:progressNormalColor="@android:color/transparent"
         app:progressReachColor="#FFFFFF"
