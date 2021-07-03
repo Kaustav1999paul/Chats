@@ -3,6 +3,7 @@ package com.example.chats.Fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -19,6 +20,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.example.chats.BottomSheetFragment;
 import com.example.chats.EditAccountActivity;
 import com.example.chats.FriendsActivity;
 import com.example.chats.LogRegActivity;
+import com.example.chats.MessageActivity;
 import com.example.chats.MoreSettingsActivity;
 import com.example.chats.NotificationsActivity;
 import com.example.chats.R;
@@ -37,6 +40,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,6 +61,8 @@ import java.util.Locale;
 
 import id.voela.actrans.AcTrans;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SettingsFragment extends Fragment {
 
 
@@ -75,11 +81,21 @@ public class SettingsFragment extends Fragment {
     private Context contextT;
     String locality, API="24fadf0771f572e79650afaf3373566e";
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    BottomSheetDialog logoutDialog;
+
+    public static final String MY_PREFS_NAME = "LOCATION";
+    SharedPreferences.Editor editor;
+    SharedPreferences prefs;
+    String localCity;
+
 
     @Override
     public void onStart() {
         super.onStart();
        contextT  = getActivity();
+        editor = contextT.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        prefs = contextT.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+       localCity = prefs.getString("locality", "kolkata");
     }
 
     @Override
@@ -97,7 +113,10 @@ public class SettingsFragment extends Fragment {
         wish = view.findViewById(R.id.wish);
         tabanim_toolbar = view.findViewById(R.id.tabanim_toolbar);
         contextT  = getActivity();
+        editor = contextT.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        prefs = contextT.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
+        localCity = prefs.getString("locality", "kolkata");
 
         Date date = new Date();
         // Pattern
@@ -169,10 +188,37 @@ public class SettingsFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(),LogRegActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                try{
+                    View sheetView = getActivity().getLayoutInflater().inflate(R.layout.logout_confirm_layout, null);
+                    logoutDialog = new BottomSheetDialog(contextT);
+                    logoutDialog.setContentView(sheetView);
+                    logoutDialog.show();
+
+                    LinearLayout close = sheetView.findViewById(R.id.close);
+                    LinearLayout logout = sheetView.findViewById(R.id.logout);
+                    close.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            logoutDialog.dismiss();
+                        }
+                    });
+
+                    logout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            logoutDialog.dismiss();
+                            LogoutUser();
+                        }
+                    });
+
+                    // Remove default white color background
+                    FrameLayout bottomSheet = (FrameLayout) logoutDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+                    bottomSheet.setBackground(null);
+                }
+                catch (Exception e){
+
+
+                }
             }
         });
 
@@ -198,9 +244,16 @@ public class SettingsFragment extends Fragment {
                 Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
-
+        new weatherTask().execute();
 
         return view;
+    }
+
+    private void LogoutUser() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getContext(),LogRegActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     private void getCurrentLocation() {
@@ -241,6 +294,8 @@ public class SettingsFragment extends Fragment {
                     Locale.getDefault()).getFromLocation(d2, d3, 1);
             if (list != null && (!list.isEmpty())) {
                 locality = ((Address) list.get(0)).getLocality();
+                editor.putString("locality", locality);
+                editor.apply();
                 new weatherTask().execute();
             }
         } catch (NullPointerException e2) {
@@ -260,8 +315,10 @@ public class SettingsFragment extends Fragment {
 
         protected String doInBackground(String... args) {
 
+
+            localCity = prefs.getString("locality", "kolkata");
             String response =
-                    HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?q=" + locality
+                    HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?q=" + localCity
                             + "&units=metric&appid=" + API);
             return response;
         }
@@ -291,7 +348,10 @@ public class SettingsFragment extends Fragment {
                     weatherIcon.setBackgroundResource(R.drawable.ic_baseline_cloud_24);
                 }else if (weatherDescription.equals("Atmosphere")){
                     weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
-                }else if (weatherDescription.equals("Snow")){
+                }else if (weatherDescription.equals("Haze")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
+                }
+                else if (weatherDescription.equals("Snow")){
                     weatherIcon.setBackgroundResource(R.drawable.ic_round_ac_unit_24);
                 }else if (weatherDescription.equals("Rain")){
                     weatherIcon.setBackgroundResource(R.drawable.ic_rain_svgrepo_com);
@@ -300,8 +360,6 @@ public class SettingsFragment extends Fragment {
                 }else if (weatherDescription.equals("Thunderstorm")){
                     weatherIcon.setBackgroundResource(R.drawable.ic_storm_thunder_svgrepo_com);
                 }
-
-
             } catch (JSONException e) {
 
             }
