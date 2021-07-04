@@ -266,7 +266,7 @@
                                     android:layout_width="30dp"
                                     android:layout_gravity="center"
                                     app:cardElevation="0dp"
-                                    app:cardBackgroundColor="@color/offline"
+                                    app:cardBackgroundColor="#FF6559"
                                     app:cardCornerRadius="5dp"
                                     android:layout_height="30dp">
                                     <ImageView
@@ -328,7 +328,7 @@
                                     android:layout_width="30dp"
                                     android:layout_gravity="center"
                                     app:cardElevation="0dp"
-                                    app:cardBackgroundColor="#FF6559"
+                                    app:cardBackgroundColor="#673AB7"
                                     app:cardCornerRadius="5dp"
                                     android:layout_height="30dp">
                                     <ImageView
@@ -374,35 +374,6 @@
                                     android:layout_gravity="center"
                                     android:textColor="@color/font1color"
                                     android:text="Contact Us/ Help"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:paddingVertical="10dp"
-                                android:layout_marginTop="2dp">
-
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="30dp"
-                                    android:layout_gravity="center"
-                                    app:cardElevation="0dp"
-                                    app:cardBackgroundColor="#673AB7"
-                                    app:cardCornerRadius="5dp"
-                                    android:layout_height="30dp">
-                                    <ImageView
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
-                                        android:background="@drawable/ic_help"
-                                        android:layout_gravity="center"/>
-                                </androidx.cardview.widget.CardView>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="20dp"
-                                    android:layout_gravity="center"
-                                    android:textColor="@color/font1color"
-                                    android:text="About Us"/>
                             </LinearLayout>
 
                             <LinearLayout

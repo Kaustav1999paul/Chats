@@ -9,8 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -24,9 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chats"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PeopleNearActivity"
+        <activity android:name=".NoInternetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ChatScreen"/>
+        <activity
+            android:name=".PeopleNearActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ChatScreen" />
         <activity
             android:name=".ClipVideoActivity"
             android:screenOrientation="portrait"

@@ -356,13 +356,8 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-
-        sendNotifications(receiverID);
     }
 
-    private void sendNotifications(String receiverID) {
-
-    }
 
     public class SearchVH extends RecyclerView.ViewHolder{
 
