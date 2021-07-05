@@ -51,12 +51,11 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     implementation 'com.firebaseui:firebase-ui-database:7.2.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-    //implementation 'com.firebaseui:firebase-database:7.2.0'
     implementation 'com.github.shts:StoriesProgressView:3.0.0'
     implementation 'com.baoyz.pullrefreshlayout:library:1.2.0'
     implementation 'com.eightbitlab:blurview:1.6.6'
     implementation 'com.baoyz.actionsheet:library:1.1.7'
-    // Notifications
+//   Notifications
     implementation 'com.google.firebase:firebase-messaging:17.3.1'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -73,6 +72,8 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.15'
     implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-native:1.0.15'
+//    Encryption
+    implementation 'com.scottyab:aescrypt:0.0.1'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

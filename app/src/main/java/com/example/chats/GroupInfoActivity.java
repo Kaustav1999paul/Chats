@@ -41,10 +41,10 @@ import id.voela.actrans.AcTrans;
 public class GroupInfoActivity extends AppCompatActivity {
 
     TextView gName, gDate, groupAddPeople, countt;
-    ImageView gAvatar;
+    ImageView gAvatar,editGroupInfo;
     Intent intent;
     FirebaseUser user;
-    String groupId,a,b, c;
+    String groupId,a,b, c, idG;
     ImageView back;
     DatabaseReference groupReference;
     BottomSheetDialog mBottomDialogNotificationAction;
@@ -60,6 +60,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         gName = findViewById(R.id.gName);
         gDate = findViewById(R.id.gDate);
         intent = getIntent();
+        editGroupInfo = findViewById(R.id.editGroupInfo);
         countt = findViewById(R.id.countt);
         peopleGroupList = findViewById(R.id.peopleGroupList);
         peopleGroupList.setHasFixedSize(true);
@@ -82,6 +83,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 c = snapshot.child("date").getValue().toString();
                 gName.setText(b);
                 gDate.setText("Group created in: " + c);
+                idG = snapshot.child("id").getValue().toString();
             }
 
             @Override
@@ -89,6 +91,16 @@ public class GroupInfoActivity extends AppCompatActivity {
 
             }
         });
+
+        editGroupInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupInfoActivity.this, GroupDetailsEditActivity2.class);
+                intent.putExtra("id",idG);
+                startActivity(intent);
+            }
+        });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

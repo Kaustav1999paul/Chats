@@ -22,9 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chats"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NoInternetActivity"
+        <activity android:name=".GroupDetailsEditActivity2"
             android:screenOrientation="portrait"
             android:theme="@style/ChatScreen"/>
+        <activity
+            android:name=".NoInternetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ChatScreen" />
         <activity
             android:name=".PeopleNearActivity"
             android:screenOrientation="portrait"

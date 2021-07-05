@@ -105,6 +105,13 @@
                         android:textColor="@color/hintcolor"
                         android:textSize="12dp" />
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/editGroupInfo"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/ic_edit"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

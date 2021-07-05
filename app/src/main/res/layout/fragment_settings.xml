@@ -104,8 +104,8 @@
                         android:layout_width="match_parent"
                         android:layout_marginHorizontal="15dp"
                         android:layout_marginBottom="20dp"
-                        android:layout_marginTop="10dp"
                         app:cardCornerRadius="10dp"
+                        app:cardBackgroundColor="@color/searchbar"
                         app:cardElevation="5dp"
                         android:layout_height="wrap_content">
                         <TextView
@@ -113,9 +113,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:paddingHorizontal="10dp"
+                            android:layout_marginHorizontal="10dp"
                             android:background="@color/searchbar"
-                            android:paddingVertical="12dp"
+                            android:layout_marginVertical="12dp"
                             android:textColor="@color/font1color" />
                     </androidx.cardview.widget.CardView>
 
