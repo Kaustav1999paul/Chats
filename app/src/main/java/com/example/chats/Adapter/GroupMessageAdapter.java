@@ -37,6 +37,13 @@ public class GroupMessageAdapter  extends RecyclerView.Adapter<RecyclerView.View
     public static final int MSG_TYPE_RIGHT = 1;
     public static final int MSG_TYPE_IMAGE_LEFT = 2;
     public static final int MSG_TYPE_IMAGE_RIGHT = 3;
+    public static final int MSG_TYPE_DOCS_LEFT = 4;
+    public static final int MSG_TYPE_DOCS_RIGHT = 5;
+    public static final int MSG_TYPE_VIDEO_LEFT = 6;
+    public static final int MSG_TYPE_VIDEO_RIGHT = 7;
+    public static final int MSG_TYPE_LOC_LEFT = 8;
+    public static final int MSG_TYPE_LOC_RIGHT = 9;
+
     private ArrayList<GroupChats> mChat;
     FirebaseUser fuser;
     LayoutInflater inflater;
@@ -71,6 +78,22 @@ public class GroupMessageAdapter  extends RecyclerView.Adapter<RecyclerView.View
                 View imageOnlyRViewHolder = inflater.inflate(R.layout.image_right, parent,false);
                 viewHolder = new RightImageG(imageOnlyRViewHolder);
                 break;
+            case MSG_TYPE_VIDEO_RIGHT:
+                View videoOnlyRViewHolder = inflater.inflate(R.layout.video_right, parent,false);
+                viewHolder = new RightVideoGroup(videoOnlyRViewHolder);
+                break;
+            case MSG_TYPE_VIDEO_LEFT:
+                View videoOnlyLViewHolder = inflater.inflate(R.layout.left_video_group, parent,false);
+                viewHolder = new LeftVideoGroup(videoOnlyLViewHolder);
+                break;
+            case MSG_TYPE_DOCS_RIGHT:
+                View docsOnlyRViewHolder = inflater.inflate(R.layout.right_docs, parent,false);
+                viewHolder = new RightDocsGroup(docsOnlyRViewHolder);
+                break;
+            case MSG_TYPE_DOCS_LEFT:
+                View docsOnlyLViewHolder = inflater.inflate(R.layout.group_doc_left, parent,false);
+                viewHolder = new LeftDocsGroup(docsOnlyLViewHolder);
+                break;
             default:
         }
 
@@ -97,12 +120,6 @@ public class GroupMessageAdapter  extends RecyclerView.Adapter<RecyclerView.View
                             case MSG_TYPE_RIGHT:
                                 RightMessageG rightM = (RightMessageG) holder;
                                 rightM.show_messageR.setText(mess);
-                                rightM.show_messageR.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Toast.makeText(mContext, mess, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
                                 rightM.text_seen.setVisibility(View.INVISIBLE);
                                 break;
                             case MSG_TYPE_LEFT:
@@ -113,11 +130,77 @@ public class GroupMessageAdapter  extends RecyclerView.Adapter<RecyclerView.View
                             case MSG_TYPE_IMAGE_RIGHT:
                                 RightImageG rightI = (RightImageG) holder;
                                 rightI.text_seen.setVisibility(View.INVISIBLE);
+                                rightI.itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(mContext, FullImage.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("image", chat.getMessage());
+                                    mContext.startActivity(intent);
+                                }
+                            });
                                 break;
                             case MSG_TYPE_IMAGE_LEFT:
                                 LeftImageG leftI = (LeftImageG) holder;
                                 Glide.with(mContext).load(userImage).into(leftI.photoGMember);
+                                leftI.itemView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(mContext, FullImage.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.putExtra("image", chat.getMessage());
+                                        mContext.startActivity(intent);
+                                    }
+                                });
                                 break;
+                            case MSG_TYPE_VIDEO_LEFT:
+                                LeftVideoGroup leftV = (LeftVideoGroup) holder;
+                                Glide.with(mContext).load(userImage).into(leftV.photoGMember);
+                                leftV.itemView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
+                                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        mContext.startActivity(browserIntent);
+                                    }
+                                });
+                                break;
+                            case MSG_TYPE_VIDEO_RIGHT:
+                                RightVideoGroup rightV = (RightVideoGroup) holder;
+                                rightV.itemView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
+                                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        mContext.startActivity(browserIntent);
+                                    }
+                                });
+                                break;
+                            case MSG_TYPE_DOCS_LEFT:
+                                LeftDocsGroup leftDocsGroup = (LeftDocsGroup) holder;
+                                Glide.with(mContext).load(userImage).into(leftDocsGroup.photoGMember);
+                                leftDocsGroup.itemView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
+                                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        mContext.startActivity(browserIntent);
+                                    }
+                                });
+                                break;
+
+                            case MSG_TYPE_DOCS_RIGHT:
+                                RightDocsGroup rightDocsGroup = (RightDocsGroup) holder;
+                                rightDocsGroup.itemView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
+                                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        mContext.startActivity(browserIntent);
+                                    }
+                                });
+                                break;
+
                         }
                     }
                 }
@@ -147,6 +230,10 @@ public class GroupMessageAdapter  extends RecyclerView.Adapter<RecyclerView.View
 //            Me
             if (mChat.get(position).getType().equals("text")){
                 return MSG_TYPE_RIGHT;
+            }else if (mChat.get(position).getType().equals("video")){
+                return MSG_TYPE_VIDEO_RIGHT;
+            }else if (mChat.get(position).getType().equals("docs")){
+                return MSG_TYPE_DOCS_RIGHT;
             }else {
                 return MSG_TYPE_IMAGE_RIGHT;
             }
@@ -155,6 +242,10 @@ public class GroupMessageAdapter  extends RecyclerView.Adapter<RecyclerView.View
         else {
             if (mChat.get(position).getType().equals("text")){
                 return MSG_TYPE_LEFT;
+            }else if (mChat.get(position).getType().equals("video")){
+                return MSG_TYPE_VIDEO_LEFT;
+            }else if (mChat.get(position).getType().equals("docs")){
+                return MSG_TYPE_DOCS_LEFT;
             }else {
                 return MSG_TYPE_IMAGE_LEFT;
             }
@@ -204,6 +295,59 @@ public class GroupMessageAdapter  extends RecyclerView.Adapter<RecyclerView.View
             show_imageL = itemView.findViewById(R.id.show_imageL);
             text_seen = itemView.findViewById(R.id.text_seen);
             photoGMember = itemView.findViewById(R.id.photoGMember);
+        }
+    }
+
+    public class LeftVideoGroup extends RecyclerView.ViewHolder{
+        public TextView show_videoL;
+        public CircleImageView text_seen, photoGMember;
+        public ImageView isLiked;
+
+        public LeftVideoGroup(@NonNull View itemView) {
+            super(itemView);
+            show_videoL = itemView.findViewById(R.id.show_videoL);
+            text_seen = itemView.findViewById(R.id.text_seen);
+            isLiked = itemView.findViewById(R.id.isLiked);
+            photoGMember = itemView.findViewById(R.id.photoGMember);
+        }
+    }
+
+    class RightVideoGroup extends RecyclerView.ViewHolder{
+        public TextView show_videoR,liked;
+        public CircleImageView text_seen;
+
+        public RightVideoGroup(@NonNull View itemView) {
+            super(itemView);
+            liked = itemView.findViewById(R.id.liked);
+            show_videoR = itemView.findViewById(R.id.show_videoR);
+            text_seen = itemView.findViewById(R.id.text_seen);
+
+        }
+    }
+
+    public class LeftDocsGroup extends RecyclerView.ViewHolder{
+        public TextView show_docsL;
+        public CircleImageView text_seen,photoGMember;
+        public ImageView isLiked;
+
+        public LeftDocsGroup(@NonNull View itemView) {
+            super(itemView);
+            show_docsL = itemView.findViewById(R.id.show_docsL);
+            text_seen = itemView.findViewById(R.id.text_seen);
+            isLiked = itemView.findViewById(R.id.isLiked);
+            photoGMember = itemView.findViewById(R.id.photoGMemberQ);
+        }
+    }
+
+    class RightDocsGroup extends RecyclerView.ViewHolder{
+        public TextView show_docsR,liked;
+        public CircleImageView text_seen;
+
+        public RightDocsGroup(@NonNull View itemView) {
+            super(itemView);
+            liked = itemView.findViewById(R.id.liked);
+            show_docsR = itemView.findViewById(R.id.show_docsR);
+            text_seen = itemView.findViewById(R.id.text_seen);
         }
     }
 }

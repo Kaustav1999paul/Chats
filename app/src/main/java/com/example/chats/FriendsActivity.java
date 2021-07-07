@@ -57,6 +57,7 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                new AcTrans.Builder(FriendsActivity.this).performSlideToRight();
             }
         });
         loading = findViewById(R.id.loading);
@@ -96,6 +97,13 @@ public class FriendsActivity extends AppCompatActivity {
             }
         });
         displayAllFriends();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        new AcTrans.Builder(FriendsActivity.this).performSlideToRight();
     }
 
     private void displayAllFriends() {

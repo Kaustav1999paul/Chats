@@ -71,6 +71,7 @@ public class PeopleNearActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                new AcTrans.Builder(PeopleNearActivity.this).performSlideToRight();
             }
         });
         layoutManager = new LinearLayoutManager(this);
@@ -93,6 +94,13 @@ public class PeopleNearActivity extends AppCompatActivity {
                 swip.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        new AcTrans.Builder(PeopleNearActivity.this).performSlideToRight();
     }
 
     private void displayAllFriends() {

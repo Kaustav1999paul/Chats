@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import id.voela.actrans.AcTrans;
 import wseemann.media.FFmpegMediaMetadataRetriever;
 
 public class MoreSettingsActivity extends AppCompatActivity {
@@ -65,6 +66,7 @@ public class MoreSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                new AcTrans.Builder(MoreSettingsActivity.this).performSlideToRight();
             }
         });
 
@@ -88,6 +90,13 @@ public class MoreSettingsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        new AcTrans.Builder(MoreSettingsActivity.this).performSlideToRight();
     }
 
     private void openVideoSelector() {

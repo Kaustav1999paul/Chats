@@ -32,6 +32,7 @@ import com.example.chats.BottomSheetFragment;
 import com.example.chats.EditAccountActivity;
 import com.example.chats.FriendsActivity;
 import com.example.chats.LogRegActivity;
+import com.example.chats.Login;
 import com.example.chats.MessageActivity;
 import com.example.chats.MoreSettingsActivity;
 import com.example.chats.NotificationsActivity;
@@ -75,7 +76,7 @@ public class SettingsFragment extends Fragment {
     FirebaseUser user;
     ImageView avatar, weatherIcon;
     Toolbar tabanim_toolbar;
-    LinearLayout logout,notifications,videoAdd,yourFriends, peopleNear;
+    LinearLayout logout,notifications,videoAdd,yourFriends, peopleNear,contactUs;
     TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
     DatabaseReference userRef;
     public static Context context;
@@ -108,6 +109,7 @@ public class SettingsFragment extends Fragment {
         bioAcc = view.findViewById(R.id.bioAcc);
         logout = view.findViewById(R.id.logout);
         yourFriends = view.findViewById(R.id.yourFriends);
+        contactUs = view.findViewById(R.id.contactUs);
         weatherIcon = view.findViewById(R.id.weatherIcon);
         temperature = view.findViewById(R.id.temperature);
         peopleNear = view.findViewById(R.id.findFriendsNear);
@@ -124,11 +126,13 @@ public class SettingsFragment extends Fragment {
         // Pattern
         SimpleDateFormat sdf = new SimpleDateFormat("a");
 
-        String time = sdf.format(date);
-        if (time.equals("am"))
-            wish.setText("Good Morning,");
-        else
-            wish.setText("Good Evening,");
+        SimpleDateFormat sdfH = new SimpleDateFormat("hh");
+
+        String AmPm = sdf.format(date);
+        String hour = sdfH.format(date);
+
+
+        handleTime(AmPm, hour);
 
         //Get Coordinates
         if (ContextCompat.checkSelfPermission(
@@ -148,6 +152,7 @@ public class SettingsFragment extends Fragment {
         videoAdd = view.findViewById(R.id.settings);
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
         editAccount = view.findViewById(R.id.editAccount);
+
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,11 +160,13 @@ public class SettingsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         videoAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MoreSettingsActivity.class);
                 startActivity(intent);
+                new AcTrans.Builder(getContext()).performSlideToLeft();
             }
         });
 
@@ -168,6 +175,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), PeopleNearActivity.class);
                 startActivity(intent);
+                new AcTrans.Builder(getContext()).performSlideToLeft();
             }
         });
 
@@ -176,6 +184,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), FriendsActivity.class);
                 startActivity(intent);
+                new AcTrans.Builder(getContext()).performSlideToLeft();
             }
         });
 
@@ -194,6 +203,33 @@ public class SettingsFragment extends Fragment {
         avatar = view.findViewById(R.id.avatar);
         emailHolder.setText(user.getEmail());
 
+        contactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    View sheetView = getActivity().getLayoutInflater().inflate(R.layout.about_us_dialog, null);
+                    logoutDialog = new BottomSheetDialog(contextT);
+                    logoutDialog.setContentView(sheetView);
+                    logoutDialog.show();
+
+                    LinearLayout close = sheetView.findViewById(R.id.close);
+                    close.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            logoutDialog.dismiss();
+                        }
+                    });
+
+                    // Remove default white color background
+                    FrameLayout bottomSheet = (FrameLayout) logoutDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+                    bottomSheet.setBackground(null);
+                }
+                catch (Exception e){
+
+
+                }
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,7 +281,7 @@ public class SettingsFragment extends Fragment {
                 String na = snapshot.child("username").getValue().toString();
                 HolderName.setText(na);
                 String bio = snapshot.child("bio").getValue().toString();
-                bioAcc.setText("Bio: "+bio);
+                bioAcc.setText(bio);
                 String ph = snapshot.child("imageURL").getValue().toString();
                 Glide.with(context).load(ph).into(avatar);
             }
@@ -257,6 +293,29 @@ public class SettingsFragment extends Fragment {
         new weatherTask().execute();
 
         return view;
+    }
+
+    private void handleTime(String amPm, String hour) {
+        if (amPm.equals("am")){
+            if (hour.equals("12")){
+                wish.setText("Good Night,");
+            }else if (Integer.valueOf(hour) < 5 && Integer.valueOf(hour) > 1){
+                wish.setText("Good Night,");
+            }
+            else if (Integer.valueOf(hour) > 5){
+                wish.setText("Good Morning,");
+            }
+        }
+        else{
+            if (hour.equals("12")){
+                wish.setText("Good Afternoon,");
+            }else if (Integer.valueOf(hour) < 4 && Integer.valueOf(hour) > 1){
+                wish.setText("Good Afternoon,");
+            }
+            else if (Integer.valueOf(hour) > 4){
+                wish.setText("Good Evening,");
+            }
+        }
     }
 
     private void LogoutUser() {

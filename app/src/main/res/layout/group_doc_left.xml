@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/photoGMember"
+            android:id="@+id/photoGMemberQ"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="bottom"
@@ -18,16 +18,16 @@
             android:src="@color/hintcolor"/>
 
         <TextView
-            android:id="@+id/show_videoL"
+            android:id="@+id/show_docL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:drawableLeft="@drawable/ic_round_photo_24"
+            android:drawableLeft="@drawable/ic_round_insert_drive_file_24"
             android:drawablePadding="10dp"
             android:textColor="@color/font1color"
             android:paddingRight="10dp"
             android:background="@drawable/background_left"
-            android:text="Photo"/>
+            android:text="Document"/>
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView

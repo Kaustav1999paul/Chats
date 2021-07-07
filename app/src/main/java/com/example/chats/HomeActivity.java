@@ -50,19 +50,18 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser user;
     public static final String MY_PREFS_NAME = "Dock";
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if (savedInstanceState == null){
                 handleFrames(new ChatFragment() );
         }
+
         handleOnClickListner();
 
         statusCheck();
@@ -164,18 +163,11 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.chat:
                         handleFrames(new ChatFragment());
-                        editor.putInt("idName", 1);
-                        editor.apply();
                         break;
                     case R.id.groups:
                         handleFrames(new GroupFragment());
-                        editor.putInt("idName", 2);
-                        editor.apply();
                         break;
                     case R.id.status:
-//                        handleFrames(new ClipsFragment());
-//                        editor.putInt("idName", 4);
-//                        editor.apply();
                         bottomNavigationView.setSelectedItemId(R.id.chat);
                         Intent intent = new Intent(HomeActivity.this, ClipVideoActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -185,13 +177,9 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.friends:
                         handleFrames(new SearchFragment());
-                        editor.putInt("idName", 5);
-                        editor.apply();
                         break;
                     case R.id.setting:
                         handleFrames(new SettingsFragment());
-                        editor.putInt("idName", 6);
-                        editor.apply();
                         break;
                 }
                 return true;

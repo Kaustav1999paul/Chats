@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,12 +74,15 @@ public class GroupMessageActivity extends AppCompatActivity {
     private GroupMessageAdapter messageAdapter;
     RecyclerView groupChatRecyclerView;
     private Uri imageUri1  = null;
-    private String myUrl1 = "";
+    private String myUrl1 = "", checker="";
     StorageReference storagePostPictureRef;
     BottomSheetDialog mBottomDialogNotificationAction;
     LinearLayoutManager linearLayoutManager;
-
     DatabaseReference groupReference;
+    int PICKFILE_REQUEST_CODE =121;
+    int PICKVIDEO_REQUEST_CODE =120;
+    RelativeLayout loading;
+    FirebaseUser fuser;
 
 
     @Override
@@ -93,12 +98,14 @@ public class GroupMessageActivity extends AppCompatActivity {
 
 //        Prevent ScreenShot
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
         groupNameChat = findViewById(R.id.groupNameChat);
         addButton = findViewById(R.id.addButton);
         groupDP = findViewById(R.id.groupDP);
         groupChatRecyclerView = findViewById(R.id.groupChatRecyclerView);
         groupChatRecyclerView.setHasFixedSize(true);
         intent = getIntent();
+        loading = findViewById(R.id.loading);
         user = FirebaseAuth.getInstance().getCurrentUser();
         back = findViewById(R.id.back);
         message = findViewById(R.id.messagee);
@@ -191,8 +198,14 @@ public class GroupMessageActivity extends AppCompatActivity {
                 mBottomDialogNotificationAction.setContentView(sheetView);
                 mBottomDialogNotificationAction.show();
 
+                View tempView = sheetView.findViewById(R.id.tempView);
+                tempView.setVisibility(View.GONE);
                 LinearLayout image = sheetView.findViewById(R.id.photoAdd);
                 LinearLayout close = sheetView.findViewById(R.id.close);
+                LinearLayout docs = sheetView.findViewById(R.id.docs);
+                LinearLayout video = sheetView.findViewById(R.id.videos);
+                LinearLayout location = sheetView.findViewById(R.id.location);
+                location.setVisibility(View.GONE);
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -211,6 +224,46 @@ public class GroupMessageActivity extends AppCompatActivity {
                         mBottomDialogNotificationAction.dismiss();
                     }
                 });
+
+            docs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checker="docs";
+                    Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+// Ask specifically for something that can be opened:
+                    chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+                    chooseFile.setType("*/*");
+                    startActivityForResult(
+                            Intent.createChooser(chooseFile, "Choose a file"),
+                            PICKFILE_REQUEST_CODE
+                    );
+
+                    loading.setVisibility(View.VISIBLE);
+                    addButton.setEnabled(false);
+                    message.setEnabled(false);
+                    sendButton.setEnabled(false);
+                    back.setEnabled(false);
+                    mBottomDialogNotificationAction.dismiss();
+                }
+            });
+
+            video.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checker= "video";
+                    Intent intent = new Intent();
+                    intent.setType("video/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(intent, PICKVIDEO_REQUEST_CODE);
+
+                    loading.setVisibility(View.VISIBLE);
+                    addButton.setEnabled(false);
+                    message.setEnabled(false);
+                    sendButton.setEnabled(false);
+                    back.setEnabled(false);
+                    mBottomDialogNotificationAction.dismiss();
+                }
+            });
 
         // Remove default white color background
         FrameLayout bottomSheet = (FrameLayout) mBottomDialogNotificationAction.findViewById(com.google.android.material.R.id.design_bottom_sheet);
@@ -247,16 +300,6 @@ public class GroupMessageActivity extends AppCompatActivity {
 
     }
 
-    private void sendMessage(String encrypted, String time) {
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sender", user.getUid() );
-        hashMap.put("message", encrypted);
-        hashMap.put("time", time);
-        hashMap.put("type", "text");
-        groupReference.child("Messages").push().setValue(hashMap);
-        message.setText("");
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -309,13 +352,127 @@ public class GroupMessageActivity extends AppCompatActivity {
                     }
                 }
             });
+        }else if (requestCode == PICKFILE_REQUEST_CODE && resultCode == RESULT_OK){
+
+//                If fileType = Docs
+            Uri uri = data.getData();
+            String src = uri.getPath();
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
+            String saveCurrentDate = currentDate.format(calendar.getTime());
+            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+            String saveCurrentTime = currentTime.format(calendar.getTime());
+            String ProductRandomKey = fuser.getUid() + saveCurrentDate + saveCurrentTime;
+
+            String filenameArray[] = src.split("\\.");
+            String extension = filenameArray[filenameArray.length-1];
+            StorageReference filePath = storagePostPictureRef.child(ProductRandomKey + "."+extension);
+
+            filePath.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    // Continue with the task to get the download URL
+                    return filePath.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        myUrl1 = task.getResult().toString();
+//                        progress.setVisibility(View.GONE);
+//                        saveChanges.setEnabled(true);
+//                        bioEdit.setEnabled(true);
+                        Date date = new Date();
+                        // Pattern
+                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+//                                  Current User||other user||message|| system Time
+                        sendDocs(myUrl1, sdf.format(date));
+                        loading.setVisibility(View.GONE);
+                        addButton.setEnabled(true);
+                        message.setEnabled(true);
+                        sendButton.setEnabled(true);
+                        back.setEnabled(true);
+                    }
+                }
+            });
+
+        }else if (requestCode == PICKVIDEO_REQUEST_CODE && resultCode == RESULT_OK){
+            //                If fileType = Docs
+            Uri uri = data.getData();
+            String src = uri.getPath();
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
+            String saveCurrentDate = currentDate.format(calendar.getTime());
+            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+            String saveCurrentTime = currentTime.format(calendar.getTime());
+            String ProductRandomKey = fuser.getUid() + saveCurrentDate + saveCurrentTime;
+
+            String filenameArray[] = src.split("\\.");
+            String extension = filenameArray[filenameArray.length-1];
+            StorageReference filePath = storagePostPictureRef.child(ProductRandomKey + "."+extension);
+
+            filePath.putFile(uri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    // Continue with the task to get the download URL
+                    return filePath.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        myUrl1 = task.getResult().toString();
+//                        progress.setVisibility(View.GONE);
+//                        saveChanges.setEnabled(true);
+//                        bioEdit.setEnabled(true);
+                        Date date = new Date();
+                        // Pattern
+                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+//                                  Current User||other user||message|| system Time
+                        sendVideo(myUrl1, sdf.format(date));
+                        loading.setVisibility(View.GONE);
+                        addButton.setEnabled(true);
+                        message.setEnabled(true);
+                        sendButton.setEnabled(true);
+                        back.setEnabled(true);
+                    }
+                }
+            });
         }else {
-          //  loading.setVisibility(View.GONE);
+            loading.setVisibility(View.GONE);
             addButton.setEnabled(true);
             message.setEnabled(true);
             sendButton.setEnabled(true);
             back.setEnabled(true);
         }
+    }
+
+    private void sendDocs(String myUrl1, String format) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", user.getUid() );
+        hashMap.put("message", myUrl1);
+        hashMap.put("time", format);
+        hashMap.put("type", "docs");
+        groupReference.child("Messages").push().setValue(hashMap);
+        message.setText("");
+    }
+
+    private void sendVideo(String myUrl1, String format) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", user.getUid() );
+        hashMap.put("message", myUrl1);
+        hashMap.put("time", format);
+        hashMap.put("type", "video");
+        groupReference.child("Messages").push().setValue(hashMap);
+        message.setText("");
     }
 
     private void sendImg(String myUrl1, String format) {
@@ -324,6 +481,17 @@ public class GroupMessageActivity extends AppCompatActivity {
         hashMap.put("message", myUrl1);
         hashMap.put("time", format);
         hashMap.put("type", "image");
+        groupReference.child("Messages").push().setValue(hashMap);
+        message.setText("");
+    }
+
+    private void sendMessage(String encrypted, String time) {
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", user.getUid() );
+        hashMap.put("message", encrypted);
+        hashMap.put("time", time);
+        hashMap.put("type", "text");
         groupReference.child("Messages").push().setValue(hashMap);
         message.setText("");
     }
