@@ -158,6 +158,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), NotificationsActivity.class);
                 startActivity(intent);
+                new AcTrans.Builder(getContext()).performSlideToLeft();
             }
         });
 

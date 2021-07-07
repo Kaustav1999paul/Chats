@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.voela.actrans.AcTrans;
 
 public class NotificationsActivity extends AppCompatActivity {
 
@@ -75,6 +76,7 @@ public class NotificationsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                new AcTrans.Builder(NotificationsActivity.this).performSlideToRight();
             }
         });
         displayRequestNotifications();
@@ -150,6 +152,14 @@ public class NotificationsActivity extends AppCompatActivity {
         adapter.updateOptions(options);
         adapter.startListening();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+        new AcTrans.Builder(NotificationsActivity.this).performSlideToRight();
     }
 
     private void acceptRequest(String receiverId) {

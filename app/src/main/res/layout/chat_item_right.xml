@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:visibility="invisible"
+        android:textColor="@color/hintcolor"
         android:text="Liked"
         android:textSize="10dp" />
 

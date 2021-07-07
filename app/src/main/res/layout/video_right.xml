@@ -29,6 +29,7 @@
             android:layout_alignParentEnd="true"
             android:visibility="invisible"
             android:text="Liked"
+            android:textColor="@color/hintcolor"
             android:textSize="10dp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
