@@ -36,6 +36,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.voela.actrans.AcTrans;
+
 public class ChatFragment extends Fragment {
 
     public ChatFragment() {
@@ -100,6 +102,7 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), FriendsActivity.class));
+                new AcTrans.Builder(getContext()).performSlideToLeft();
             }
         });
 

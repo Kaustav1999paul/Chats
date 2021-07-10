@@ -64,9 +64,9 @@ public class HomeActivity extends AppCompatActivity {
 
         handleOnClickListner();
 
-        statusCheck();
+       // statusCheck();
 
-        getCurrentLocation();
+       // getCurrentLocation();
 
     }
 
@@ -198,6 +198,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         status("online");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+        System.exit(0);
     }
 
     @Override

@@ -129,6 +129,7 @@
                     app:cardCornerRadius="10dp"
                     app:cardBackgroundColor="@color/background"
                     android:layout_height="wrap_content">
+
                     <LinearLayout
                         android:layout_margin="6dp"
                         android:layout_width="match_parent"
@@ -205,6 +206,14 @@
                         </LinearLayout>
                     </LinearLayout>
 
+                    <ImageView
+                        android:id="@+id/refresh"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_round_refresh_24"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="end"/>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView

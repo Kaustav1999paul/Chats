@@ -96,6 +96,7 @@ public class Register extends AppCompatActivity {
                   hashMap.put("username", uName);
                   hashMap.put("email", eMail);
                   hashMap.put("phno", d);
+                  hashMap.put("locality", "Durgapur");
                   hashMap.put("bio", "Available!");
                   hashMap.put("status", "offline");
                   hashMap.put("imageURL", "https://firebasestorage.googleapis.com/v0/b/chats-ec34c.appspot.com/o/logo.png?alt=media&token=b6ca1c76-a04b-4de5-a4a5-d3b0e265e334");

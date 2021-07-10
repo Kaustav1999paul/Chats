@@ -2,6 +2,7 @@ package com.example.chats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,11 +39,13 @@ public class FriendsActivity extends AppCompatActivity {
 
     private RecyclerView friendsList;
     RelativeLayout loading;
-    PullRefreshLayout swip;
+
     LinearLayoutManager layoutManager;
     TextView messageNo;
     FirebaseUser user;
     ImageView back;
+    ProgressBar progress;
+    CardView contactList;
     DatabaseReference friendsRef, userRef;
     public static Context context;
 
@@ -49,7 +53,7 @@ public class FriendsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-        swip = findViewById(R.id.swip);
+        contactList = findViewById(R.id.contactList);
         friendsList = findViewById(R.id.friendsList);
         messageNo = findViewById(R.id.messageNo);
         back = findViewById(R.id.back);
@@ -60,6 +64,7 @@ public class FriendsActivity extends AppCompatActivity {
                 new AcTrans.Builder(FriendsActivity.this).performSlideToRight();
             }
         });
+        progress = findViewById(R.id.progress);
         loading = findViewById(R.id.loading);
         friendsList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -68,18 +73,17 @@ public class FriendsActivity extends AppCompatActivity {
         context = getApplicationContext();
         friendsList.setLayoutManager(layoutManager);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        swip.setColor(Color.parseColor("#0C89ED"));
-        swip.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                displayAllFriends();
-                swip.setRefreshing(false);
-            }
-        });
-
         friendsRef = FirebaseDatabase.getInstance().getReference("Friends").child(user.getUid());
         userRef = FirebaseDatabase.getInstance().getReference("Users");
 
+        contactList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loading.setVisibility(View.VISIBLE);
+                startActivity(new Intent(FriendsActivity.this, ContactListActivity.class));
+                new AcTrans.Builder(FriendsActivity.this).performSlideToBottom();
+            }
+        });
         friendsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

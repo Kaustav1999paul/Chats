@@ -56,7 +56,9 @@ public class welcomeInfoActivity extends AppCompatActivity {
     }
     private void LoadRegisterActivity() {
         introPref.setIsFirstTimeLaunch(false);
-        startActivity(new Intent(welcomeInfoActivity.this, LogRegActivity.class));
+        Intent intent = new Intent(welcomeInfoActivity.this, LogRegActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
     private void LoadNetworkActivity() {

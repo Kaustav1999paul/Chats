@@ -2,15 +2,18 @@ package com.example.chats.Fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -74,7 +77,7 @@ public class SettingsFragment extends Fragment {
 
     FloatingActionButton editAccount;
     FirebaseUser user;
-    ImageView avatar, weatherIcon;
+    ImageView avatar, weatherIcon,refresh;
     Toolbar tabanim_toolbar;
     LinearLayout logout,notifications,videoAdd,yourFriends, peopleNear,contactUs;
     TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
@@ -108,6 +111,7 @@ public class SettingsFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         bioAcc = view.findViewById(R.id.bioAcc);
         logout = view.findViewById(R.id.logout);
+        refresh = view.findViewById(R.id.refresh);
         yourFriends = view.findViewById(R.id.yourFriends);
         contactUs = view.findViewById(R.id.contactUs);
         weatherIcon = view.findViewById(R.id.weatherIcon);
@@ -146,6 +150,13 @@ public class SettingsFragment extends Fragment {
             getCurrentLocation();
 
         }
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                statusCheck();
+            }
+        });
 
         context = getActivity().getApplicationContext();
         notifications = view.findViewById(R.id.notifications);
@@ -294,6 +305,14 @@ public class SettingsFragment extends Fragment {
         new weatherTask().execute();
 
         return view;
+    }
+
+    private void statusCheck() {
+        final LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        }
     }
 
     private void handleTime(String amPm, String hour) {
