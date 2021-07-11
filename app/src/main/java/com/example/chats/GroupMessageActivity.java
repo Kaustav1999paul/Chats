@@ -46,6 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.r0adkll.slidr.Slidr;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.text.SimpleDateFormat;
@@ -95,6 +96,7 @@ public class GroupMessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_message);
+        Slidr.attach(this);
 
 //        Prevent ScreenShot
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -148,6 +150,7 @@ public class GroupMessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                new AcTrans.Builder(GroupMessageActivity.this).performSlideToRight();
             }
         });
         groupNameChat.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +159,7 @@ public class GroupMessageActivity extends AppCompatActivity {
                 Intent intent = new Intent(GroupMessageActivity.this, GroupInfoActivity.class);
                 intent.putExtra("groupId", groupId);
                 startActivity(intent);
-                new AcTrans.Builder(GroupMessageActivity.this).performSlideToBottom();
+                new AcTrans.Builder(GroupMessageActivity.this).performSlideToLeft();
             }
         });
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -500,5 +503,6 @@ public class GroupMessageActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+        new AcTrans.Builder(GroupMessageActivity.this).performSlideToRight();
     }
 }

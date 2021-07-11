@@ -75,6 +75,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.r0adkll.slidr.Slidr;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
@@ -136,6 +137,7 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        Slidr.attach(this);
         recyclerView = findViewById(R.id.ChatRecyclerView);
         sendButton = findViewById(R.id.sendButton);
         text_send = findViewById(R.id.text_send);

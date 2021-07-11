@@ -37,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.r0adkll.slidr.Slidr;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -62,6 +63,8 @@ public class PeopleNearActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_near);
+        Slidr.attach(this);
+
         statusLocationCheck();
         friendsNearList = findViewById(R.id.friendsNearList);
         message = findViewById(R.id.messageNo);

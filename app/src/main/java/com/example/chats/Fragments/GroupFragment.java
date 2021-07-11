@@ -45,6 +45,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+
+import id.voela.actrans.AcTrans;
+
 public class GroupFragment extends Fragment {
 
     public GroupFragment() {
@@ -142,6 +145,7 @@ public class GroupFragment extends Fragment {
                                     Intent intent = new Intent(getContext(), GroupMessageActivity.class);
                                     intent.putExtra("groupId", model.getId());
                                     startActivity(intent);
+                                    new AcTrans.Builder(getContext()).performSlideToLeft();
                                 }
                             });
                         }else {

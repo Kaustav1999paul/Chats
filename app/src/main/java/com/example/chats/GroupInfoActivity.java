@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.r0adkll.slidr.Slidr;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,6 +57,7 @@ public class GroupInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
+        Slidr.attach(this);
         gAvatar = findViewById(R.id.gAvatar);
         gName = findViewById(R.id.gName);
         gDate = findViewById(R.id.gDate);
@@ -105,7 +107,7 @@ public class GroupInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                new AcTrans.Builder(GroupInfoActivity.this).performSlideToTop();
+                new AcTrans.Builder(GroupInfoActivity.this).performSlideToRight();
             }
         });
         friendsRef = FirebaseDatabase.getInstance().getReference("Friends").child(user.getUid());
@@ -166,10 +168,12 @@ public class GroupInfoActivity extends AppCompatActivity {
                             holder.itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(GroupInfoActivity.this, MessageActivity.class);
-                                    intent.putExtra("userid", id);
-                                    startActivity(intent);
-                                    new AcTrans.Builder(GroupInfoActivity.this).performSlideToLeft();
+                                    if (!id.equals(user.getUid())){
+                                        Intent intent = new Intent(GroupInfoActivity.this, MessageActivity.class);
+                                        intent.putExtra("userid", id);
+                                        startActivity(intent);
+                                        new AcTrans.Builder(GroupInfoActivity.this).performSlideToLeft();
+                                    }
                                 }
                             });
                         }
@@ -349,6 +353,6 @@ public class GroupInfoActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        new AcTrans.Builder(GroupInfoActivity.this).performSlideToTop();
+        new AcTrans.Builder(GroupInfoActivity.this).performSlideToRight();
     }
 }

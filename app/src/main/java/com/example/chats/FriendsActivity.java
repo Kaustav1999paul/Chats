@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.r0adkll.slidr.Slidr;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.voela.actrans.AcTrans;
@@ -45,7 +46,6 @@ public class FriendsActivity extends AppCompatActivity {
     FirebaseUser user;
     ImageView back;
     ProgressBar progress;
-    CardView contactList;
     DatabaseReference friendsRef, userRef;
     public static Context context;
 
@@ -53,7 +53,9 @@ public class FriendsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-        contactList = findViewById(R.id.contactList);
+
+        Slidr.attach(this);
+
         friendsList = findViewById(R.id.friendsList);
         messageNo = findViewById(R.id.messageNo);
         back = findViewById(R.id.back);
@@ -76,14 +78,6 @@ public class FriendsActivity extends AppCompatActivity {
         friendsRef = FirebaseDatabase.getInstance().getReference("Friends").child(user.getUid());
         userRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        contactList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loading.setVisibility(View.VISIBLE);
-                startActivity(new Intent(FriendsActivity.this, ContactListActivity.class));
-                new AcTrans.Builder(FriendsActivity.this).performSlideToBottom();
-            }
-        });
         friendsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -150,6 +144,7 @@ public class FriendsActivity extends AppCompatActivity {
                                     intent.putExtra("userid", id);
                                     startActivity(intent);
                                     new AcTrans.Builder(FriendsActivity.this).performSlideToLeft();
+                                    finish();
                                 }
                             });
                         }

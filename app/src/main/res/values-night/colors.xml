@@ -8,6 +8,7 @@
     <color name="otherPersonMessage">#494949</color>
     <color name="searchbar">#373737</color>
     <color name="set">#292929</color>
+    <color name="secondBacground">#151515</color>
     <color name="backgroundCh">#A6000000</color>
     <color name="divider">#686868</color>
 </resources>

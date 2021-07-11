@@ -23,9 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chats"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ContactListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
         <activity
             android:name=".GroupDetailsEditActivity2"
             android:screenOrientation="portrait"
@@ -37,7 +34,7 @@
         <activity
             android:name=".PeopleNearActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".ClipVideoActivity"
             android:screenOrientation="portrait"
@@ -45,11 +42,11 @@
         <activity
             android:name=".FriendsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".MoreSettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".welcomeInfoActivity"
             android:screenOrientation="portrait"
@@ -61,15 +58,15 @@
         <activity
             android:name=".GroupInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".GroupMessageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".NotificationsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".ForgetPasswordActivity"
             android:screenOrientation="portrait"
@@ -77,11 +74,11 @@
         <activity
             android:name=".MessageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".EditAccountActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen" />
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"
@@ -89,11 +86,11 @@
         <activity
             android:name=".Register"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreen" />
+            android:theme="@style/FullScreen.SliderActivityBackground" />
         <activity
             android:name=".Login"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreen" />
+            android:theme="@style/FullScreen.SliderActivityBackground" />
         <activity
             android:name=".LogRegActivity"
             android:screenOrientation="portrait"

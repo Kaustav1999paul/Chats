@@ -59,6 +59,7 @@ public class EditAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
+        Slidr.attach(this);
         progress = findViewById(R.id.progress);
         saveChanges = findViewById(R.id.updateAc);
         avatar = findViewById(R.id.avatar);

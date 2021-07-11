@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/background"
+    android:background="@color/bottomNav"
     android:layout_height="match_parent"
     tools:context=".GroupInfoActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-        android:background="@color/background"
+        android:background="@color/bottomNav"
         android:layout_width="match_parent"
         android:elevation="0dp"
         app:elevation="0dp"
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:elevation="0dp"
-            android:background="@color/background"
+            android:background="@color/bottomNav"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <ImageView
@@ -37,7 +37,7 @@
                 android:textSize="13dp"
                 android:gravity="end"
                 android:transitionName="usernameMain"
-                android:background="@color/background"
+                android:background="@color/bottomNav"
                 android:layout_marginRight="20dp"
                 android:text="Add People"/>
         </androidx.appcompat.widget.Toolbar>
@@ -144,6 +144,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/peopleGroupList"
             android:layout_width="match_parent"
+            android:overScrollMode="never"
             android:layout_marginTop="5dp"
             android:layout_height="match_parent"/>
     </LinearLayout>

@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.r0adkll.slidr.Slidr;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,6 +58,7 @@ public class MoreSettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_settings);
+        Slidr.attach(this);
         storagePostPictureRef = FirebaseStorage.getInstance().getReference("Shorts");
         back = findViewById(R.id.back);
         fUser = FirebaseAuth.getInstance().getCurrentUser();

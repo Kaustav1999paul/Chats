@@ -61,7 +61,7 @@ public class LogRegActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LogRegActivity.this, Register.class);
                 startActivity(intent);
-                new AcTrans.Builder(LogRegActivity.this).performSlideToTop();
+                new AcTrans.Builder(LogRegActivity.this).performSlideToLeft();
             }
         });
 

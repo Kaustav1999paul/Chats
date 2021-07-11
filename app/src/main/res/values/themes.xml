@@ -96,9 +96,16 @@
     </style>
 
 
-
-    <style name="HomeScreen.SliderActivityBackground">
+    <style name="FullScreen.SliderActivityBackground">
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
+    <style name="ChatScreen.SliderActivityBackground">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 

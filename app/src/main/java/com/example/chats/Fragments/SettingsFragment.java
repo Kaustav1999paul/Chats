@@ -45,6 +45,8 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,6 +63,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -386,12 +389,21 @@ public class SettingsFragment extends Fragment {
                 editor.putString("locality", locality);
                 editor.apply();
                 new weatherTask().execute();
+                updateDatabaseLocation(locality);
             }
         } catch (NullPointerException e2) {
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateDatabaseLocation(String locality) {
+        userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("locality", locality);
+        userRef.updateChildren(map);
     }
 
     class weatherTask extends AsyncTask<String, Void, String> {

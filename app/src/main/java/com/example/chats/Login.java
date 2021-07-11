@@ -36,6 +36,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Slidr.attach(this);
         theme();
         fp = findViewById(R.id.fp);
         back = findViewById(R.id.back);

@@ -35,6 +35,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatList"
         android:visibility="gone"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     </com.baoyz.widget.PullRefreshLayout>

@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.r0adkll.slidr.Slidr;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,6 +58,7 @@ public class NotificationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+        Slidr.attach(this);
         notifList = findViewById(R.id.notifList);
         notifList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);

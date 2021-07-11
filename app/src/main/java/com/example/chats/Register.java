@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.r0adkll.slidr.Slidr;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +43,7 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        Slidr.attach(this);
         theme();
         back = findViewById(R.id.back);
         username = findViewById(R.id.username);
@@ -52,7 +54,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                new AcTrans.Builder(Register.this).performSlideToBottom();
+                new AcTrans.Builder(Register.this).performSlideToRight();
             }
         });
         auth = FirebaseAuth.getInstance();
@@ -114,7 +116,7 @@ public class Register extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        new AcTrans.Builder(this).performSlideToBottom();
+        new AcTrans.Builder(this).performSlideToRight();
     }
 
     private void theme() {
