@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -46,9 +47,9 @@ import id.voela.actrans.AcTrans;
 public class EditAccountActivity extends AppCompatActivity {
     ImageView avatar,back;
     EditText bioEdit,nameAccountT;
-    Button saveChanges;
     DatabaseReference userRef;
     FirebaseUser user;
+    TextView groupSave;
     StorageReference storagePostPictureRef;
     String aa, bb, cc;
     private Uri imageUri1  = null;
@@ -60,8 +61,9 @@ public class EditAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
         Slidr.attach(this);
+
+        groupSave = findViewById(R.id.groupSave);
         progress = findViewById(R.id.progress);
-        saveChanges = findViewById(R.id.updateAc);
         avatar = findViewById(R.id.avatar);
         bioEdit = findViewById(R.id.bioAccount);
         nameAccountT = findViewById(R.id.nameAccountT);
@@ -98,26 +100,6 @@ public class EditAccountActivity extends AppCompatActivity {
                 CropImage.activity().setAspectRatio(1,1).start(EditAccountActivity.this);
             }
         });
-        saveChanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newStatus = bioEdit.getText().toString().trim();
-                String newName = nameAccountT.getText().toString().trim();
-
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put("imageURL", myUrl1);
-                    map.put("bio", newStatus);
-                    map.put("username", newName);
-
-                    userRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            finish();
-                            new AcTrans.Builder(EditAccountActivity.this).performSlideToRight();
-                        }
-                    });
-            }
-        });
     }
 
     @Override
@@ -128,7 +110,7 @@ public class EditAccountActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             imageUri1 = result.getUri();
             progress.setVisibility(View.VISIBLE);
-            saveChanges.setEnabled(false);
+            groupSave.setEnabled(false);
             bioEdit.setEnabled(false);
             avatar.setImageURI(imageUri1);
 
@@ -148,7 +130,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         myUrl1 = task.getResult().toString();
                         progress.setVisibility(View.GONE);
-                        saveChanges.setEnabled(true);
+                        groupSave.setEnabled(true);
                         bioEdit.setEnabled(true);
                     }
                 }
@@ -163,9 +145,22 @@ public class EditAccountActivity extends AppCompatActivity {
         new AcTrans.Builder(this).performSlideToRight();
     }
 
-    private void theme() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow(); w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
+    public void savaChanges(View view) {
+        view.setEnabled(false);
+        String newStatus = bioEdit.getText().toString().trim();
+        String newName = nameAccountT.getText().toString().trim();
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("imageURL", myUrl1);
+        map.put("bio", newStatus);
+        map.put("username", newName);
+
+        userRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                finish();
+                new AcTrans.Builder(EditAccountActivity.this).performSlideToRight();
+            }
+        });
     }
 }

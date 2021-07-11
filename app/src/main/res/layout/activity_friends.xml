@@ -38,13 +38,19 @@
                 android:text="Friends"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:refreshType="smartisan"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friendsList"
             android:visibility="visible"
             android:overScrollMode="never"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+    </com.baoyz.widget.PullRefreshLayout>
     <RelativeLayout
         android:id="@+id/loading"
         android:layout_width="match_parent"

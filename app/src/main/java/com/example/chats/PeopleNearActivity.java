@@ -64,7 +64,7 @@ public class PeopleNearActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_near);
         Slidr.attach(this);
-
+        swip = findViewById(R.id.swipRe);
         statusLocationCheck();
         friendsNearList = findViewById(R.id.friendsNearList);
         message = findViewById(R.id.messageNo);
@@ -86,10 +86,9 @@ public class PeopleNearActivity extends AppCompatActivity {
         friendRef = FirebaseDatabase.getInstance().getReference("Friends");
         friendRequestRef = FirebaseDatabase.getInstance().getReference("FriendRequests");
         user = FirebaseAuth.getInstance().getCurrentUser();
-        swip = findViewById(R.id.swip);
-        swip.setColor(Color.parseColor("#0C89ED"));
-        displayAllFriends();
 
+        displayAllFriends();
+        swip.setColor(Color.parseColor("#0C89ED"));
         swip.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -413,6 +412,7 @@ public class PeopleNearActivity extends AppCompatActivity {
                     public void onClick(final DialogInterface dialog, final int id) {
                         dialog.cancel();
                         finish();
+                        new AcTrans.Builder(PeopleNearActivity.this).performSlideToRight();
                     }
                 });
         final AlertDialog alert = builder.create();

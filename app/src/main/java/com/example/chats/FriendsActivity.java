@@ -40,7 +40,7 @@ public class FriendsActivity extends AppCompatActivity {
 
     private RecyclerView friendsList;
     RelativeLayout loading;
-
+    PullRefreshLayout swip;
     LinearLayoutManager layoutManager;
     TextView messageNo;
     FirebaseUser user;
@@ -56,6 +56,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         Slidr.attach(this);
 
+        swip = findViewById(R.id.swip);
         friendsList = findViewById(R.id.friendsList);
         messageNo = findViewById(R.id.messageNo);
         back = findViewById(R.id.back);
@@ -95,6 +96,14 @@ public class FriendsActivity extends AppCompatActivity {
             }
         });
         displayAllFriends();
+        swip.setColor(Color.parseColor("#0C89ED"));
+        swip.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                displayAllFriends();
+                swip.setRefreshing(false);
+            }
+        });
     }
 
     @Override

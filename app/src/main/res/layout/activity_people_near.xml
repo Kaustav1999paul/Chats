@@ -40,14 +40,15 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
     <com.baoyz.widget.PullRefreshLayout
-        android:id="@+id/swip"
+        android:id="@+id/swipRe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:refreshType="smartisan"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friendsNearList"
-            android:visibility="gone"
+            android:visibility="visible"
+            android:overScrollMode="never"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </com.baoyz.widget.PullRefreshLayout>
