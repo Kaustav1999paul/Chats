@@ -73,13 +73,16 @@
             android:hint="Enter password"
             android:paddingHorizontal="20dp"/>
 
-        <Button
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/signin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="20dp"
             android:textAllCaps="false"
             android:text="Sign in"
+            app:spinning_bar_color="#FFFFFF"
+            app:spinning_bar_padding="6dp"
+            android:layout_gravity="center"
             android:elevation="20dp"
             android:textColor="#FFFFFF"
             android:layout_marginTop="70dp"

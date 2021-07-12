@@ -72,6 +72,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No Friends yet"/>
+        android:text="No People near you"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

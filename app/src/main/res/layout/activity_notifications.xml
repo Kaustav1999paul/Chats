@@ -42,12 +42,16 @@
      <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notifList"
             android:layout_width="match_parent"
+         android:overScrollMode="never"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/messageNo"
         android:visibility="gone"
+        android:textColor="@color/online"
+        android:textStyle="bold"
+        android:textSize="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

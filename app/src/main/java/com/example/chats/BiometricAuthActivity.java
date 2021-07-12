@@ -2,32 +2,40 @@ package com.example.chats;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import java.util.concurrent.Executor;
 
 public class BiometricAuthActivity extends AppCompatActivity {
 
-    ImageView fIcon;
-    TextView message;
+    ImageView fIcon, circleZoom;
+    Animation zoom;
 
+    ConstraintLayout backG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_biometric_auth);
         fIcon = findViewById(R.id.fIcon);
-        message = findViewById(R.id.message);
+        circleZoom = findViewById(R.id.circleZoom);
+        backG = findViewById(R.id.backG);
         theme();
+        zoom = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom);
+        Handler h = new Handler();
+
 
         androidx.biometric.BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
         switch (biometricManager.canAuthenticate()){
@@ -35,24 +43,13 @@ public class BiometricAuthActivity extends AppCompatActivity {
                 fIcon.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.no));
                 break;
             case androidx.biometric.BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-                Intent intent = new Intent(BiometricAuthActivity.this, welcomeInfoActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                shiftUser();
                 break;
             case androidx.biometric.BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-                message.setText("No FingerPrint");
-                Intent in = new Intent(BiometricAuthActivity.this, welcomeInfoActivity.class);
-                in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(in);
-                finish();
+                shiftUser();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                message.setText("No FingerPrint registered");
-                Intent inn = new Intent(BiometricAuthActivity.this, welcomeInfoActivity.class);
-                inn.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(inn);
-                finish();
+                shiftUser();
                 break;
         }
 
@@ -69,10 +66,16 @@ public class BiometricAuthActivity extends AppCompatActivity {
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 fIcon.setBackgroundDrawable(ContextCompat.getDrawable(BiometricAuthActivity.this, R.drawable.yes));
-                Intent intent = new Intent(BiometricAuthActivity.this, welcomeInfoActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                circleZoom.startAnimation(zoom);
+
+
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        backG.setBackgroundColor(getResources().getColor(R.color.backgroundG));
+                        shiftUser();
+                    }
+                }, 501);
             }
 
             @Override
@@ -88,6 +91,13 @@ public class BiometricAuthActivity extends AppCompatActivity {
                 .setNegativeButtonText("Cancel")
                 .build();
         biometricPrompt.authenticate(promptInfo);
+    }
+
+    private void shiftUser() {
+        Intent inn = new Intent(BiometricAuthActivity.this, welcomeInfoActivity.class);
+        inn.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(inn);
+        finish();
     }
 
     private void theme() {

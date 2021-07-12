@@ -50,6 +50,7 @@ public class PeopleNearActivity extends AppCompatActivity {
     private RecyclerView friendsNearList;
     private RelativeLayout loading;
     private TextView message;
+    private TextView messageNo;
     PullRefreshLayout swip;
     private ImageView back;
     private DatabaseReference userRef, friendRef, friendRequestRef;
@@ -65,6 +66,7 @@ public class PeopleNearActivity extends AppCompatActivity {
         setContentView(R.layout.activity_people_near);
         Slidr.attach(this);
         swip = findViewById(R.id.swipRe);
+        messageNo = findViewById(R.id.messageNo);
         statusLocationCheck();
         friendsNearList = findViewById(R.id.friendsNearList);
         message = findViewById(R.id.messageNo);
@@ -86,7 +88,7 @@ public class PeopleNearActivity extends AppCompatActivity {
         friendRef = FirebaseDatabase.getInstance().getReference("Friends");
         friendRequestRef = FirebaseDatabase.getInstance().getReference("FriendRequests");
         user = FirebaseAuth.getInstance().getCurrentUser();
-
+        messageNo.setVisibility(View.VISIBLE);
         displayAllFriends();
         swip.setColor(Color.parseColor("#0C89ED"));
         swip.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
@@ -129,6 +131,7 @@ public class PeopleNearActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull PeopleNearActivity.PeopleVH holder, int position, @NonNull User model) {
                 loading.setVisibility(View.GONE);
+
                 friendsNearList.setVisibility(View.VISIBLE);
                 holder.statusOnOff.setVisibility(View.GONE);
                 holder.timeLast.setVisibility(View.GONE);
@@ -138,61 +141,63 @@ public class PeopleNearActivity extends AppCompatActivity {
                 if (model.getId().equals(user.getUid())){
                     holder.itemView.getLayoutParams().height = 0;
                     holder.itemView.setVisibility(View.GONE);
-                }
 
-                if (!model.getLocality().equals(currentPersonCity)){
+                } else if (!model.getLocality().equals(currentPersonCity)){
                     holder.itemView.getLayoutParams().height = 0;
                     holder.itemView.setVisibility(View.GONE);
-                }
-
-                holder.sendReq.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.sendReq.setEnabled(false);
-                        if (CURRENT_STATE.equals("not_friends")){
-                            sendFirendRequest(model.getId(), holder.sendReq, holder.accReq);
+                }else {
+                    messageNo.setVisibility(View.GONE);
+                    holder.sendReq.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.sendReq.setEnabled(false);
+                            if (CURRENT_STATE.equals("not_friends")){
+                                sendFirendRequest(model.getId(), holder.sendReq, holder.accReq);
+                            }
+                            if (CURRENT_STATE.equals("request_sent")){
+                                cancelFreiendRequest(model.getId(), holder.sendReq);
+                            }
                         }
-                        if (CURRENT_STATE.equals("request_sent")){
-                            cancelFreiendRequest(model.getId(), holder.sendReq);
-                        }
-                    }
-                });
+                    });
 
-                holder.nameUser.setText(model.getUsername());
-                holder.statusUser.setText(model.getEmail());
-                holder.sendReq.setVisibility(View.VISIBLE);
-                Glide.with(getApplicationContext()).load(model.getImageURL()).into(holder.img);
+                    holder.nameUser.setText(model.getUsername());
+                    holder.statusUser.setText(model.getEmail());
+                    holder.sendReq.setVisibility(View.VISIBLE);
+                    Glide.with(getApplicationContext()).load(model.getImageURL()).into(holder.img);
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
 
-//                            Here the condition should be placed if the user exists on the friends list or not
+//              Here the condition should be placed if the user exists on the friends list or not
 
-                        friendRef.child(user.getUid()).child(model.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()){
-                                    Intent intent = new Intent(PeopleNearActivity.this, MessageActivity.class);
-                                    intent.putExtra("userid", model.getId());
-                                    intent.putExtra("photo", model.getImageURL());
-                                    intent.putExtra("name", model.getUsername());
-                                    startActivity(intent);
-                                    new AcTrans.Builder(PeopleNearActivity.this).performSlideToLeft();
-                                }else {
+                            friendRef.child(user.getUid()).child(model.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()){
+                                        Intent intent = new Intent(PeopleNearActivity.this, MessageActivity.class);
+                                        intent.putExtra("userid", model.getId());
+                                        intent.putExtra("photo", model.getImageURL());
+                                        intent.putExtra("name", model.getUsername());
+                                        startActivity(intent);
+                                        new AcTrans.Builder(PeopleNearActivity.this).performSlideToLeft();
+                                    }else {
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
+                                }
+                            });
 
 
-                    }
-                });
+                        }
+                    });
+
+
+                }
 
             }
 

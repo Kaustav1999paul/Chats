@@ -203,6 +203,12 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Date date = new Date();
+        // Pattern
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+        status("Last active: "+sdf.format(date));
+
         finishAffinity();
         System.exit(0);
     }

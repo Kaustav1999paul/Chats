@@ -22,13 +22,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.r0adkll.slidr.Slidr;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import id.voela.actrans.AcTrans;
 
 public class Login extends AppCompatActivity {
 
     FloatingActionButton back;
     EditText email, password;
-    Button signin;
+    CircularProgressButton signin;
     TextView fp;
     FirebaseAuth auth;
 
@@ -63,6 +64,8 @@ public class Login extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String b = email.getText().toString().trim();
                 String c = password.getText().toString().trim();
 
@@ -71,6 +74,8 @@ public class Login extends AppCompatActivity {
                 }else if (c.length() < 6){
                     Toast.makeText(Login.this, "Password should be larger than 6 characters", Toast.LENGTH_SHORT).show();
                 }else {
+                    signin.startAnimation();
+
                     login(b,c);
                 }
             }

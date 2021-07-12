@@ -19,8 +19,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tabanim_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="74dp"
-            app:title="Settings"
+            android:layout_height="80dp"
+            app:title="Account"
             android:background="@color/background"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextColor="@color/font1color"

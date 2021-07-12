@@ -60,10 +60,10 @@ public class NotificationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
         Slidr.attach(this);
         notifList = findViewById(R.id.notifList);
+        messageNo = findViewById(R.id.messageNo);
         notifList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
-        messageNo = findViewById(R.id.messageNo);
         layoutManager.setStackFromEnd(true);
         context = getApplicationContext();
         notifList.setLayoutManager(layoutManager);
@@ -81,6 +81,9 @@ public class NotificationsActivity extends AppCompatActivity {
                 new AcTrans.Builder(NotificationsActivity.this).performSlideToRight();
             }
         });
+        messageNo.setVisibility(View.VISIBLE);
+
+
         displayRequestNotifications();
 
     }
@@ -107,6 +110,7 @@ public class NotificationsActivity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         if (snapshot.exists()){
+                                            messageNo.setVisibility(View.GONE);
                                             final String userName = snapshot.child("username").getValue().toString();
                                             final String userEmail = snapshot.child("email").getValue().toString();
                                             final String userImage = snapshot.child("imageURL").getValue().toString();
@@ -120,6 +124,8 @@ public class NotificationsActivity extends AppCompatActivity {
                                                     acceptRequest(id);
                                                 }
                                             });
+                                        }else {
+                                            messageNo.setVisibility(View.VISIBLE);
                                         }
                                     }
 

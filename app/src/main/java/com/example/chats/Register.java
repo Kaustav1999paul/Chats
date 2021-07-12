@@ -27,6 +27,7 @@ import com.r0adkll.slidr.Slidr;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import id.voela.actrans.AcTrans;
 
 public class Register extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class Register extends AppCompatActivity {
     FirebaseAuth auth;
     DatabaseReference reference;
     FirebaseUser firebaseUser;
-    Button regist;
+    CircularProgressButton regist;
 
     String userID;
 
@@ -79,6 +80,7 @@ public class Register extends AppCompatActivity {
                 }else if (d.length() < 10){
                     Toast.makeText(Register.this, "Please provide a valid phone Number", Toast.LENGTH_SHORT).show();
                 }else {
+                    regist.startAnimation();
                     register(a,b,c,d);
                 }
             }
@@ -101,7 +103,7 @@ public class Register extends AppCompatActivity {
                   hashMap.put("locality", "Durgapur");
                   hashMap.put("bio", "Available!");
                   hashMap.put("status", "offline");
-                  hashMap.put("imageURL", "https://firebasestorage.googleapis.com/v0/b/chats-ec34c.appspot.com/o/logo.png?alt=media&token=b6ca1c76-a04b-4de5-a4a5-d3b0e265e334");
+                  hashMap.put("imageURL", "https://firebasestorage.googleapis.com/v0/b/chats-ec34c.appspot.com/o/defaultProfile.jpg?alt=media&token=740df914-84a1-4127-8057-382b9dcbc625");
 
                   reference.setValue(hashMap);
                   finish();

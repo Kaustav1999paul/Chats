@@ -76,6 +76,9 @@ dependencies {
     implementation 'com.scottyab:aescrypt:0.0.1'
 //    Swipe Close Activity
     implementation 'com.r0adkll:slidableactivity:2.1.0'
+//    Loading Button
+    implementation 'br.com.simplepass:loading-button-android:2.2.0'
+
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
