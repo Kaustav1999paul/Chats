@@ -6,8 +6,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+
+import androidx.core.content.ContextCompat;
+
+import com.example.chats.R;
 
 public class OreoNotification extends ContextWrapper {
 
@@ -54,7 +59,7 @@ public class OreoNotification extends ContextWrapper {
                 .setContentText(body)
                 .setSmallIcon(Integer.parseInt(icon))
                 .setSound(soundUri)
-                .setAutoCancel(true)
-                .setPriority(Notification.PRIORITY_HIGH);
+                .setColor(ContextCompat.getColor(this, R.color.online))
+                .setAutoCancel(true);
     }
 }
