@@ -839,7 +839,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if (notifyy){
-                    sendNotification(receiver, user.getUsername(), "\uD83D\uDCAC: "+msg);
+                    sendNotification(receiver, user.getUsername(), msg);
                 }
 
                 notifyy = false;
@@ -863,7 +863,7 @@ public class MessageActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Token token = snapshot.getValue(Token.class);
                     Data data = new Data(fuser.getUid(),
-                            R.mipmap.ic_launcher_round,
+                            R.drawable.ic_launcher_foreground,
                             ""+message,
                             ""+username,
                             userId);
