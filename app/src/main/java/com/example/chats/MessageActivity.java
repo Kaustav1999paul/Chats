@@ -78,12 +78,7 @@ import com.google.firebase.storage.UploadTask;
 import com.r0adkll.slidr.Slidr;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DateFormat;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -133,6 +128,7 @@ public class MessageActivity extends AppCompatActivity {
     boolean notifyy = false;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +150,7 @@ public class MessageActivity extends AppCompatActivity {
                 new AcTrans.Builder(MessageActivity.this).performSlideToRight();
             }
         });
+
 
 //        Prevent ScreenShot
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -339,9 +336,9 @@ public class MessageActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     mBottomDialogNotificationAction.dismiss();
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:"+d));
-                    startActivity(intent);
+
+                   makePhoneCall();
+
                 }
             });
 
@@ -511,6 +508,33 @@ public class MessageActivity extends AppCompatActivity {
         HashMap<String, Object> map = new HashMap<>();
         map.put("status", status);
         reference.updateChildren(map);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == 347){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                makePhoneCall();
+            }else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
+    private void makePhoneCall() {
+        if (ContextCompat.checkSelfPermission(MessageActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(MessageActivity.this,
+                    new String[]{Manifest.permission.CALL_PHONE}, 347);
+
+        }else {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:"+d));
+            startActivity(intent);
+        }
     }
 
     @Override

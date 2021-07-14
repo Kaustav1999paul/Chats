@@ -79,6 +79,5 @@ dependencies {
 //    Loading Button
     implementation 'br.com.simplepass:loading-button-android:2.2.0'
 
-
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
