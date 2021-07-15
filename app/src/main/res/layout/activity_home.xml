@@ -18,6 +18,8 @@
         android:layout_width="match_parent"
         android:background="@color/bottomNav"
         android:layout_height="wrap_content"
+        app:elevation="20dp"
+        android:elevation="20dp"
         app:labelVisibilityMode="unlabeled"
         app:itemHorizontalTranslationEnabled="false"
         android:layout_alignParentBottom="true"

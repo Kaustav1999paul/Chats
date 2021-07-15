@@ -806,6 +806,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("type", "image");
         hashMap.put("isTextOnly", false);
         reference.child("Chats").child(RandomKey).setValue(hashMap);
+
     }
 
     private void sendMessage(String sender, String receiver, String message, String time){
@@ -830,7 +831,6 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("isLiked", "false");
         hashMap.put("isTextOnly", true);
         reference.child("Chats").child(RandomKey).setValue(hashMap);
-
 
         final String msg = message;
         reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
