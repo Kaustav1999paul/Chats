@@ -6,13 +6,6 @@
     android:background="@color/background"
     tools:context=".welcomeInfoActivity">
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:visibility="gone"
-        android:background="@mipmap/ic_launcher_round"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"/>
     <TextView
         android:id="@+id/titleWelcome"
         android:layout_width="match_parent"
@@ -37,7 +30,7 @@
         android:orientation="horizontal">
         <ImageView
             android:layout_width="40dp"
-            android:background="@drawable/ic_round_storage_24"
+            android:background="@drawable/storage"
             android:layout_height="40dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -62,7 +55,7 @@
         android:orientation="horizontal">
         <ImageView
             android:layout_width="40dp"
-            android:background="@drawable/ic_baseline_fingerprint_24"
+            android:background="@drawable/security"
             android:layout_height="40dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -87,7 +80,7 @@
         android:orientation="horizontal">
         <ImageView
             android:layout_width="40dp"
-            android:background="@drawable/ic_round_dark_mode_24"
+            android:background="@drawable/theme"
             android:layout_height="40dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -111,7 +104,7 @@
         android:orientation="horizontal">
         <ImageView
             android:layout_width="40dp"
-            android:background="@drawable/ic_round_gesture_24"
+            android:background="@drawable/gest"
             android:layout_height="40dp"/>
         <TextView
             android:layout_width="wrap_content"
