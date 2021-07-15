@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +32,7 @@ import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import id.voela.actrans.AcTrans;
 
 public class Register extends AppCompatActivity {
-    FloatingActionButton back;
+    ImageView back;
     EditText username, email, password,phone;
     FirebaseAuth auth;
     DatabaseReference reference;

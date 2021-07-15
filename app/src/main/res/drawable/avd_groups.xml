@@ -12,14 +12,14 @@
                 <path
                     android:name="sec_person"
                     android:pathData="M 16.5 14 C 15 14 13.8 14.4 12.9 14.9 C 14.3 16.1 14.9 17.5 15 17.6 L 15.1 17.8 L 15.1 20 L 23.1 20 L 23.1 18 C 23 18 21.4 14 16.5 14 Z M 16.5 5 C 15.761 5 15.041 5.234 14.443 5.668 C 13.845 6.103 13.4 6.716 13.171 7.418 C 12.943 8.121 12.943 8.879 13.171 9.582 C 13.4 10.284 13.845 10.897 14.443 11.332 C 15.041 11.766 15.761 12 16.5 12 C 17.239 12 17.959 11.766 18.557 11.332 C 19.155 10.897 19.6 10.284 19.829 9.582 C 20.057 8.879 20.057 8.121 19.829 7.418 C 19.6 6.716 19.155 6.103 18.557 5.668 C 17.959 5.234 17.239 5 16.5 5 Z"
-                    android:fillColor="#a7a7a7"
+                    android:fillColor="#00ff96"
                     android:strokeWidth="1"/>
             </group>
             <group android:name="animate_first">
                 <path
                     android:name="first_person"
                     android:pathData="M 4 8.5 C 4 6.6 5.6 5 7.5 5 C 9.4 5 11 6.6 11 8.5 C 11 10.4 9.4 12 7.5 12 C 5.6 12 4 10.4 4 8.5 Z M 7.5 14 C 2.6 14 1 18 1 18 L 1 20 L 14 20 L 14 18 C 14 18 12.4 14 7.5 14 Z"
-                    android:fillColor="#a7a7a7"
+                    android:fillColor="#00C4FF"
                     android:strokeWidth="1"/>
             </group>
         </vector>
@@ -102,8 +102,8 @@
                 android:propertyName="fillColor"
                 android:startOffset="700"
                 android:duration="100"
-                android:valueFrom="#a7a7a7"
-                android:valueTo="#00ff96"
+                android:valueFrom="#00ff96"
+                android:valueTo="#00C4FF"
                 android:valueType="colorType"
                 android:interpolator="@android:interpolator/fast_out_slow_in"/>
         </aapt:attr>
@@ -114,7 +114,7 @@
                 android:propertyName="fillColor"
                 android:startOffset="700"
                 android:duration="100"
-                android:valueFrom="#a7a7a7"
+                android:valueFrom="#00C4FF"
                 android:valueTo="#00ff96"
                 android:valueType="colorType"
                 android:interpolator="@android:interpolator/fast_out_slow_in"/>

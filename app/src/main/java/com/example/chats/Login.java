@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ import id.voela.actrans.AcTrans;
 
 public class Login extends AppCompatActivity {
 
-    FloatingActionButton back;
+    ImageView back;
     EditText email, password;
     CircularProgressButton signin;
     TextView fp;

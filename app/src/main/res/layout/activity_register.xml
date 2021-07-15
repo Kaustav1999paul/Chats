@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,120 +8,141 @@
     android:background="@color/background"
     tools:context=".Register">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/tabanim_appbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        app:fabCustomSize="44dp"
-        android:src="@drawable/ic_round"
-        app:backgroundTint="#DFDFDF"
-        android:layout_marginTop="70dp"/>
+        android:elevation="0dp"
+        app:elevation="0dp"
+        android:background="@color/background"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tabanim_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:layout_marginTop="30dp"
+            app:titleTextColor="@color/font1color"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="25dp"
+                android:background="@drawable/ic_round_arrow_back_ios_24"
+                android:layout_marginRight="10dp"
+                android:layout_height="25dp"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
+        android:layout_below="@id/tabanim_appbar"
+        android:overScrollMode="never">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="Hello there!"
-            android:layout_marginHorizontal="20dp"
-            android:textSize="26dp"
-            android:textColor="@color/font1color"
-            android:fontFamily="@font/allerta"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hello there!"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:textSize="26dp"
+                android:textColor="@color/font1color"
+                android:fontFamily="@font/allerta"
+                android:textStyle="bold"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create an account to get started"
-            android:layout_marginHorizontal="22dp"
-            android:textSize="10dp"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#959595"
-            android:fontFamily="@font/allerta"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create an account to get started"
+                android:layout_marginHorizontal="22dp"
+                android:textSize="10dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#959595"
+                android:fontFamily="@font/allerta"/>
 
 
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/textbox_background"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="60dp"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/font1color"
-            android:textColorHint="@color/hintcolor"
-            android:drawableLeft="@drawable/ic_account"
-            android:drawablePadding="10dp"
-            android:hint="Enter username"
-            android:paddingHorizontal="20dp"/>
-        <EditText
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/textbox_background"
-            android:layout_marginHorizontal="20dp"
-            android:inputType="number"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/font1color"
-            android:textColorHint="@color/hintcolor"
-            android:drawableLeft="@drawable/ic_round_call_24"
-            android:drawablePadding="10dp"
-            android:hint="Enter Phone No"
-            android:paddingHorizontal="20dp"/>
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/textbox_background"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="60dp"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/font1color"
+                android:textColorHint="@color/hintcolor"
+                android:drawableLeft="@drawable/ic_account"
+                android:drawablePadding="10dp"
+                android:hint="Enter username"
+                android:paddingHorizontal="20dp"/>
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/textbox_background"
+                android:layout_marginHorizontal="20dp"
+                android:inputType="number"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/font1color"
+                android:textColorHint="@color/hintcolor"
+                android:drawableLeft="@drawable/ic_round_call_24"
+                android:drawablePadding="10dp"
+                android:hint="Enter Phone No"
+                android:paddingHorizontal="20dp"/>
 
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/textbox_background"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/font1color"
-            android:textColorHint="@color/hintcolor"
-            android:drawableLeft="@drawable/ic_email"
-            android:drawablePadding="10dp"
-            android:hint="Enter email"
-            android:paddingHorizontal="20dp"/>
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/textbox_background"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/font1color"
+                android:textColorHint="@color/hintcolor"
+                android:drawableLeft="@drawable/ic_email"
+                android:drawablePadding="10dp"
+                android:hint="Enter email"
+                android:paddingHorizontal="20dp"/>
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:inputType="textPassword"
-            android:textColorHint="@color/hintcolor"
-            android:background="@drawable/textbox_background"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/ic_lock"
-            android:textColor="@color/font1color"
-            android:drawablePadding="10dp"
-            android:hint="Enter password"
-            android:paddingHorizontal="20dp"/>
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPassword"
+                android:textColorHint="@color/hintcolor"
+                android:background="@drawable/textbox_background"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/ic_lock"
+                android:textColor="@color/font1color"
+                android:drawablePadding="10dp"
+                android:hint="Enter password"
+                android:paddingHorizontal="20dp"/>
 
-        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-            android:id="@+id/register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="20dp"
-            android:textAllCaps="false"
-            android:text="Sign up"
-            app:spinning_bar_color="#FFFFFF"
-            app:spinning_bar_padding="6dp"
-            android:layout_gravity="center"
-            android:elevation="20dp"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="70dp"
-            android:background="@drawable/button_background"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"/>
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
+                android:textAllCaps="false"
+                android:text="Sign up"
+                app:spinning_bar_color="#FFFFFF"
+                app:spinning_bar_padding="6dp"
+                android:layout_gravity="center"
+                android:elevation="20dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/button_background"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="20dp"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
-</LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

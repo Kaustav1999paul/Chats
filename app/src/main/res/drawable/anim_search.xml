@@ -5,15 +5,15 @@
 
     <!-- provide a different drawable for each state-->
     <item android:id="@+id/state_on"
-        android:drawable="@drawable/avd_anim_search"
+        android:drawable="@drawable/avd_search_anim"
         android:state_checked="true"/>
 
     <item android:id="@+id/state_off"
-        android:drawable="@drawable/search_anim"/>
+        android:drawable="@drawable/icc_search"/>
 
     <!-- specify transitions -->
     <transition
-        android:drawable="@drawable/avd_anim_search"
+        android:drawable="@drawable/avd_search_anim"
         android:fromId="@id/state_off"
         android:toId="@id/state_on" />
 

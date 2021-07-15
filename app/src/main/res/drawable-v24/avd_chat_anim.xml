@@ -1,0 +1,99 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="64dp"
+            android:height="64dp"
+            android:viewportWidth="64"
+            android:viewportHeight="64">
+            <group android:name="sec_chat">
+                <path
+                    android:name="second"
+                    android:pathData="M 58.559 6.688 L 26.011 6.688 C 25.533 6.688 25.063 6.813 24.649 7.053 C 24.235 7.292 23.891 7.635 23.652 8.049 C 23.413 8.463 23.288 8.933 23.288 9.411 L 23.288 23.527 L 37.989 23.527 C 39.426 23.528 40.806 24.101 41.822 25.117 C 42.838 26.133 43.411 27.513 43.412 28.95 L 43.412 36.11 L 49.307 41.393 C 49.617 41.671 50.022 41.817 50.437 41.802 C 50.852 41.787 51.245 41.611 51.533 41.312 C 51.822 41.013 51.983 40.614 51.983 40.199 L 51.983 35.118 C 51.983 34.862 52.05 34.611 52.178 34.39 C 52.306 34.168 52.49 33.985 52.711 33.857 C 52.932 33.729 53.183 33.662 53.439 33.662 L 58.559 33.662 C 59.037 33.662 59.507 33.536 59.921 33.297 C 60.335 33.058 60.679 32.714 60.918 32.3 C 61.157 31.886 61.283 31.416 61.283 30.938 L 61.283 9.411 C 61.283 8.933 61.157 8.463 60.918 8.049 C 60.679 7.635 60.335 7.292 59.921 7.053 C 59.507 6.813 59.037 6.688 58.559 6.688 Z M 52.993 24.59 L 45.883 24.59 C 45.593 24.597 45.309 24.511 45.073 24.344 C 44.836 24.177 44.659 23.939 44.568 23.664 C 44.477 23.389 44.477 23.092 44.568 22.817 C 44.659 22.542 44.836 22.304 45.073 22.137 C 45.309 21.97 45.593 21.884 45.883 21.891 L 52.993 21.891 C 53.282 21.884 53.567 21.97 53.803 22.137 C 54.04 22.304 54.217 22.542 54.308 22.817 C 54.398 23.092 54.398 23.389 54.308 23.664 C 54.217 23.939 54.04 24.177 53.803 24.344 C 53.567 24.511 53.282 24.597 52.993 24.59 Z M 52.993 17.958 L 31.578 17.958 C 31.288 17.965 31.004 17.879 30.768 17.712 C 30.531 17.545 30.354 17.307 30.263 17.032 C 30.172 16.757 30.172 16.46 30.263 16.185 C 30.354 15.91 30.531 15.672 30.768 15.505 C 31.004 15.338 31.288 15.252 31.578 15.259 L 52.993 15.259 C 53.282 15.252 53.567 15.338 53.803 15.505 C 54.04 15.672 54.217 15.91 54.308 16.185 C 54.398 16.46 54.398 16.757 54.308 17.032 C 54.217 17.307 54.04 17.545 53.803 17.712 C 53.567 17.879 53.282 17.965 52.993 17.958 Z"
+                    android:fillColor="#FF5C33"
+                    android:strokeWidth="1"/>
+            </group>
+            <group android:name="first_chat">
+                <path
+                    android:name="main"
+                    android:pathData="M 37.989 26.227 L 5.441 26.227 C 4.719 26.226 4.025 26.514 3.515 27.024 C 3.004 27.535 2.717 28.228 2.717 28.95 L 2.717 50.477 C 2.717 51.199 3.004 51.893 3.515 52.403 C 4.025 52.914 4.719 53.201 5.441 53.201 L 15.52 53.201 C 15.906 53.201 16.276 53.354 16.549 53.627 C 16.822 53.9 16.976 54.271 16.976 54.657 L 16.976 59.738 C 16.976 60.153 17.137 60.553 17.425 60.851 C 17.714 61.15 18.107 61.326 18.522 61.341 C 18.937 61.356 19.342 61.21 19.651 60.933 L 27.651 53.763 C 28.055 53.401 28.578 53.201 29.12 53.201 L 37.989 53.201 C 38.711 53.201 39.404 52.913 39.915 52.403 C 40.425 51.892 40.712 51.199 40.712 50.477 L 40.712 28.95 C 40.712 28.228 40.425 27.535 39.915 27.024 C 39.404 26.514 38.711 26.227 37.989 26.227 Z M 21.715 44.254 L 11.008 44.254 C 10.718 44.261 10.434 44.175 10.197 44.008 C 9.961 43.842 9.784 43.603 9.693 43.328 C 9.602 43.053 9.602 42.756 9.693 42.481 C 9.784 42.206 9.961 41.968 10.197 41.801 C 10.434 41.634 10.718 41.548 11.008 41.555 L 21.715 41.555 C 22.004 41.548 22.288 41.634 22.525 41.801 C 22.762 41.968 22.939 42.206 23.029 42.481 C 23.12 42.756 23.12 43.053 23.029 43.328 C 22.939 43.603 22.762 43.842 22.525 44.008 C 22.288 44.175 22.004 44.261 21.715 44.254 Z M 32.423 44.254 L 28.247 44.254 C 27.957 44.261 27.673 44.175 27.436 44.008 C 27.2 43.842 27.023 43.603 26.932 43.328 C 26.841 43.053 26.841 42.756 26.932 42.481 C 27.023 42.206 27.2 41.968 27.436 41.801 C 27.673 41.634 27.957 41.548 28.247 41.555 L 32.423 41.555 C 32.775 41.564 33.11 41.71 33.356 41.962 C 33.602 42.214 33.74 42.552 33.74 42.905 C 33.74 43.257 33.602 43.596 33.356 43.848 C 33.11 44.1 32.775 44.246 32.423 44.254 Z M 32.423 37.416 L 11.008 37.416 C 10.718 37.423 10.434 37.337 10.197 37.17 C 9.961 37.004 9.784 36.765 9.693 36.49 C 9.602 36.215 9.602 35.918 9.693 35.643 C 9.784 35.368 9.961 35.13 10.197 34.963 C 10.434 34.796 10.718 34.71 11.008 34.717 L 32.423 34.717 C 32.775 34.726 33.11 34.872 33.356 35.124 C 33.602 35.376 33.74 35.715 33.74 36.067 C 33.74 36.419 33.602 36.758 33.356 37.01 C 33.11 37.262 32.775 37.408 32.423 37.416 Z"
+                    android:fillColor="#FFA13D"
+                    android:strokeWidth="1"/>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="sec_chat">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="translateX"
+                    android:duration="400"
+                    android:valueFrom="0"
+                    android:valueTo="2"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="translateX"
+                    android:startOffset="400"
+                    android:duration="400"
+                    android:valueFrom="2"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="translateY"
+                    android:duration="400"
+                    android:valueFrom="0"
+                    android:valueTo="-6"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="translateY"
+                    android:startOffset="400"
+                    android:duration="400"
+                    android:valueFrom="-6"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="first_chat">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="translateX"
+                    android:duration="400"
+                    android:valueFrom="0"
+                    android:valueTo="-2"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="translateX"
+                    android:startOffset="400"
+                    android:duration="400"
+                    android:valueFrom="-2"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="translateY"
+                    android:duration="400"
+                    android:valueFrom="0"
+                    android:valueTo="2"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="translateY"
+                    android:startOffset="400"
+                    android:duration="400"
+                    android:valueFrom="2"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

@@ -9,7 +9,7 @@
         android:state_checked="true"/>
 
     <item android:id="@+id/state_off"
-        android:drawable="@drawable/ic_chts"/>
+        android:drawable="@drawable/ic_chat"/>
 
     <!-- specify transitions -->
     <transition

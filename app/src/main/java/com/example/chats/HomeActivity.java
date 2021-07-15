@@ -13,11 +13,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -64,89 +67,6 @@ public class HomeActivity extends AppCompatActivity {
 
         handleOnClickListner();
 
-       // statusCheck();
-
-       // getCurrentLocation();
-
-    }
-
-    public void statusCheck() {
-        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-
-        }
-    }
-
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Your GPS seems to be disabled, enable it for weather updates")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    private void getCurrentLocation() {
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(3000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(HomeActivity.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        LocationServices.getFusedLocationProviderClient(HomeActivity.this)
-                .requestLocationUpdates(locationRequest, new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        super.onLocationResult(locationResult);
-                        LocationServices.getFusedLocationProviderClient(HomeActivity.this)
-                                .removeLocationUpdates(this);
-
-                        if (locationResult != null && locationResult.getLocations().size() > 0){
-                            int latestLocationIndex = locationResult.getLocations().size() - 1;
-                            double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
-                            double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
-
-                            getCity(latitude, longitude);
-                        }
-                    }
-                }, Looper.getMainLooper());
-    }
-
-    private final void getCity(double d2, double d3) {
-        List list;
-        try {
-            list = new Geocoder(getApplicationContext(),
-                    Locale.getDefault()).getFromLocation(d2, d3, 1);
-            if (list != null && (!list.isEmpty())) {
-                String locality = ((Address) list.get(0)).getLocality();
-
-                reference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("locality", locality);
-                reference.updateChildren(map);
-
-            }
-        } catch (NullPointerException e2) {
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void handleFrames(Fragment fragment) {
@@ -157,6 +77,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void handleOnClickListner(){
+        bottomNavigationView.setItemIconTintList(null);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -198,19 +120,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         status("online");
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Date date = new Date();
-        // Pattern
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
-
-        status("Last active: "+sdf.format(date));
-
-        finishAffinity();
-        System.exit(0);
     }
 
     @Override

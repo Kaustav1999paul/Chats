@@ -863,7 +863,7 @@ public class MessageActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Token token = snapshot.getValue(Token.class);
                     Data data = new Data(fuser.getUid(),
-                            R.drawable.ic_launcher_foreground,
+                            R.drawable.logo,
                             ""+message,
                             ""+username,
                             userId);
