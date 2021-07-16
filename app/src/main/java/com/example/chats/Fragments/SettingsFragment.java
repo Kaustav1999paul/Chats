@@ -40,6 +40,7 @@ import com.example.chats.MessageActivity;
 import com.example.chats.MoreSettingsActivity;
 import com.example.chats.NotificationsActivity;
 import com.example.chats.PeopleNearActivity;
+import com.example.chats.ProfileDetailsActivity;
 import com.example.chats.R;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -206,11 +207,10 @@ public class SettingsFragment extends Fragment {
         editAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EditAccountActivity.class);
+                Intent intent = new Intent(getContext(), ProfileDetailsActivity.class);
+                intent.putExtra("id", user.getUid());
                 startActivity(intent);
                 new AcTrans.Builder(getActivity()).performSlideToLeft();
-//                BottomSheetFragment bottomSheetDialog = BottomSheetFragment.newInstance();
-//                bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "Bottom Sheet Dialog Fragment");
             }
         });
         HolderName = view.findViewById(R.id.holderName);

@@ -213,7 +213,9 @@ public class MessageActivity extends AppCompatActivity {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAccDetailsActionSheet();
+                Intent intent = new Intent(MessageActivity.this, ProfileDetailsActivity.class);
+                intent.putExtra("id", userId);
+                startActivity(intent);
             }
         });
         seenMessage(userId);
@@ -287,68 +289,6 @@ public class MessageActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    }
-
-    private void showAccDetailsActionSheet() {
-        try {
-            View sheetView = MessageActivity.this.getLayoutInflater().inflate(R.layout.activity_other_acc_details, null);
-            mBottomDialogNotificationAction = new BottomSheetDialog(this);
-            mBottomDialogNotificationAction.setContentView(sheetView);
-            mBottomDialogNotificationAction.show();
-
-            ImageView gAvatar = sheetView.findViewById(R.id.gAvatar);
-            LinearLayout close = sheetView.findViewById(R.id.close);
-            LinearLayout call = sheetView.findViewById(R.id.call);
-            LinearLayout chat = sheetView.findViewById(R.id.chat);
-            LinearLayout email = sheetView.findViewById(R.id.email);
-            TextView gName = sheetView.findViewById(R.id.gName);
-            TextView gEmail = sheetView.findViewById(R.id.gDate);
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mBottomDialogNotificationAction.dismiss();
-                }
-            });
-
-
-            chat.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mBottomDialogNotificationAction.dismiss();
-                    text_send.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(text_send, InputMethodManager.SHOW_IMPLICIT);
-                }
-            });
-
-            email.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mBottomDialogNotificationAction.dismiss();
-                    startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"+c)));
-                }
-            });
-
-            gName.setText(b);
-            gEmail.setText(c);
-            Glide.with(getApplicationContext()).load(a).into(gAvatar);
-            call.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mBottomDialogNotificationAction.dismiss();
-
-                   makePhoneCall();
-
-                }
-            });
-
-
-            // Remove default white color background
-            FrameLayout bottomSheet = (FrameLayout) mBottomDialogNotificationAction.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-            bottomSheet.setBackground(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 
