@@ -3,6 +3,7 @@ package com.example.chats;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,7 +53,6 @@ public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     DatabaseReference reference;
     FirebaseUser user;
-    public static final String MY_PREFS_NAME = "Dock";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void handleFrames(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        // fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+       // fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.slide_out_right);
         fragmentTransaction.replace(R.id.fragment_holder, fragment);
         fragmentTransaction.commit();
     }

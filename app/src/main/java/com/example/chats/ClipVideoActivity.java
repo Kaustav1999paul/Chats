@@ -5,13 +5,16 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.example.chats.Adapter.ClipAdapter;
 import com.example.chats.Model.Clips;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
+import com.r0adkll.slidr.Slidr;
 
 import id.voela.actrans.AcTrans;
 
@@ -19,6 +22,7 @@ public class ClipVideoActivity extends AppCompatActivity {
 
     private ViewPager2 videoViewPager;
     private ClipAdapter adapter;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,14 @@ public class ClipVideoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_clip_video);
         theme();
         videoViewPager = findViewById(R.id.videoViewPager);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                new AcTrans.Builder(ClipVideoActivity.this).performSlideToRight();
+            }
+        });
 
         FirebaseRecyclerOptions<Clips> options = new FirebaseRecyclerOptions.Builder<Clips>()
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("Clips"), Clips.class)

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/mainn"
+        android:visibility="gone"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="85dp"
         android:background="?android:attr/listDivider" />
@@ -75,7 +76,7 @@
             android:layout_width="wrap_content"
             android:text=""
             android:textColor="@color/hintcolor"
-            android:textSize="12dp"
+            android:textSize="11dp"
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:layout_marginRight="15dp"
