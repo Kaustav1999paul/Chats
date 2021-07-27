@@ -27,6 +27,7 @@ import android.view.WindowManager;
 
 import com.example.chats.Fragments.ChatFragment;
 import com.example.chats.Fragments.GroupFragment;
+import com.example.chats.Fragments.PostsFragment;
 import com.example.chats.Fragments.SearchFragment;
 import com.example.chats.Fragments.SettingsFragment;
 import com.google.android.gms.location.LocationCallback;
@@ -62,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         if (savedInstanceState == null){
-                handleFrames(new ChatFragment() );
+                handleFrames(new PostsFragment());
         }
 
         handleOnClickListner();
@@ -77,25 +78,22 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void handleOnClickListner(){
-        bottomNavigationView.setItemIconTintList(null);
+
+        // ********** For colorful bottom nav icons ************
+       // bottomNavigationView.setItemIconTintList(null);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+                    case R.id.status:
+                        handleFrames(new PostsFragment());
+                        break;
                     case R.id.chat:
                         handleFrames(new ChatFragment());
                         break;
                     case R.id.groups:
                         handleFrames(new GroupFragment());
-                        break;
-                    case R.id.status:
-                        bottomNavigationView.setSelectedItemId(R.id.chat);
-                        Intent intent = new Intent(HomeActivity.this, ClipVideoActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        new AcTrans.Builder(HomeActivity.this).performSlideToLeft();
-
                         break;
                     case R.id.friends:
                         handleFrames(new SearchFragment());

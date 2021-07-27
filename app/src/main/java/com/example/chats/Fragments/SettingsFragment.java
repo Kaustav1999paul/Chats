@@ -1,6 +1,7 @@
 package com.example.chats.Fragments;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +22,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,8 +32,11 @@ import android.widget.Toast;
 
 import com.androdocs.httprequest.HttpRequest;
 import com.bumptech.glide.Glide;
+import com.example.chats.AddPostActivity;
 import com.example.chats.BottomSheetFragment;
+import com.example.chats.ClipVideoActivity;
 import com.example.chats.FriendsActivity;
+import com.example.chats.HomeActivity;
 import com.example.chats.LogRegActivity;
 import com.example.chats.MoreSettingsActivity;
 import com.example.chats.NotificationsActivity;
@@ -76,7 +82,7 @@ public class SettingsFragment extends Fragment {
     FirebaseUser user;
     ImageView avatar, weatherIcon,refresh;
     Toolbar tabanim_toolbar;
-    LinearLayout logout,notifications,videoAdd,yourFriends, peopleNear,contactUs;
+    LinearLayout logout,notifications,videoAdd,yourFriends, peopleNear,contactUs, shorts,addPosts;
     TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
     DatabaseReference userRef;
     public static Context context;
@@ -108,6 +114,8 @@ public class SettingsFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         bioAcc = view.findViewById(R.id.bioAcc);
         logout = view.findViewById(R.id.logout);
+        shorts = view.findViewById(R.id.shorts);
+        addPosts = view.findViewById(R.id.addPosts);
         refresh = view.findViewById(R.id.refresh);
         yourFriends = view.findViewById(R.id.yourFriends);
         contactUs = view.findViewById(R.id.contactUs);
@@ -170,6 +178,16 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        shorts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(contextT, ClipVideoActivity.class);
+               // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                new AcTrans.Builder(contextT).performSlideToLeft();
+            }
+        });
+
         videoAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,6 +224,16 @@ public class SettingsFragment extends Fragment {
                 new AcTrans.Builder(getActivity()).performSlideToLeft();
             }
         });
+
+        addPosts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogMediaOption();
+            }
+        });
+
+
+
         HolderName = view.findViewById(R.id.holderName);
         emailHolder = view.findViewById(R.id.holderEmail);
         avatar = view.findViewById(R.id.avatar);
@@ -301,6 +329,43 @@ public class SettingsFragment extends Fragment {
         new weatherTask().execute();
 
         return view;
+    }
+
+    private void showDialogMediaOption() {
+        final Dialog dialog = new Dialog(contextT);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.post_option_dialogue);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+//        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        ((LinearLayout) dialog.findViewById(R.id.addPhoto)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent = new Intent(contextT, AddPostActivity.class);
+               intent.putExtra("type", "photo");
+               startActivity(intent);
+                new AcTrans.Builder(contextT).performSlideToLeft();
+               dialog.dismiss();
+            }
+        });
+
+        ((LinearLayout) dialog.findViewById(R.id.addVideo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(contextT, AddPostActivity.class);
+                intent.putExtra("type", "video");
+                startActivity(intent);
+                new AcTrans.Builder(contextT).performSlideToLeft();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     private void statusCheck() {
