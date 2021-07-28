@@ -82,7 +82,7 @@ public class SettingsFragment extends Fragment {
     FirebaseUser user;
     ImageView avatar, weatherIcon,refresh;
     Toolbar tabanim_toolbar;
-    LinearLayout logout,notifications,videoAdd,yourFriends, peopleNear,contactUs, shorts,addPosts;
+    LinearLayout logout,notifications,videoAdd,yourFriends, peopleNear,contactUs, shorts;
     TextView HolderName, emailHolder, bioAcc,temperature,mes,wish;
     DatabaseReference userRef;
     public static Context context;
@@ -115,7 +115,6 @@ public class SettingsFragment extends Fragment {
         bioAcc = view.findViewById(R.id.bioAcc);
         logout = view.findViewById(R.id.logout);
         shorts = view.findViewById(R.id.shorts);
-        addPosts = view.findViewById(R.id.addPosts);
         refresh = view.findViewById(R.id.refresh);
         yourFriends = view.findViewById(R.id.yourFriends);
         contactUs = view.findViewById(R.id.contactUs);
@@ -225,15 +224,6 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        addPosts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogMediaOption();
-            }
-        });
-
-
-
         HolderName = view.findViewById(R.id.holderName);
         emailHolder = view.findViewById(R.id.holderEmail);
         avatar = view.findViewById(R.id.avatar);
@@ -329,43 +319,6 @@ public class SettingsFragment extends Fragment {
         new weatherTask().execute();
 
         return view;
-    }
-
-    private void showDialogMediaOption() {
-        final Dialog dialog = new Dialog(contextT);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.post_option_dialogue);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-//        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        ((LinearLayout) dialog.findViewById(R.id.addPhoto)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Intent intent = new Intent(contextT, AddPostActivity.class);
-               intent.putExtra("type", "photo");
-               startActivity(intent);
-                new AcTrans.Builder(contextT).performSlideToLeft();
-               dialog.dismiss();
-            }
-        });
-
-        ((LinearLayout) dialog.findViewById(R.id.addVideo)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(contextT, AddPostActivity.class);
-                intent.putExtra("type", "video");
-                startActivity(intent);
-                new AcTrans.Builder(contextT).performSlideToLeft();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
     }
 
     private void statusCheck() {
