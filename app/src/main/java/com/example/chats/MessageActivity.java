@@ -99,7 +99,7 @@ import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
-    CircleImageView profile_image;
+    CircleImageView profile_image, profileSelf;
     TextView userName,statusAccount;
     FirebaseUser fuser;
     LinearLayout more;
@@ -107,10 +107,10 @@ public class MessageActivity extends AppCompatActivity {
     DatabaseReference reference;
     Intent intent;
     EditText text_send;
-    FloatingActionButton sendButton, addButton;
+    FloatingActionButton sendButton;
     String userId, photo, name;
     MessageAdapter messageAdapter;
-    ImageView back;
+    ImageView back,addButton;
     List<Chat> mchat;
     RecyclerView recyclerView;
     ValueEventListener seenListener;
@@ -137,11 +137,12 @@ public class MessageActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.ChatRecyclerView);
         sendButton = findViewById(R.id.sendButton);
         text_send = findViewById(R.id.text_send);
+        profileSelf = findViewById(R.id.profileSelf);
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
         statusAccount = findViewById(R.id.statusAccount);
         back = findViewById(R.id.back);
         more = findViewById(R.id.more);
-        addButton = findViewById(R.id.addButton);
+        addButton = findViewById(R.id.addMedia);
         loading = findViewById(R.id.loading);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +168,23 @@ public class MessageActivity extends AppCompatActivity {
         userName.setText(name);
         Glide.with(this).load(photo).into(profile_image);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(fuser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String my = snapshot.child("imageURL").getValue().toString();
+
+                    Glide.with(getApplicationContext()).load(my).into(profileSelf);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
