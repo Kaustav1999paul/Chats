@@ -22,9 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chats"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AddPostActivity"
+        <activity
+            android:name=".AddNewPostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AddPostActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ChatScreen.SliderActivityBackground"/>
+            android:theme="@style/ChatScreen.SliderActivityBackground" />
         <activity
             android:name=".ProfileDetailsActivity"
             android:screenOrientation="portrait"

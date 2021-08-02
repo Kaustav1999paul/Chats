@@ -145,6 +145,10 @@ public class FriendsActivity extends AppCompatActivity {
                             holder.statusUser.setText(userEmail);
                             holder.statusOnOff.setVisibility(View.GONE);
 
+                            if (id.equals(user.getUid())){
+                                holder.itemView.getLayoutParams().height = 0;
+                                holder.itemView.setVisibility(View.GONE);
+                            }
 
                             holder.itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override

@@ -20,7 +20,7 @@
             android:id="@+id/tabanim_toolbar"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            app:title="Account"
+            app:title="Settings"
             android:background="@color/background"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextColor="@color/font1color"
@@ -45,7 +45,7 @@
                 <LinearLayout
                     android:id="@+id/statusList"
                     android:layout_width="match_parent"
-                    android:background="@color/background"
+                    android:background="@drawable/settings_profile_background"
                     android:elevation="2dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -85,7 +85,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:textColor="@color/font1color"
-                                android:textSize="20dp"
+                                android:textSize="22dp"
                                 android:textStyle="bold"
                                 android:transitionName="share_name" />
 
@@ -95,14 +95,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:textColor="#00E47A"
-                                android:textSize="14dp" />
+                                android:textSize="13dp" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_marginHorizontal="15dp"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="15dp"
                         app:cardCornerRadius="10dp"
                         app:cardBackgroundColor="@color/searchbar"
                         app:cardElevation="0dp"
@@ -221,7 +221,7 @@
                     android:layout_marginHorizontal="13dp"
                     android:layout_marginTop="10dp"
                     app:cardCornerRadius="10dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="20dp"
                     app:cardBackgroundColor="@color/background"
                     android:layout_height="wrap_content">
 

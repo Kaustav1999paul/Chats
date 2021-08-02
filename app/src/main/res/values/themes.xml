@@ -115,7 +115,7 @@
     </style>
 
     <style name="Toolbar.TitleText1" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">20dp</item>
-        <item name="android:fontFamily">@font/amiko_bold</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:fontFamily">@font/antic</item>
     </style>
 </resources>

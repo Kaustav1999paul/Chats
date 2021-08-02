@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/post"
+        android:title="Today"
+        android:icon="@drawable/anim_today"/>
+
     <item android:id="@+id/chat"
         android:title="Chats"
         android:icon="@drawable/anim_chats"/>
@@ -14,6 +18,6 @@
         android:icon="@drawable/anim_search"/>
 
     <item android:id="@+id/setting"
-        android:title="Account"
+        android:title="Settings"
         android:icon="@drawable/anim_account"/>
 </menu>

@@ -1,60 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@drawable/diacog_background"
-    android:layout_height="wrap_content">
+    android:padding="10dp">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:textColor="@color/font1color"
         android:layout_height="wrap_content"
-        android:text="Select post type"
-        android:textSize="20dp"
-        android:textStyle="bold"
+        android:background="@drawable/rounded_corner"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="9dp"
+            android:text="Which type of post do you want to make?"
+            android:textColor="@color/hintcolor"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:background="@drawable/ic_round_photo_24"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Photo"
+                android:textColor="#1E82FF"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:id="@+id/video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:background="@drawable/ic_round_videocam_24"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Video"
+                android:textColor="#1E82FF"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"/>
+        android:background="@drawable/rounded_corner"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:padding="15dp">
 
-    <LinearLayout
-        android:id="@+id/addPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingVertical="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_round_photo_24"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/font1color"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Post Image"/>
+            android:layout_gravity="center"
+            android:text="Close"
+            android:textColor="#FF1E1E"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/addVideo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingVertical="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_round_videocam_24"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/font1color"
-            android:text="Post Video"/>
-    </LinearLayout>
-
 </LinearLayout>

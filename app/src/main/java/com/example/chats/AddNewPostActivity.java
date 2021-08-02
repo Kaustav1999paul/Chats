@@ -13,9 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,15 +37,16 @@ import java.util.HashMap;
 
 import id.voela.actrans.AcTrans;
 
-public class AddPostActivity extends AppCompatActivity {
+public class AddNewPostActivity extends AppCompatActivity {
+
 
     Intent intent;
     String type, typeFile;
-    int PICKVIDEO_REQUEST_CODE = 21100;
+    int PICKVIDEO_REQUEST_CODE = 211;
     ImageView back, image;
-    private Uri imageUri1  = null;
+    private Uri imageUri1 = null;
     FirebaseUser fuser;
-    TextView postButton;
+    TextView post;
     private DatabaseReference userReff;
     EditText postTitle;
     RelativeLayout loading;
@@ -58,14 +57,14 @@ public class AddPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_post);
+        setContentView(R.layout.activity_add_new_post);
         intent = getIntent();
         postTitle = findViewById(R.id.postTitle);
         Slidr.attach(this);
         image = findViewById(R.id.image);
         back = findViewById(R.id.back);
         loading = findViewById(R.id.loading);
-        postButton = findViewById(R.id.postButton);
+        post = findViewById(R.id.post);
         type = intent.getStringExtra("type");
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         storagePostPictureRef = FirebaseStorage.getInstance().getReference("PostMedia");
@@ -74,77 +73,73 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                new AcTrans.Builder(AddPostActivity.this).performSlideToRight();
+                new AcTrans.Builder(AddNewPostActivity.this).performSlideToRight();
             }
         });
 
-
-        if (type.equals("photo")){
+        if (type.equals("photo")) {
             back.setEnabled(false);
-            CropImage.activity().start(AddPostActivity.this);
-        }else {
-            back.setEnabled(false);
+            CropImage.activity().start(AddNewPostActivity.this);
+        } else {
             Intent intent = new Intent();
             intent.setType("video/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(intent, PICKVIDEO_REQUEST_CODE);
         }
 
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = postTitle.getText().toString().trim();
+                uploadPost(title, myUrl1);
+            }
+        });
+    }
+
+    private void uploadPost(String title, String myUrl1) {
         userReff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                name = snapshot.child("username").getValue().toString();
-                photo = snapshot.child("imageURL").getValue().toString();
+                String na = snapshot.child("username").getValue().toString();
+                String ph = snapshot.child("imageURL").getValue().toString();
 
-                postButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String title = postTitle.getText().toString().trim();
-                        post(title, myUrl1, name, photo);
-                    }
-                });
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
+                String saveCurrentDate = currentDate.format(calendar.getTime());
+                SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+                String saveCurrentTime = currentTime.format(calendar.getTime());
+                String RandomKey = saveCurrentDate + saveCurrentTime + fuser.getUid();
+                Date date = new Date();
+                // Pattern
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("id", RandomKey);
+                hashMap.put("time", sdf.format(date));
+                hashMap.put("type", typeFile);
+                hashMap.put("owner", fuser.getUid());
+                hashMap.put("imageUrl", myUrl1);
+                hashMap.put("personImage", ph);
+                hashMap.put("personName", na);
+                hashMap.put("title", title);
+                hashMap.put("date", saveCurrentDate);
+                reference.child("Posts").child(RandomKey).setValue(hashMap)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    finish();
+                                }
+                            }
+                        });
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
-
-    }
-
-    private void post(String title, String myUrl1, String name, String photo) {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
-        String saveCurrentDate = currentDate.format(calendar.getTime());
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
-        String saveCurrentTime = currentTime.format(calendar.getTime());
-        String RandomKey = saveCurrentDate + saveCurrentTime+fuser.getUid();
-        Date date = new Date();
-        // Pattern
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Post");
-
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("id", RandomKey);
-        map.put("time", sdf.format(date));
-        map.put("owner", fuser.getUid());
-        map.put("imageUrl", myUrl1);
-        map.put("title", title);
-        map.put("type", typeFile);
-        map.put("date", saveCurrentDate);
-        map.put("personImage", photo);
-        map.put("personName", name);
-
-        reference.child(RandomKey).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "Posted", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
             }
         });
 
@@ -157,7 +152,7 @@ public class AddPostActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             imageUri1 = result.getUri();
             image.setImageURI(imageUri1);
-            postButton.setVisibility(View.VISIBLE);
+            post.setVisibility(View.VISIBLE);
 
 
             Calendar calendar = Calendar.getInstance();
@@ -168,7 +163,7 @@ public class AddPostActivity extends AppCompatActivity {
             String ProductRandomKey = fuser.getUid() + saveCurrentDate + saveCurrentTime;
 
             loading.setVisibility(View.VISIBLE);
-            postButton.setEnabled(false);
+            post.setEnabled(false);
             postTitle.setEnabled(false);
             StorageReference filePath = storagePostPictureRef.child(ProductRandomKey + ".jpg");
             filePath.putFile(imageUri1).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -190,7 +185,7 @@ public class AddPostActivity extends AppCompatActivity {
                         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
 
                         loading.setVisibility(View.GONE);
-                        postButton.setEnabled(true);
+                        post.setEnabled(true);
                         postTitle.setEnabled(true);
                         typeFile = "image";
                         back.setEnabled(true);
@@ -203,10 +198,10 @@ public class AddPostActivity extends AppCompatActivity {
             String src = uri.getPath();
             image.setVisibility(View.GONE);
             image.setImageURI(uri);
-            postButton.setVisibility(View.VISIBLE);
+            post.setVisibility(View.VISIBLE);
 
             loading.setVisibility(View.VISIBLE);
-            postButton.setEnabled(false);
+            post.setEnabled(false);
             postTitle.setEnabled(false);
 
             Calendar calendar = Calendar.getInstance();
@@ -239,7 +234,7 @@ public class AddPostActivity extends AppCompatActivity {
                         // Pattern
                         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
                         loading.setVisibility(View.GONE);
-                        postButton.setEnabled(true);
+                        post.setEnabled(true);
                         postTitle.setEnabled(true);
                         typeFile = "video";
                         back.setEnabled(true);
@@ -247,5 +242,7 @@ public class AddPostActivity extends AppCompatActivity {
                 }
             });
         }
+
     }
+
 }

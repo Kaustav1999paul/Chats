@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.r0adkll.slidr.Slidr;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +37,7 @@ public class Register extends AppCompatActivity {
     ImageView back;
     EditText username, email, password,phone;
     FirebaseAuth auth;
-    DatabaseReference reference;
+    DatabaseReference reference, friendsRef;
     FirebaseUser firebaseUser;
     CircularProgressButton regist;
 
@@ -106,13 +108,33 @@ public class Register extends AppCompatActivity {
                   hashMap.put("status", "offline");
                   hashMap.put("imageURL", "https://firebasestorage.googleapis.com/v0/b/chats-ec34c.appspot.com/o/defaultProfile.jpg?alt=media&token=740df914-84a1-4127-8057-382b9dcbc625");
 
-                  reference.setValue(hashMap);
+                  reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                      @Override
+                      public void onComplete(@NonNull Task<Void> task) {
+                          if (task.isSuccessful()){
+                              createSelfFriendList();
+                          }
+                      }
+                  });
                   finish();
               }else {
                   Toast.makeText(Register.this, "Server Error!!", Toast.LENGTH_SHORT).show();
               }
             }
         });
+    }
+
+    private void createSelfFriendList() {
+        Calendar calForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+        String saveCurrentDate = currentDate.format(calForDate.getTime());
+
+        friendsRef = FirebaseDatabase.getInstance().getReference("Friends");
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        friendsRef.child(firebaseUser.getUid())
+                .child(firebaseUser.getUid())
+                .child("date")
+                .setValue(saveCurrentDate);
     }
 
     @Override

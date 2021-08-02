@@ -12,6 +12,7 @@ import android.view.WindowManager;
 
 import com.example.chats.Fragments.ChatFragment;
 import com.example.chats.Fragments.GroupFragment;
+import com.example.chats.Fragments.PostFragment;
 import com.example.chats.Fragments.SearchFragment;
 import com.example.chats.Fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -61,6 +62,10 @@ public class HomeActivity extends AppCompatActivity {
                 bottomNavigationView.setSelectedItemId(R.id.setting);
                 handleFrames(new SettingsFragment() );
             }
+            if (idName == 5){
+                bottomNavigationView.setSelectedItemId(R.id.post);
+                handleFrames(new PostFragment() );
+            }
         }
 
         handleOnClickListner();
@@ -101,6 +106,11 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.setting:
                         handleFrames(new SettingsFragment());
                         editor.putInt("idName", 4);
+                        editor.apply();
+                        break;
+                    case R.id.post:
+                        handleFrames(new PostFragment());
+                        editor.putInt("idName", 5);
                         editor.apply();
                         break;
                 }

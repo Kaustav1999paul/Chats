@@ -504,14 +504,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 mContext.startActivity(intent);
 
-//                                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
-//                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                mContext.startActivity(intent);
-
-//                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
-//                                browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                mContext.startActivity(browserIntent);
                             }
                         });
 
@@ -552,9 +544,16 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 @Override
                                 public void onLongPress(MotionEvent e) {
                                     super.onLongPress(e);
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
-                                    browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    mContext.startActivity(browserIntent);
+                                    String ms = chat.getMessage();
+                                    String latitude = ms.substring(0, 9);
+                                    String longitude = ms.substring(10, 19);
+
+
+                                    String uri = "http://maps.google.com/maps?q=loc:" + latitude + "," + longitude;
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                                    intent.setPackage("com.google.android.apps.maps");
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    mContext.startActivity(intent);
                                 }
                             });
 
@@ -579,9 +578,16 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 @Override
                                 public void onLongPress(MotionEvent e) {
                                     super.onLongPress(e);
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
-                                    browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    mContext.startActivity(browserIntent);
+                                    String ms = chat.getMessage();
+                                    String latitude = ms.substring(0, 9);
+                                    String longitude = ms.substring(10, 19);
+
+
+                                    String uri = "http://maps.google.com/maps?q=loc:" + latitude + "," + longitude;
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                                    intent.setPackage("com.google.android.apps.maps");
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    mContext.startActivity(intent);
                                 }
                             });
 
