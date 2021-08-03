@@ -61,6 +61,18 @@
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/messageNo"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/online"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:text="No new posts."/>
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addPost"
         android:layout_width="wrap_content"

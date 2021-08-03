@@ -47,7 +47,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/ic_round_comment_bank_24" />
+                android:background="@drawable/ic_comment" />
 
             <TextView
                 android:id="@+id/commentCount"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:textColor="@color/hintcolor"
-                android:textSize="11dp" />
+                android:textSize="9dp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

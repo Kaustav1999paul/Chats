@@ -6,9 +6,12 @@
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable-v24/avd_animate_settings.xml" value="0.2203125" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/anim_today.xml" value="0.19054054054054054" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/avd_anim_today.xml" value="0.19054054054054054" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/comment_background.xml" value="0.19054054054054054" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/ic_add.xml" value="0.2203125" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/ic_add_media.xml" value="0.2203125" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/ic_comment.xml" value="0.19054054054054054" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/ic_message.xml" value="0.19054054054054054" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/ic_round_comment_bank_24.xml" value="0.19054054054054054" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/ic_round_play_arrow_24.xml" value="0.19054054054054054" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/ic_today.xml" value="0.19054054054054054" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/drawable/settings_profile_background.xml" value="0.2203125" />
@@ -16,11 +19,16 @@
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_add_post.xml" value="0.17422222222222222" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_home.xml" value="0.20102564102564102" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_message.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_profile_details.xml" value="0.17422222222222222" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/add_people_bottombar.xml" value="0.17657657657657658" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/comment_bottom_dialogue.xml" value="0.25" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/comment_layout.xml" value="0.22" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/dialog_bottom_notification_action.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/fragment_chat.xml" value="0.17422222222222222" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/fragment_group.xml" value="0.17422222222222222" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/fragment_post.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/fragment_settings.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/grid_layout.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/group_layout.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/logout_confirm_layout.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/post_layout.xml" value="0.17657657657657658" />

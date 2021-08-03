@@ -13,7 +13,7 @@
     <color name="font1color">#000000</color>
     <color name="textboxcolor">#F3F3F3</color>
     <color name="hintcolor">#858585</color>
-    <color name="bottomNav">#FFFFFF</color>
+    <color name="bottomNav">#F6F6F6</color>
     <color name="otherPersonMessage">#E6E6E6</color>
     <color name="online">#00E47A</color>
     <color name="offline">#FF0000</color>

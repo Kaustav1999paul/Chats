@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,10 +31,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.chats.AddPostActivity;
 import com.example.chats.FullImage;
+import com.example.chats.Model.Comments;
 import com.example.chats.Model.Posts;
 import com.example.chats.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,10 +46,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -59,8 +66,9 @@ public class PostFragment extends Fragment {
     FloatingActionButton addPost;
     private Context contextT;
     RecyclerView postList;
-    LinearLayoutManager layoutManager;
+    LinearLayoutManager layoutManager, commentLayoutManager;
     FirebaseUser user;
+    TextView messageNo;
     Toolbar toolbar;
     CircleImageView selfAvatar;
     RelativeLayout loading;
@@ -83,6 +91,7 @@ public class PostFragment extends Fragment {
         });
         selfAvatar = view.findViewById(R.id.selfAvatar);
         toolbar = view.findViewById(R.id.tabanim_toolbar);
+        messageNo = view.findViewById(R.id.messageNo);
         postList = view.findViewById(R.id.postList);
         loading = view.findViewById(R.id.loading);
         postList.setHasFixedSize(true);
@@ -120,6 +129,9 @@ public class PostFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()){
                     loading.setVisibility(View.GONE);
+                    messageNo.setVisibility(View.VISIBLE);
+                }else {
+                    messageNo.setVisibility(View.GONE);
                 }
             }
 
@@ -145,7 +157,7 @@ public class PostFragment extends Fragment {
                 loading.setVisibility(View.GONE);
 
                 if (model.getId().equals(user.getUid())){
-                    holder.time.setText(model.getTime());
+                    holder.time.setText(model.getTime()+ ",  "+ model.getDate());
                     Glide.with(contextT).load(model.getImageUrl()).into(holder.postImage);
                     holder.postText.setText(model.getTitle());
                 }
@@ -165,7 +177,8 @@ public class PostFragment extends Fragment {
                         }
                     }
                 });
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Post").child(model.getId()).child("Likes");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Post")
+                        .child(model.getId()).child("Likes");
 
 
                 ref.addValueEventListener(new ValueEventListener() {
@@ -189,16 +202,43 @@ public class PostFragment extends Fragment {
                     }
                 });
 
+                DatabaseReference refCom = FirebaseDatabase.getInstance().getReference().child("Post")
+                        .child(model.getId()).child("Comments");
+
+                refCom.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            int count = (int) snapshot.getChildrenCount();
+                            holder.commentCount.setText(String.valueOf(count));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
                 friendsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.hasChild(model.getOwner())){
 
-                            holder.time.setText(model.getTime());
+                            holder.time.setText(model.getTime()+ ",  "+ model.getDate());
                             Glide.with(contextT).load(model.getImageUrl()).into(holder.postImage);
                             holder.postText.setText(model.getTitle());
                             holder.personName.setText(model.getPersonName());
                             Glide.with(contextT).load(model.getPersonImage()).into(holder.personImage);
+
+
+                            holder.commentButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showCommentDialog(model.getId());
+                                }
+                            });
 
 
                             if (model.getType().equals("video")){
@@ -242,8 +282,121 @@ public class PostFragment extends Fragment {
             }
         };
         postList.setAdapter(adapter);
-        //adapter.updateOptions(options);
+        adapter.updateOptions(options);
         adapter.startListening();
+    }
+
+    private void showCommentDialog(String id) {
+        try{
+            View sheetView = getActivity().getLayoutInflater().inflate(R.layout.comment_bottom_dialogue, null);
+            addPostDialog = new BottomSheetDialog(contextT);
+            addPostDialog.setContentView(sheetView);
+            addPostDialog.show();
+
+            LinearLayout close = sheetView.findViewById(R.id.postComment);
+            EditText comment = sheetView.findViewById(R.id.comment);
+            RecyclerView commentList = sheetView.findViewById(R.id.commentList);
+            commentList.setHasFixedSize(true);
+            commentLayoutManager = new LinearLayoutManager(getContext());
+            commentLayoutManager.setReverseLayout(true);
+            commentLayoutManager.setStackFromEnd(true);
+            commentList.setLayoutManager(commentLayoutManager);
+
+            showComments(id, commentList, commentLayoutManager);
+
+
+
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String cmnt = comment.getText().toString().trim();
+                    if (!TextUtils.isEmpty(cmnt)){
+                        postCommnet(cmnt, id);
+                        comment.setText("");
+                    }
+
+                }
+            });
+
+            // Remove default white color background
+            FrameLayout bottomSheet = (FrameLayout) addPostDialog
+                    .findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            bottomSheet.setBackground(null);
+        }
+        catch (Exception e){
+
+
+        }
+    }
+
+    private void showComments(String id, RecyclerView commentList, LinearLayoutManager commentLayoutManager) {
+        Query query = postRef.child(id).child("Comments");
+
+        FirebaseRecyclerOptions<Comments> options = new FirebaseRecyclerOptions.Builder<Comments>()
+                .setQuery(query, Comments.class).build();
+
+        FirebaseRecyclerAdapter<Comments, CommentVH> adapter = new FirebaseRecyclerAdapter<Comments, CommentVH>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull CommentVH holder, int position, @NonNull Comments model) {
+                Glide.with(contextT).load(model.getPersonImage()).into(holder.personImageC);
+                holder.personNameC.setText(model.getPersonName());
+                holder.personComment.setText(model.getComment());
+
+            }
+
+            @NonNull
+            @Override
+            public CommentVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View v = LayoutInflater.from(getContext()).inflate(R.layout.comment_layout, parent, false);
+                return new CommentVH(v);
+            }
+        };
+        commentList.setAdapter(adapter);
+        adapter.updateOptions(options);
+        adapter.startListening();
+    }
+
+    private void postCommnet(String comment, String postId) {
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
+        String saveCurrentDate = currentDate.format(calendar.getTime());
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+        String saveCurrentTime = currentTime.format(calendar.getTime());
+        String RandomKey = saveCurrentDate + saveCurrentTime + user.getUid();
+        Date date = new Date();
+        // Pattern
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+
+        userRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String name = snapshot.child("username").getValue().toString();
+                    String photo = snapshot.child("imageURL").getValue().toString();
+
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", RandomKey);
+                    map.put("owner", user.getUid());
+                    map.put("comment", comment);
+                    map.put("personImage", photo);
+                    map.put("personName", name);
+
+                    postRef.child(postId).child("Comments").child(RandomKey).setValue(map);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
     }
 
     private void removeLikeRecord(String id) {
@@ -313,11 +466,24 @@ public class PostFragment extends Fragment {
         }
     }
 
+    public class CommentVH extends RecyclerView.ViewHolder{
+
+        TextView personNameC, personComment;
+        CircleImageView personImageC;
+
+        public CommentVH(@NonNull View itemView) {
+            super(itemView);
+            personImageC = itemView.findViewById(R.id.personPhotoC);
+            personNameC = itemView.findViewById(R.id.personNAme);
+            personComment = itemView.findViewById(R.id.personComment);
+        }
+    }
+
     public class PostVH extends RecyclerView.ViewHolder{
 
         CircleImageView personImage;
-        ImageView postImage, likeButton, videoIcon;
-        TextView personName, time, postText, likeCount;
+        ImageView postImage, likeButton, videoIcon, commentButton;
+        TextView personName, time, postText, likeCount, commentCount;
         RelativeLayout rel;
 
         public PostVH(@NonNull View itemView) {
@@ -326,9 +492,11 @@ public class PostFragment extends Fragment {
             likeButton = itemView.findViewById(R.id.likeButton);
             personImage = itemView.findViewById(R.id.personPhoto);
             postImage = itemView.findViewById(R.id.imagePost);
+            commentButton = itemView.findViewById(R.id.commentButton);
             personName = itemView.findViewById(R.id.personNamePost);
             time = itemView.findViewById(R.id.personTimePost);
             likeCount = itemView.findViewById(R.id.likeCount);
+            commentCount = itemView.findViewById(R.id.commentCount);
             postText = itemView.findViewById(R.id.postTitle);
             rel = itemView.findViewById(R.id.rel);
         }

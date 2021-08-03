@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,7 +18,9 @@ import android.content.pm.PackageManager;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +31,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.chats.Fragments.PostFragment;
+import com.example.chats.Model.Posts;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,6 +55,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import id.voela.actrans.AcTrans;
 
 
@@ -57,8 +67,9 @@ public class ProfileDetailsActivity extends AppCompatActivity {
     ImageView personImage;
     FirebaseUser user;
     Button updateAccount;
-    TextView personEmail, totalFriends, friendsSince;
+    TextView personEmail, totalFriends, friendsSince, postt;
     private EditText personName, bio;
+    private RecyclerView postList;
     CollapsingToolbarLayout collapseActionView;
     DatabaseReference userRef, friendsRef;
     private LinearLayout call, chat, email,controller,count;
@@ -66,6 +77,7 @@ public class ProfileDetailsActivity extends AppCompatActivity {
     private Uri imageUri1  = null;
     private String myUrl1 = "";
     ProgressBar progress;
+    private DatabaseReference postReff;
 
 
     @Override
@@ -75,6 +87,12 @@ public class ProfileDetailsActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
+        postList = findViewById(R.id.postList);
+        postList.setHasFixedSize(true);
+        postList.setLayoutManager(new GridLayoutManager(this, 3));
+
+
+        postt  = findViewById(R.id.postt);
         count = findViewById(R.id.count);
         totalFriends = findViewById(R.id.totalFriends);
         friendsSince = findViewById(R.id.friendsSince);
@@ -97,7 +115,7 @@ public class ProfileDetailsActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         friendsRef = FirebaseDatabase.getInstance().getReference().child("Friends");
-
+        postReff = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Post");
 
 
         userRef.child(id).addValueEventListener(new ValueEventListener() {
@@ -124,6 +142,9 @@ public class ProfileDetailsActivity extends AppCompatActivity {
         });
 
         if (id.equals(user.getUid())){
+//            Self Profile
+            postList.setVisibility(View.GONE);
+            postt.setVisibility(View.GONE);
             personImage.setClickable(true);
             personName.setEnabled(true);
             bio.setEnabled(true);
@@ -137,6 +158,8 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                 }
             });
         }else {
+//            Other Profile
+            showPosts();
             personImage.setClickable(false);
             friendsRef.child(id).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -186,7 +209,34 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                 makePhoneCall(ee);
             }
         });
+    }
 
+    private void showPosts() {
+
+        FirebaseRecyclerOptions<Posts> options = new FirebaseRecyclerOptions.Builder<Posts>()
+                .setQuery(postReff, Posts.class).build();
+
+        FirebaseRecyclerAdapter<Posts, PostProfileVH> adapter = new FirebaseRecyclerAdapter<Posts, PostProfileVH>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull PostProfileVH holder, int position, @NonNull Posts model) {
+                Glide.with(getApplicationContext()).load(model.getImageUrl()).into(holder.postImage);
+                if (model.getType().equals("image")){
+                    holder.videoTemp.setVisibility(View.GONE);
+                }else {
+                    holder.videoTemp.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @NonNull
+            @Override
+            public PostProfileVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View v = LayoutInflater.from(ProfileDetailsActivity.this).inflate(R.layout.grid_layout, parent, false);
+                return new PostProfileVH(v);
+            }
+        };
+        postList.setAdapter(adapter);
+        adapter.updateOptions(options);
+        adapter.startListening();
     }
 
     @Override
@@ -270,5 +320,16 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                 new AcTrans.Builder(ProfileDetailsActivity.this).performSlideToRight();
             }
         });
+    }
+
+    public class PostProfileVH extends RecyclerView.ViewHolder{
+
+        ImageView postImage, videoTemp;
+
+        public PostProfileVH(@NonNull View itemView) {
+            super(itemView);
+            postImage = itemView.findViewById(R.id.iamgeView);
+            videoTemp = itemView.findViewById(R.id.tempVideo);
+        }
     }
 }

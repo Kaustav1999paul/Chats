@@ -57,7 +57,7 @@
         <item name="colorPrimary">#303030</item>
         <item name="colorPrimaryDark">#FFFFFF</item>
         <item name="colorAccent">#2196F3</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="android:navigationBarColor">#F6F6F6</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="statusBarBackground">#131313</item>
         <item name="colorControlHighlight">#00000000</item>

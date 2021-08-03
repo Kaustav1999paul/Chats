@@ -142,8 +142,35 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "Posted", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
+                    String saveCurrentDate = currentDate.format(calendar.getTime());
+                    SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+                    String saveCurrentTime = currentTime.format(calendar.getTime());
+                    String RandomKey = saveCurrentDate + saveCurrentTime+fuser.getUid();
+                    Date date = new Date();
+                    // Pattern
+                    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", RandomKey);
+                    map.put("time", sdf.format(date));
+                    map.put("owner", fuser.getUid());
+                    map.put("imageUrl", myUrl1);
+                    map.put("title", title);
+                    map.put("type", typeFile);
+                    map.put("date", saveCurrentDate);
+                    map.put("personImage", photo);
+                    map.put("personName", name);
+
+                    userReff.child("Post").child(RandomKey).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                finish();
+                            }
+                        }
+                    });
                 }
             }
         });
