@@ -23,7 +23,19 @@
             app:titleTextColor="@color/font1color"
             app:titleMarginTop="30dp"
             android:elevation="0dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/selfAvatar"
+                android:layout_width="30dp"
+                android:layout_marginTop="35dp"
+                android:layout_height="30dp"
+                android:src="@color/font1color"
+                android:elevation="10dp"
+                android:outlineAmbientShadowColor="@color/online"
+                android:outlineSpotShadowColor="@color/online"
+                android:layout_gravity="end"
+                android:layout_marginRight="15dp"/>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
     <com.baoyz.widget.PullRefreshLayout
         android:id="@+id/swip"
@@ -66,15 +78,15 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add"
         app:fabCustomSize="38dp"
-        android:layout_marginHorizontal="26dp"
         android:visibility="visible"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:elevation="20dp"
         android:outlineSpotShadowColor="#00E47A"
         android:outlineAmbientShadowColor="#00E47A"
-        app:layout_anchor="@id/tabanim_toolbar"
-        app:layout_anchorGravity="bottom|end"
         app:backgroundTint="#00E47A"
-        android:elevation="20dp"/>
+        android:layout_gravity="end|bottom"
+        android:layout_margin="20dp"
+        android:elevation="10dp"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

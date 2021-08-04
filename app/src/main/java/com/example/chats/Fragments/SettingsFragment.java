@@ -78,7 +78,7 @@ public class SettingsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    FloatingActionButton editAccount;
+    ImageView editAccount;
     FirebaseUser user;
     ImageView avatar, weatherIcon,refresh;
     Toolbar tabanim_toolbar;

@@ -23,6 +23,10 @@
         android:theme="@style/Theme.Chats"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".FullVideo"
+            android:exported="true"
+            android:theme="@style/FullScreen"/>
+        <activity
             android:name=".AddNewPostActivity"
             android:exported="true" />
         <activity

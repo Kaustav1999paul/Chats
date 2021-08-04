@@ -121,16 +121,16 @@ public class ProfileDetailsActivity extends AppCompatActivity {
         userRef.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                aa = snapshot.child("imageURL").getValue().toString();
+                aa = String.valueOf(snapshot.child("imageURL").getValue());
                 Glide.with(getApplicationContext()).load(aa).into(personImage);
                 myUrl1 = aa;
-                cc = snapshot.child("username").getValue().toString();
-                dd = snapshot.child("bio").getValue().toString();
-                ee = snapshot.child("phno").getValue().toString();
+                cc = String.valueOf(snapshot.child("username").getValue());
+                dd = String.valueOf(snapshot.child("bio").getValue());
+                ee = String.valueOf(snapshot.child("phno").getValue());
 
                 collapseActionView.setTitleEnabled(false);
                 getSupportActionBar().setTitle("");
-                bb = snapshot.child("email").getValue().toString();
+                bb = String.valueOf(snapshot.child("email").getValue());
 
                 personName.setText(cc);
                 bio.setText(dd);
@@ -176,7 +176,7 @@ public class ProfileDetailsActivity extends AppCompatActivity {
             friendsRef.child(id).child(user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String date = snapshot.child("date").getValue().toString();
+                    String date = String.valueOf(snapshot.child("date").getValue());
                     friendsSince.setText(date);
                 }
 
@@ -191,7 +191,10 @@ public class ProfileDetailsActivity extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(ProfileDetailsActivity.this, MessageActivity.class);
+                intent.putExtra("userid", id);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
@@ -222,8 +225,24 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                 Glide.with(getApplicationContext()).load(model.getImageUrl()).into(holder.postImage);
                 if (model.getType().equals("image")){
                     holder.videoTemp.setVisibility(View.GONE);
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ProfileDetailsActivity.this, FullImage.class);
+                            intent.putExtra("image", model.getImageUrl());
+                            startActivity(intent);
+                        }
+                    });
                 }else {
                     holder.videoTemp.setVisibility(View.VISIBLE);
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ProfileDetailsActivity.this, FullVideo.class);
+                            intent.putExtra("video", model.getImageUrl());
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
 

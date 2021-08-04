@@ -31,8 +31,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.chats.AddPostActivity;
 import com.example.chats.FullImage;
+import com.example.chats.FullVideo;
+import com.example.chats.MessageActivity;
 import com.example.chats.Model.Comments;
 import com.example.chats.Model.Posts;
+import com.example.chats.ProfileDetailsActivity;
 import com.example.chats.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -232,6 +235,14 @@ public class PostFragment extends Fragment {
                             holder.personName.setText(model.getPersonName());
                             Glide.with(contextT).load(model.getPersonImage()).into(holder.personImage);
 
+                            holder.personImage.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(contextT, ProfileDetailsActivity.class);
+                                    intent.putExtra("id", model.getOwner());
+                                    startActivity(intent);
+                                }
+                            });
 
                             holder.commentButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -244,6 +255,14 @@ public class PostFragment extends Fragment {
                             if (model.getType().equals("video")){
 //                                Media type -> Video
                                 holder.videoIcon.setVisibility(View.VISIBLE);
+                                holder.postImage.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(contextT, FullVideo.class);
+                                        intent.putExtra("video", model.getImageUrl());
+                                        startActivity(intent);
+                                    }
+                                });
                             }else {
 //                                Media type -> Image
                                 holder.videoIcon.setVisibility(View.GONE);

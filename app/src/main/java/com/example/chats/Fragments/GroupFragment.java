@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import id.voela.actrans.AcTrans;
 
 public class GroupFragment extends Fragment {
@@ -62,8 +63,10 @@ public class GroupFragment extends Fragment {
     RelativeLayout loading;
     RecyclerView groupList;
     PullRefreshLayout swip;
+    CircleImageView selfAvatar;
     TextView messageNo;
     public static Context context;
+    private DatabaseReference userRef;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,18 +74,21 @@ public class GroupFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_group, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
+        selfAvatar = view.findViewById(R.id.selfAvatar);
         swip = view.findViewById(R.id.swip);
         swip.setColor(Color.parseColor("#0C89ED"));
         groupList = view.findViewById(R.id.groupList);
         messageNo = view.findViewById(R.id.messageNo);
         loading = view.findViewById(R.id.loading);
         addGroup = view.findViewById(R.id.addGroup);
+
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialogNotificationAction();
             }
         });
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
         groupList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);
@@ -99,6 +105,21 @@ public class GroupFragment extends Fragment {
                     messageNo.setVisibility(View.VISIBLE);
                 }else {
                     messageNo.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        userRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String ph = snapshot.child("imageURL").getValue().toString();
+                    Glide.with(context.getApplicationContext()).load(ph).into(selfAvatar);
                 }
             }
 

@@ -6,7 +6,7 @@
         android:id="@+id/iamgeView"
         android:layout_width="135dp"
         android:scaleType="centerCrop"
-        android:layout_height="135dp"/>
+        android:layout_height="130dp"/>
 
     <ImageView
         android:id="@+id/tempVideo"

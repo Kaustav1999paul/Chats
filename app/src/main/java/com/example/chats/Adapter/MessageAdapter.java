@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.chats.AESUtils;
 import com.example.chats.FullImage;
+import com.example.chats.FullVideo;
 import com.example.chats.Model.Chat;
 import com.example.chats.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -393,10 +394,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             @Override
                             public void onLongPress(MotionEvent e) {
                                 super.onLongPress(e);
-
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
-                                browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                mContext.startActivity(browserIntent);
+                                Intent intent = new Intent(mContext, FullVideo.class);
+                                intent.putExtra("video", chat.getMessage());
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
                             }
                         });
 
@@ -437,9 +438,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 @Override
                                 public void onLongPress(MotionEvent e) {
                                     super.onLongPress(e);
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
-                                    browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    mContext.startActivity(browserIntent);
+                                    Intent intent = new Intent(mContext, FullVideo.class);
+                                    intent.putExtra("video", chat.getMessage());
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    mContext.startActivity(intent);
                                 }
                             });
 
@@ -464,15 +466,17 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 @Override
                                 public void onLongPress(MotionEvent e) {
                                     super.onLongPress(e);
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
-                                    browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    mContext.startActivity(browserIntent);
+                                    Intent intent = new Intent(mContext, FullVideo.class);
+                                    intent.putExtra("video", chat.getMessage());
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    mContext.startActivity(intent);
                                 }
                             });
 
                             @Override
                             public boolean onTouch(View v, MotionEvent event) {
                                 gestureDetector.onTouchEvent(event);
+
                                 return true;
                             }
                         });

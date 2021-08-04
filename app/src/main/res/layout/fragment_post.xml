@@ -32,8 +32,9 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/selfAvatar"
                 android:layout_width="30dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="35dp"
                 android:layout_height="30dp"
+                android:src="@color/font1color"
                 android:elevation="10dp"
                 android:outlineAmbientShadowColor="@color/online"
                 android:outlineSpotShadowColor="@color/online"

@@ -1,5 +1,6 @@
 package com.example.chats.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.bumptech.glide.Glide;
 import com.example.chats.Adapter.UserAdapter;
 import com.example.chats.FriendsActivity;
 import com.example.chats.Model.Chat;
@@ -36,6 +38,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import id.voela.actrans.AcTrans;
 
 public class ChatFragment extends Fragment {
@@ -49,11 +52,13 @@ public class ChatFragment extends Fragment {
     private List<User> mUser;
     FirebaseUser fuser;
     RelativeLayout loading;
-    DatabaseReference reference;
+    DatabaseReference reference, userRef;
     private List<String> userList;
     LinearLayoutManager layoutManager;
     PullRefreshLayout swip;
     FloatingActionButton addChats;
+    CircleImageView selfAvatar;
+    public static Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +66,7 @@ public class ChatFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         swip = view.findViewById(R.id.swip);
+        selfAvatar = view.findViewById(R.id.selfAvatar);
         recentChatList = view.findViewById(R.id.chatList);
         loading = view.findViewById(R.id.loading);
         addChats = view.findViewById(R.id.addChats);
@@ -68,6 +74,8 @@ public class ChatFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
+        context = getActivity().getApplicationContext();
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
 
         recentChatList.setLayoutManager(layoutManager);
 
@@ -90,6 +98,21 @@ public class ChatFragment extends Fragment {
                     }
                 }
                 readChats();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        userRef.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String ph = snapshot.child("imageURL").getValue().toString();
+                    Glide.with(context.getApplicationContext()).load(ph).into(selfAvatar);
+                }
             }
 
             @Override
