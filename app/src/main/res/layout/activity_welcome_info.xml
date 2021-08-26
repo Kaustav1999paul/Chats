@@ -29,9 +29,9 @@
         android:layout_marginTop="80dp"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:background="@drawable/storage"
-            android:layout_height="40dp"/>
+            android:layout_height="50dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,50 +48,54 @@
         android:id="@+id/finger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_below="@id/storage"
         android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:orientation="horizontal">
+
         <ImageView
-            android:layout_width="40dp"
-            android:background="@drawable/security"
-            android:layout_height="40dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/security" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:text="High level of security to protect your privacy."
             android:textColor="@color/font1color"
             android:textSize="15dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/theme"
-        android:layout_below="@id/finger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_below="@id/finger"
         android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:orientation="horizontal">
+
         <ImageView
-            android:layout_width="40dp"
-            android:background="@drawable/theme"
-            android:layout_height="40dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/theme" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:text="Switch to dark mode whenever it is necessary for you."
             android:textColor="@color/font1color"
             android:textSize="15dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -100,12 +104,12 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:background="@drawable/gest"
-            android:layout_height="40dp"/>
+            android:layout_height="50dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,12 +127,13 @@
         android:id="@+id/continuee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Continue"
         android:layout_alignParentBottom="true"
-        android:textAllCaps="false"
-        android:background="@drawable/button_background"
-        android:layout_marginBottom="70dp"
-        android:textColor="#FFFFFF"
         android:layout_marginHorizontal="35dp"
-        android:padding="15dp"/>
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/button_background"
+        android:padding="15dp"
+        android:text="Continue"
+        android:elevation="10dp"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF" />
 </RelativeLayout>
