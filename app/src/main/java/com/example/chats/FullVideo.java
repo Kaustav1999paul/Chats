@@ -9,6 +9,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -27,11 +29,16 @@ public class FullVideo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_video);
 
+        Window w = getWindow();
+        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
         intent = getIntent();
         videourl = intent.getStringExtra("video");
         videoView = findViewById(R.id.videoView);
         progressDialog = ProgressDialog.show(FullVideo.this, "", "Loading video...",true);
         progressDialog.setCancelable(false);
+
+
 
         playVideo(videourl);
     }

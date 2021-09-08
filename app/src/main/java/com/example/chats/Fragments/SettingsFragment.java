@@ -462,8 +462,9 @@ public class SettingsFragment extends Fragment {
                     weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
                 }else if (weatherDescription.equals("Haze")){
                     weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
-                }
-                else if (weatherDescription.equals("Snow")){
+                }else if (weatherDescription.equals("Mist")){
+                    weatherIcon.setBackgroundResource(R.drawable.ic_round_waves_24);
+                } else if (weatherDescription.equals("Snow")){
                     weatherIcon.setBackgroundResource(R.drawable.ic_round_ac_unit_24);
                 }else if (weatherDescription.equals("Rain")){
                     weatherIcon.setBackgroundResource(R.drawable.ic_rain_svgrepo_com);
