@@ -80,7 +80,7 @@
                             android:layout_marginVertical="15dp"
                             android:layout_marginLeft="18dp"
                             android:layout_marginRight="20dp"
-                            app:cardCornerRadius="15dp">
+                            app:cardCornerRadius="50dp">
 
                             <ImageView
                                 android:id="@+id/avatar"

@@ -1,16 +1,14 @@
-package com.example.chats.Fragments;
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Bundle;
+package com.example.chats;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +23,7 @@ import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
-import com.example.chats.GroupMessageActivity;
 import com.example.chats.Model.Groups;
-import com.example.chats.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,19 +37,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.r0adkll.slidr.Slidr;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import id.voela.actrans.AcTrans;
 
-public class GroupFragment extends Fragment {
-
-    public GroupFragment() {
-        // Required empty public constructor
-    }
+public class GroupActivity extends AppCompatActivity {
 
     FloatingActionButton addGroup;
     BottomSheetDialog mBottomDialogNotificationAction;
@@ -63,24 +55,34 @@ public class GroupFragment extends Fragment {
     RelativeLayout loading;
     RecyclerView groupList;
     PullRefreshLayout swip;
-    CircleImageView selfAvatar;
     TextView messageNo;
+    ImageView back;
     public static Context context;
     private DatabaseReference userRef;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_group);
+
+        Slidr.attach(this);
+
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_group, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        selfAvatar = view.findViewById(R.id.selfAvatar);
-        swip = view.findViewById(R.id.swip);
+        swip = findViewById(R.id.swip);
         swip.setColor(Color.parseColor("#0C89ED"));
-        groupList = view.findViewById(R.id.groupList);
-        messageNo = view.findViewById(R.id.messageNo);
-        loading = view.findViewById(R.id.loading);
-        addGroup = view.findViewById(R.id.addGroup);
+        groupList = findViewById(R.id.groupList);
+        messageNo = findViewById(R.id.messageNo);
+        loading = findViewById(R.id.loading);
+        addGroup = findViewById(R.id.addGroup);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                new AcTrans.Builder(GroupActivity.this).performSlideToRight();
+            }
+        });
 
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +92,11 @@ public class GroupFragment extends Fragment {
         });
         userRef = FirebaseDatabase.getInstance().getReference("Users");
         groupList.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        context = getActivity().getApplicationContext();
+        context = getApplicationContext();
         groupList.setLayoutManager(layoutManager);
 
         groupReference.addValueEventListener(new ValueEventListener() {
@@ -119,7 +121,7 @@ public class GroupFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     String ph = snapshot.child("imageURL").getValue().toString();
-                    Glide.with(context.getApplicationContext()).load(ph).into(selfAvatar);
+
                 }
             }
 
@@ -137,72 +139,12 @@ public class GroupFragment extends Fragment {
                 swip.setRefreshing(false);
             }
         });
-        return view;
-    }
-
-    private void displayGroups() {
-
-        FirebaseRecyclerOptions<Groups> options = new FirebaseRecyclerOptions.Builder<Groups>()
-                .setQuery(groupReference, Groups.class).build();
-
-        FirebaseRecyclerAdapter<Groups, GroupVH> adapter = new FirebaseRecyclerAdapter<Groups, GroupVH>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull GroupVH holder, int position, @NonNull Groups model) {
-                loading.setVisibility(View.GONE);
-                groupList.setVisibility(View.VISIBLE);
-
-                DatabaseReference Gr = groupReference.child(model.getId()).child("People");
-
-                Gr.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild(user.getUid())){
-                            holder.groupName.setText(model.getName());
-                            Glide.with(context).load(model.getPhoto()).into(holder.img);
-
-                            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(getContext(), GroupMessageActivity.class);
-                                    intent.putExtra("groupId", model.getId());
-                                    startActivity(intent);
-                                    new AcTrans.Builder(getContext()).performSlideToLeft();
-                                }
-                            });
-                        }else {
-
-                            holder.lau.getLayoutParams().height = 0;
-                            holder.lau.setVisibility(View.GONE);
-                        }
-                        loading.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
-            }
-
-            @NonNull
-            @Override
-            public GroupVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View v = LayoutInflater.from(getContext()).inflate(R.layout.group_layout, parent, false);
-                return new GroupVH(v);
-            }
-        };
-        groupList.setAdapter(adapter);
-        adapter.updateOptions(options);
-        adapter.startListening();
-
     }
 
     private void showDialogNotificationAction() {
         try {
             View sheetView = getLayoutInflater().inflate(R.layout.create_group_alert, null);
-            mBottomDialogNotificationAction = new BottomSheetDialog(getContext());
+            mBottomDialogNotificationAction = new BottomSheetDialog(this);
             mBottomDialogNotificationAction.setContentView(sheetView);
             mBottomDialogNotificationAction.show();
 
@@ -221,7 +163,7 @@ public class GroupFragment extends Fragment {
                 public void onClick(View v) {
                     String name = groupName.getText().toString().trim();
                     if (TextUtils.isEmpty(name)){
-                        Toast.makeText(getContext(), "Group should have a name", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupActivity.this, "Group should have a name", Toast.LENGTH_SHORT).show();
                     }else {
                         createGroup(name);
                     }
@@ -266,14 +208,78 @@ public class GroupFragment extends Fragment {
                                     .child("date")
                                     .setValue(saveCDate)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    mBottomDialogNotificationAction.dismiss();
-                                }
-                            });
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            mBottomDialogNotificationAction.dismiss();
+                                        }
+                                    });
                         }
                     }
                 });
+    }
+
+    private void displayGroups() {
+        FirebaseRecyclerOptions<Groups> options = new FirebaseRecyclerOptions.Builder<Groups>()
+                .setQuery(groupReference, Groups.class).build();
+
+        FirebaseRecyclerAdapter<Groups, GroupVH> adapter = new FirebaseRecyclerAdapter<Groups, GroupVH>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull GroupVH holder, int position, @NonNull Groups model) {
+                loading.setVisibility(View.GONE);
+                groupList.setVisibility(View.VISIBLE);
+
+                DatabaseReference Gr = groupReference.child(model.getId()).child("People");
+
+                Gr.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChild(user.getUid())){
+                            holder.groupName.setText(model.getName());
+                            Glide.with(context).load(model.getPhoto()).into(holder.img);
+
+                            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(GroupActivity.this, GroupMessageActivity.class);
+                                    intent.putExtra("groupId", model.getId());
+                                    startActivity(intent);
+                                    new AcTrans.Builder(GroupActivity.this).performSlideToLeft();
+                                }
+                            });
+                        }else {
+
+                            holder.lau.getLayoutParams().height = 0;
+                            holder.lau.setVisibility(View.GONE);
+                        }
+                        loading.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+
+            @NonNull
+            @Override
+            public GroupVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View v = LayoutInflater.from(context).inflate(R.layout.group_layout, parent, false);
+                return new GroupVH(v);
+            }
+        };
+        groupList.setAdapter(adapter);
+        adapter.updateOptions(options);
+        adapter.startListening();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        new AcTrans.Builder(GroupActivity.this).performSlideToRight();
     }
 
     public class GroupVH extends RecyclerView.ViewHolder{

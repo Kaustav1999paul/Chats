@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.chats.AESUtils;
+import com.example.chats.GroupActivity;
 import com.example.chats.Login;
 import com.example.chats.MessageActivity;
 import com.example.chats.Model.Chat;
@@ -41,6 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private boolean ischat;
     String lastMessage, lastT, type, us;
     FirebaseUser uss;
+    private final int N  =1 ;
 
     public UserAdapter(Context mContext, List<User> mUser, boolean ischat) {
         this.mUser = mUser;
@@ -51,42 +55,60 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.user_item, parent,false);
-        uss = FirebaseAuth.getInstance().getCurrentUser();
-        return new UserAdapter.ViewHolder(view);
+        View view;
+
+        if(viewType == 0){
+            view = LayoutInflater.from(mContext).inflate(R.layout.top_group_layout, parent,false);
+        }else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.user_item, parent,false);
+            uss = FirebaseAuth.getInstance().getCurrentUser();
+        }
+        return new UserAdapter.ViewHolder(view.getRootView());
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final User user = mUser.get(position);
-        holder.show_name.setText(user.getUsername());
-        Glide.with(mContext).load(user.getImageURL()).into(holder.personAvatarR);
-        holder.sendReq.setVisibility(View.GONE);
-        holder.accReq.setVisibility(View.GONE);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, MessageActivity.class);
-                intent.putExtra("userid", user.getId());
-                mContext.startActivity(intent);
-                new AcTrans.Builder(mContext).performSlideToLeft();
-            }
-        });
 
-        if (ischat){
-            lastMessage(user.getId(), holder.show_message, holder.timeLast, holder.notific);
+        if (position<N){
+            holder.groupLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, GroupActivity.class);
+                    mContext.startActivity(intent);
+                    new AcTrans.Builder(mContext).performSlideToLeft();
+                }
+            });
         }else {
-            holder.show_message.setVisibility(View.GONE);
-        }
+            final User user = mUser.get(position-N);
+            holder.show_name.setText(user.getUsername());
+            Glide.with(mContext).load(user.getImageURL()).into(holder.personAvatarR);
+            holder.sendReq.setVisibility(View.GONE);
+            holder.accReq.setVisibility(View.GONE);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, MessageActivity.class);
+                    intent.putExtra("userid", user.getId());
+                    mContext.startActivity(intent);
+                    new AcTrans.Builder(mContext).performSlideToLeft();
+                }
+            });
 
-        if (ischat){
-            if (user.getStatus().equals("online")){
-                holder.img_on.setColorFilter(mContext.getResources().getColor(R.color.online));
+            if (ischat){
+                lastMessage(user.getId(), holder.show_message, holder.timeLast, holder.notific);
             }else {
-                holder.img_on.setColorFilter(mContext.getResources().getColor(R.color.offline));
+                holder.show_message.setVisibility(View.GONE);
             }
-        }else {
-            holder.img_on.setVisibility(View.GONE);
+
+            if (ischat){
+                if (user.getStatus().equals("online")){
+                    holder.img_on.setColorFilter(mContext.getResources().getColor(R.color.online));
+                }else {
+                    holder.img_on.setColorFilter(mContext.getResources().getColor(R.color.offline));
+                }
+            }else {
+                holder.img_on.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -231,7 +253,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mUser.size();
+        return mUser.size()+N;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position <N ? 0 : 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -240,9 +267,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public ImageView personAvatarR, sendReq;
         public CircleImageView img_on,notific;
         public Button accReq;
+        public LinearLayout groupLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            groupLayout = itemView.findViewById(R.id.groupLayout);
             accReq = itemView.findViewById(R.id.accReq);
             show_message = itemView.findViewById(R.id.personHolderEmail);
             show_name = itemView.findViewById(R.id.personHolderName);

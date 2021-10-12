@@ -72,8 +72,8 @@ public class ChatFragment extends Fragment {
         addChats = view.findViewById(R.id.addChats);
         recentChatList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(false);
+        layoutManager.setStackFromEnd(false);
         context = getActivity().getApplicationContext();
         userRef = FirebaseDatabase.getInstance().getReference("Users");
 

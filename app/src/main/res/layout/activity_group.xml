@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.GroupFragment">
+    android:background="@color/bottomNav"
+    tools:context=".GroupActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/tabanim_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="0dp"
-        app:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tabanim_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="@color/background"
-            app:title="Groups"
-            app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextColor="@color/font1color"
-            app:titleMarginTop="30dp"
-            android:elevation="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/selfAvatar"
-                android:layout_width="30dp"
-                android:layout_marginTop="35dp"
-                android:layout_height="30dp"
-                android:src="@color/font1color"
-                android:elevation="10dp"
-                android:outlineAmbientShadowColor="@color/online"
-                android:outlineSpotShadowColor="@color/online"
-                android:layout_gravity="end"
-                android:layout_marginRight="15dp"/>
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="25dp"
+                android:background="@drawable/ic_round_arrow_back_ios_24"
+                android:layout_marginRight="10dp"
+                android:layout_height="25dp"/>
+            <TextView
+                android:id="@+id/userNameChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/font1color"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:transitionName="usernameMain"
+                android:background="@color/background"
+                android:layout_marginRight="40dp"
+                android:text="Groups"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
+
     <com.baoyz.widget.PullRefreshLayout
         android:id="@+id/swip"
         android:layout_width="match_parent"
@@ -80,13 +83,9 @@
         app:fabCustomSize="38dp"
         android:visibility="visible"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        app:elevation="20dp"
-        android:outlineSpotShadowColor="#00E47A"
-        android:outlineAmbientShadowColor="#00E47A"
         app:backgroundTint="#00E47A"
         android:layout_gravity="end|bottom"
         android:layout_margin="20dp"
         android:elevation="10dp"/>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

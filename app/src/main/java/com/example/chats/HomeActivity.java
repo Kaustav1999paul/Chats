@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.example.chats.Fragments.ChatFragment;
-import com.example.chats.Fragments.GroupFragment;
 import com.example.chats.Fragments.PostFragment;
 import com.example.chats.Fragments.SearchFragment;
 import com.example.chats.Fragments.SettingsFragment;
@@ -52,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
             }
             if (idName == 2){
                 bottomNavigationView.setSelectedItemId(R.id.groups);
-                handleFrames(new GroupFragment() );
+//                handleFrames(new GroupFragment() );
             }
             if (idName == 3){
                 bottomNavigationView.setSelectedItemId(R.id.friends);
@@ -94,7 +93,7 @@ public class HomeActivity extends AppCompatActivity {
                         editor.apply();
                         break;
                     case R.id.groups:
-                        handleFrames(new GroupFragment());
+//                        handleFrames(new GroupFragment());
                         editor.putInt("idName", 2);
                         editor.apply();
                         break;
