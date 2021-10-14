@@ -49,10 +49,6 @@ public class HomeActivity extends AppCompatActivity {
                 bottomNavigationView.setSelectedItemId(R.id.chat);
                 handleFrames(new ChatFragment() );
             }
-            if (idName == 2){
-                bottomNavigationView.setSelectedItemId(R.id.groups);
-//                handleFrames(new GroupFragment() );
-            }
             if (idName == 3){
                 bottomNavigationView.setSelectedItemId(R.id.friends);
                 handleFrames(new SearchFragment() );
@@ -90,11 +86,6 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.chat:
                         handleFrames(new ChatFragment());
                         editor.putInt("idName", 1);
-                        editor.apply();
-                        break;
-                    case R.id.groups:
-//                        handleFrames(new GroupFragment());
-                        editor.putInt("idName", 2);
                         editor.apply();
                         break;
                     case R.id.friends:

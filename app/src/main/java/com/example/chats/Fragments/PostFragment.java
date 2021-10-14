@@ -275,10 +275,6 @@ public class PostFragment extends Fragment {
                                     }
                                 });
                             }
-
-
-
-
                         }else {
                             holder.rel.getLayoutParams().height = 0;
                             holder.rel.setVisibility(View.GONE);

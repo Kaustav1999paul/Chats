@@ -9,10 +9,6 @@
         android:title="Chats"
         android:icon="@drawable/anim_chats"/>
 
-    <item android:id="@+id/groups"
-        android:title="Groups"
-        android:icon="@drawable/anmi_groups"/>
-
     <item android:id="@+id/friends"
         android:title="Search"
         android:icon="@drawable/anim_search"/>

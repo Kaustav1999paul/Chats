@@ -16,17 +16,17 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:background="@color/bottomNav"
         android:layout_height="wrap_content"
-        app:elevation="20dp"
-        android:elevation="20dp"
-        app:labelVisibilityMode="unlabeled"
-        app:itemHorizontalTranslationEnabled="false"
         android:layout_alignParentBottom="true"
-        app:itemIconTint="@drawable/selector"
+        android:background="@color/bottomNav"
+        android:elevation="20dp"
         android:fadeScrollbars="true"
+        app:elevation="20dp"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconTint="@drawable/selector"
         app:itemRippleColor="#00000000"
         app:itemTextColor="@drawable/selector"
-        app:menu="@menu/bottom_menu"/>
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_menu" />
 
 </RelativeLayout>
