@@ -29,6 +29,8 @@ public class LogRegActivity extends AppCompatActivity {
         mAuth.addAuthStateListener(mAuthListener);
     }
 
+    // TODO: Register and Login in same Page with different dialog.........
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

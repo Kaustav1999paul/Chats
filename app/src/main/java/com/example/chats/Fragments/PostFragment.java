@@ -66,6 +66,8 @@ public class PostFragment extends Fragment {
         // Required empty public constructor
     }
 
+    //TODO: Post Text format with different layout....
+
     FloatingActionButton addPost;
     private Context contextT;
     RecyclerView postList;
