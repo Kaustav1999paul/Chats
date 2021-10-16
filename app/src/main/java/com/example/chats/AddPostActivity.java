@@ -82,12 +82,17 @@ public class AddPostActivity extends AppCompatActivity {
         if (type.equals("photo")){
             back.setEnabled(false);
             CropImage.activity().start(AddPostActivity.this);
-        }else {
+        }else if (type.equals("video")) {
             back.setEnabled(false);
             Intent intent = new Intent();
             intent.setType("video/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(intent, PICKVIDEO_REQUEST_CODE);
+        }else {
+            back.setEnabled(false);
+            image.setVisibility(View.GONE);
+            postButton.setVisibility(View.VISIBLE);
+            loading.setVisibility(View.GONE);
         }
 
         userReff.addValueEventListener(new ValueEventListener() {
@@ -115,6 +120,37 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     private void post(String title, String myUrl1, String name, String photo) {
+        if (type.equals("text")){
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
+            String saveCurrentDate = currentDate.format(calendar.getTime());
+            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+            String saveCurrentTime = currentTime.format(calendar.getTime());
+            String RandomKey = saveCurrentDate + saveCurrentTime+fuser.getUid();
+            Date date = new Date();
+            // Pattern
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Post");
+
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id", RandomKey);
+            map.put("time", sdf.format(date));
+            map.put("owner", fuser.getUid());
+            map.put("imageUrl", "");
+            map.put("title", title);
+            map.put("type", "text");
+            map.put("date", saveCurrentDate);
+            map.put("personImage", photo);
+            map.put("personName", name);
+
+            reference.child(RandomKey).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    finish();
+                }
+            });
+        }else {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
         String saveCurrentDate = currentDate.format(calendar.getTime());
@@ -174,7 +210,7 @@ public class AddPostActivity extends AppCompatActivity {
                 }
             }
         });
-
+        }
     }
 
     @Override

@@ -25,9 +25,11 @@
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_full_video.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_group.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_home.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_message.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_profile_details.xml" value="0.17422222222222222" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_story_main.xml" value="0.2" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/activity_text_only_post.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/add_people_bottombar.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/clip_layout.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/comment_bottom_dialogue.xml" value="0.25" />
@@ -41,11 +43,14 @@
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/fragment_stories.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/grid_layout.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/group_layout.xml" value="0.17657657657657658" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/login_dialog.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/logout_confirm_layout.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/post_layout.xml" value="0.17657657657657658" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/post_option_dialogue.xml" value="0.25" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/story_dialog.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/story_item_layout.xml" value="0.2" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/text_only_dialog.xml" value="0.2" />
+        <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/text_post.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/top_group_layout.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/layout/user_item.xml" value="0.2" />
         <entry key="..\:/Users/kaust/AndroidStudioProjects/Chats/app/src/main/res/menu/bottom_menu.xml" value="0.20102564102564102" />

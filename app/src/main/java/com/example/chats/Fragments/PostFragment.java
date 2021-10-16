@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.example.chats.AddPostActivity;
 import com.example.chats.FullImage;
 import com.example.chats.FullVideo;
+import com.example.chats.LogRegActivity;
 import com.example.chats.MessageActivity;
 import com.example.chats.Model.Comments;
 import com.example.chats.Model.Posts;
@@ -53,9 +55,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.voela.actrans.AcTrans;
@@ -80,6 +84,8 @@ public class PostFragment extends Fragment {
     private DatabaseReference friendsRef, userRef, postRef;
     BottomSheetDialog addPostDialog;
     boolean isLiked = false;
+    private static final int TEXT_LAYOUT = 1;
+    List<Posts> mPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -147,6 +153,7 @@ public class PostFragment extends Fragment {
         });
 
         displayPosts();
+
 
         return view;
     }
@@ -257,6 +264,7 @@ public class PostFragment extends Fragment {
                             if (model.getType().equals("video")){
 //                                Media type -> Video
                                 holder.videoIcon.setVisibility(View.VISIBLE);
+                                holder.postImage.setVisibility(View.VISIBLE);
                                 holder.postImage.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -265,9 +273,10 @@ public class PostFragment extends Fragment {
                                         startActivity(intent);
                                     }
                                 });
-                            }else {
+                            }else if (model.getType().equals("image")) {
 //                                Media type -> Image
                                 holder.videoIcon.setVisibility(View.GONE);
+                                holder.postImage.setVisibility(View.VISIBLE);
                                 holder.postImage.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -276,10 +285,15 @@ public class PostFragment extends Fragment {
                                         startActivity(intent);
                                     }
                                 });
+                            }else {
+//                                Media type -> Text
+                                holder.postImage.setVisibility(View.GONE);
+                                holder.postText.setTextSize(35);
                             }
                         }else {
                             holder.rel.getLayoutParams().height = 0;
                             holder.rel.setVisibility(View.GONE);
+                            holder.rel.setGravity(RelativeLayout.CENTER_VERTICAL);
                         }
                         loading.setVisibility(View.GONE);
                     }
@@ -443,6 +457,18 @@ public class PostFragment extends Fragment {
             LinearLayout close = sheetView.findViewById(R.id.close);
             LinearLayout photo = sheetView.findViewById(R.id.photo);
             LinearLayout video = sheetView.findViewById(R.id.video);
+            LinearLayout text = sheetView.findViewById(R.id.text);
+
+            text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(contextT, AddPostActivity.class);
+                    intent.putExtra("type", "text");
+                    startActivity(intent);
+                    new AcTrans.Builder(contextT).performSlideToLeft();
+                    addPostDialog.dismiss();
+                }
+            });
 
             photo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -482,6 +508,50 @@ public class PostFragment extends Fragment {
 
         }
     }
+
+
+    private void postTextOnly(String text) {
+
+        userRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String ph = snapshot.child("imageURL").getValue().toString();
+                String namePerson = snapshot.child("username").getValue().toString();
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
+                String saveCurrentDate = currentDate.format(calendar.getTime());
+                SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+                String saveCurrentTime = currentTime.format(calendar.getTime());
+                String RandomKey = saveCurrentDate + saveCurrentTime+user.getUid();
+                Date date = new Date();
+                // Pattern
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Post");
+
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("id", RandomKey);
+                map.put("time", sdf.format(date));
+                map.put("owner", user.getUid());
+                map.put("imageUrl", "");
+                map.put("title", text);
+                map.put("type", "text");
+                map.put("date", saveCurrentDate);
+                map.put("personImage", ph);
+                map.put("personName", namePerson);
+
+                reference.child(RandomKey).setValue(map);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     public class CommentVH extends RecyclerView.ViewHolder{
 

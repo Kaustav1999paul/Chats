@@ -32,8 +32,6 @@
                 android:layout_height="30dp"
                 android:src="@color/background"
                 android:elevation="10dp"
-                android:outlineAmbientShadowColor="@color/online"
-                android:outlineSpotShadowColor="@color/online"
                 android:layout_gravity="end"
                 android:layout_marginRight="15dp"/>
         </androidx.appcompat.widget.Toolbar>

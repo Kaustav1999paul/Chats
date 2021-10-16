@@ -8,18 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.chats.AESUtils;
 import com.example.chats.GroupActivity;
-import com.example.chats.Login;
 import com.example.chats.MessageActivity;
 import com.example.chats.Model.Chat;
 import com.example.chats.Model.User;

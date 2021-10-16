@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome back"
+        android:textStyle="bold"
+        android:textColor="@color/font1color"
+        android:textSize="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your credentials to continue"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="10dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#959595"
+        android:fontFamily="@font/allerta"/>
+
+    <EditText
+        android:id="@+id/emailL"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/hintcolor"
+        android:hint="Email"
+        android:background="@color/background"
+        android:paddingVertical="10dp"
+        android:textColor="@color/font1color"
+        android:inputType="textEmailAddress"
+        android:drawableLeft="@drawable/ic_email"
+        android:drawablePadding="10dp"
+        android:layout_marginHorizontal="20dp"/>
+
+    <EditText
+        android:id="@+id/passwordL"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/hintcolor"
+        android:hint="Password"
+        android:layout_marginTop="15dp"
+        android:inputType="textPassword"
+        android:background="@color/background"
+        android:paddingVertical="10dp"
+        android:drawableLeft="@drawable/ic_lock"
+        android:textColor="@color/font1color"
+        android:drawablePadding="10dp"
+        android:layout_marginHorizontal="20dp"/>
+    <TextView
+        android:id="@+id/fp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Forgot password?"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/font1color" />
+
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="20dp"
+        android:textAllCaps="false"
+        android:text="Sign in"
+        app:spinning_bar_color="#FFFFFF"
+        app:spinning_bar_padding="6dp"
+        android:layout_gravity="center"
+        android:elevation="20dp"
+        android:textColor="@color/background"
+        android:layout_marginTop="20dp"
+        android:background="@color/font1color" />
+
+
+</LinearLayout>
