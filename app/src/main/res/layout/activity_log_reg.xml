@@ -11,67 +11,61 @@
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:fontFamily="@font/allerta"
-        android:text="Login"
         android:layout_alignParentRight="true"
-        android:gravity="end"
-        android:textStyle="bold"
-        android:textColor="#0F95FF"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="50dp"
-        android:textSize="15dp" />
+        android:fontFamily="@font/allerta"
+        android:gravity="end"
+        android:text="Login"
+        android:textColor="#0F95FF"
+        android:textSize="15dp"
+        android:textStyle="bold" />
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/ic_chatting"
-        android:layout_below="@id/login"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/aaa"/>
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="45dp"
-        android:layout_marginLeft="20dp"/>
+        android:src="@mipmap/ic_launcher_round" />
 
     <LinearLayout
         android:id="@+id/aaa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Let's get\nStarted"
-            android:textColor="@color/font1color"
-            android:textStyle="bold"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="3dp"
-            android:textSize="40dp" />
+            android:text="Let's\nget Started"
+            android:textColor="@color/font1color"
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            android:text="Stay connected with the world."
-            android:textColor="#858585"
-            android:fontFamily="@font/allerta"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:text="You'll get fast, simple, secure\nmessaging free, available on phones"
+            android:textColor="#858585"
             android:textSize="12dp" />
 
         <Button
             android:id="@+id/register"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:paddingVertical="20dp"
-            android:textAllCaps="false"
-            android:text="Register"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/button_background"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/rounded_corners"
+            android:paddingVertical="10dp"
+            android:text="Register"
+            android:layout_marginTop="40dp"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 </RelativeLayout>
